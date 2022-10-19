@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include "Player.hpp"
 
 int main(int argc, char** argv, char** env) {
 	try {
