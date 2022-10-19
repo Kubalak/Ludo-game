@@ -21,9 +21,8 @@ Plik wykorzystywany do testów silnika gry.
 int main(int argc, char** argv) {
 	Player* player = new Player("Player");
 	std::cout << player->getNick() << '\n';
-	for (Counter* c : player->getContainer().all)
-		std::cout << c->id << ' ';
-	std::cout << '\n';
+	Counter& c = player->getContainer().getCounter(0);
+	std::cout << c.getId() << '\n';
 	
 	delete player;
 #ifdef _DEBUG

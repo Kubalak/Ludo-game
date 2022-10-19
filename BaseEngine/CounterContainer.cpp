@@ -36,6 +36,21 @@ unsigned int CounterContainer::moveToLast(unsigned int counterId, unsigned int o
 
 }
 
+bool CounterContainer::addToHolder(Counter* c) {
+	if (c->getOwner() != ownedBy)
+		return false;
+	
+	if (holder.size() == 4)
+		return false;
+
+	for (Counter* p : holder)
+		if (p->getId() == c->getId())
+			return false;
+	
+	holder.push_back(c);
+	return true;
+}
+
 CounterContainer::~CounterContainer() {
 	for (auto* p : all)
 		delete p;

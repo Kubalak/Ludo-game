@@ -11,5 +11,6 @@ public:
 		id(id)
 	{}
 	unsigned int getId() { return id; }
+	unsigned int getOwner() { return ownedBy; }
 };
 

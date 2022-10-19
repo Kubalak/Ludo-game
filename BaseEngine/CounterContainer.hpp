@@ -31,7 +31,12 @@ public:
 	* @return Iloœæ pól, o które musi cofn¹æ siê pionek na planszy.
 	*/
 	unsigned int moveToLast(unsigned int counterId, unsigned int offset);
-
+	
+	/* Dodaje pionek do zasobnika na pionki.
+	* @param c - Pionek do dodania.
+	* @return True w przypadku powodzenia lub false, jeœli pionek ju¿ dodano, nie nale¿y do gracza lub znajduje siê nim maksymalna liczba pionków.
+	*/
+	bool addToHolder(Counter* c);
 	~CounterContainer();
 
 };
