@@ -5,7 +5,9 @@
 
 Dice::Dice() {
 	srand(time(NULL));
+	lastRes = 1 + rand() % 6;
 }
 unsigned int Dice::roll() {
-	return 1 + rand() % 6;
+	lastRes = 1 + rand() % 6;
+	return lastRes;
 }

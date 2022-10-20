@@ -15,16 +15,18 @@ Plik wykorzystywany do testów silnika gry.
 
 
 #include <iostream>
-#include "Player.hpp"
+#include "Engine.hpp"
 
 
 int main(int argc, char** argv) {
-	Player* player = new Player("Player");
-	std::cout << player->getNick() << '\n';
-	Counter& c = player->getContainer().getCounter(0);
-	std::cout << c.getId() << '\n';
+	Engine* engine = new Engine();
+	engine->addPlayer(new Player("Nickname"));
+	engine->start();
+	std::cout << engine->getCurrentPlayer().getNick() << '\n';
 	
-	delete player;
+	delete engine;
+	
+	
 #ifdef _DEBUG
 	system("pause");
 #endif

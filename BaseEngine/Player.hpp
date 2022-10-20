@@ -13,10 +13,11 @@ public:
 	*/
 	Player();
 	Player(std::string nick);
+	Player(std::string nick, unsigned int id);
 	/* Metoda do pobrania id gracza.
 	* @return Identyfikator gracza.
 	*/
-	unsigned int getId() { return id; }
+	const unsigned int getId() { return id; }
 	/* Metoda zwraca nazwê gracza.
 	* @return Nick gracza.
 	*/

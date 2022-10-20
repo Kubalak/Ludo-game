@@ -18,6 +18,12 @@ Player::Player(std::string nick):
 
 }
 
+Player::Player(std::string nick, unsigned int id):
+	nickname(nick),
+	id(id) ,
+	container(new CounterContainer(id)){
+}
+
 Player::~Player() {
 	delete container;
 }
