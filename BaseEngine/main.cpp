@@ -23,6 +23,8 @@ int main(int argc, char** argv) {
 	engine->addPlayer(new Player("Nickname"));
 	engine->start();
 	std::cout << engine->getCurrentPlayer().getNick() << '\n';
+	Counter* c = engine->getCurrentPlayer().getContainer().holderPop();
+	std::cout << c->getId() << ' ' << c->getMoves() << '\n';
 	
 	delete engine;
 	

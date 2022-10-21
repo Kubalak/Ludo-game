@@ -7,18 +7,18 @@ Engine::Engine():
 }
 Engine::~Engine() {
 	for (auto p : players)
-		delete p.p;
+		delete players[p.first];
 }
 
-bool Engine::addPlayer(Player* player) {
+bool Engine::addPlayer(Player* player, unsigned int quarter) {
 	if (gameStarted) return false;
 	for (auto p : players)
-		if (p.p->getId() == player->getId())
+		if (p.second->getId() == player->getId())
 			return false;
-	unsigned int new_pos = 0;
-	if (!players.empty())
-	    new_pos = players.back().start + 13;
-	players.push_back({ new_pos,player });
+	
+	if (quarter == 0 || quarter > 4)
+		return false;
+	players[quarter - 1] = player;
 	
 	return true;	
 }
@@ -26,5 +26,5 @@ bool Engine::addPlayer(Player* player) {
 void Engine::start()
 {
 	gameStarted = true;
-	currentPlayer = 0;
+	currentPlayer = (*players.begin()).first;
 }
