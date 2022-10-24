@@ -1,35 +1,33 @@
 #include "Player.hpp"
 
-unsigned int getPlayerId(void) {
-	return 0;
-}
-
 Player::Player():
 	id(0),
-	nickname("anonymous"),
-	container(new CounterContainer(id)) {
-
+	nickname("anonymous")	{
+	for (int i(0); i < 4; ++i)
+		counters[i] = new Counter(getId(), i);
 }
 
 Player::Player(std::string nick):
 	id(0),
-	nickname(nick),
-	container(new CounterContainer(id)) {
-
+	nickname(nick) {
+	for (int i(0); i < 4; ++i)
+		counters[i] = new Counter(getId(), i);
 }
 
 Player::Player(std::string nick, unsigned int id):
 	nickname(nick),
-	id(id) ,
-	container(new CounterContainer(id)){
+	id(id) {
+	for (int i(0); i < 4; ++i)
+		counters[i] = new Counter(getId(), i);
 }
 
 Player::~Player() {
-	delete container;
+	for (int i(0); i < 4; ++i)
+		delete counters[i];
 }
 
-CounterContainer& Player::getContainer() {
-	return *container;
+std::array<Counter*, 4> Player::getCounters() {
+	return counters;
 }
 
 bool Player::move(unsigned int countNo) {

@@ -1,12 +1,13 @@
 #pragma once
 #include <string>
-#include "CounterContainer.hpp"
+#include <array>
+#include "Counter.hpp"
 
 // Klasa do obs³ugi gracza
 class Player {
 	unsigned int id;
 	std::string nickname;
-	CounterContainer* container;
+	std::array<Counter*,4> counters;
 public:
 	/*
 	* Tworzy obiekt gracza z domyœlnymi ustawieniami.
@@ -17,7 +18,7 @@ public:
 	/* Metoda do pobrania id gracza.
 	* @return Identyfikator gracza.
 	*/
-	const unsigned int getId() { return id; }
+	unsigned int getId() { return id; }
 	/* Metoda zwraca nazwê gracza.
 	* @return Nick gracza.
 	*/
@@ -25,7 +26,7 @@ public:
 	/* Zwraca zasobnik z pionkami dla gracza.
 	* @return Referencja do zasobnika z pionkami.
 	*/
-	CounterContainer& getContainer();
+	std::array<Counter*,4> getCounters();
 	/* Pozwala na wykonanie ruchu przez gracza.
 	* @return Czy ruch zakoñczono powodzeniem.
 	*/

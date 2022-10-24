@@ -1,6 +1,8 @@
 #pragma once
 #include "Counter.hpp"
+#include "Player.hpp"
 #include <vector>
+#include <map>
 
 class Tile
 {
@@ -25,5 +27,14 @@ public:
 	void removePlayerCounters(const unsigned int playerId);
 	// @return Wektor z pionkami stoj¹cymi na polu.
 	std::vector<Counter*> getCounters() { return counters; }
+
+	/* Przenosi pionek gracza na inne pole.
+	* @param to - Docelowe pole, na którym ma siê znaleŸæ pionek
+	*/
+	bool movePlayerCounter(Tile& to, Player& whose);
+
+	std::map<unsigned int, int>getPlayersCount();
+
+	bool hasCounter(Player& player);
 };
 

@@ -33,3 +33,32 @@ void Tile::removePlayerCounters(const unsigned int playerId) {
 			counters.erase(it);
 		}
 }
+bool Tile::hasCounter(Player& player) {
+	for (auto* c : counters)
+		if (c->getOwner() == player.getId())
+			return true;
+	return false;
+}
+
+std::map<unsigned int, int> Tile::getPlayersCount() {
+	std::map<unsigned int, int>playersCount;
+	for (auto* c : counters)
+		if (playersCount.find(c->getOwner()) == playersCount.end())
+			playersCount[c->getOwner()] = 1;
+		else playersCount[c->getOwner()] += 1;
+	
+	return playersCount;
+}
+
+bool Tile::movePlayerCounter(Tile& to, Player& whose) {
+	std::vector<Counter*>::iterator it = counters.begin();
+	while (it != counters.end())
+		if ((*it)->getOwner() == whose.getId())
+		{
+			counters.erase(it); // Usuwa z obecnego kafelka
+			return to.addToTile(*it); // Przesuwa na docelowy kafelek.
+		}
+
+	return false;
+
+}
