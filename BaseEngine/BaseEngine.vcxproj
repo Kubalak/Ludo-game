@@ -140,7 +140,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Counter.cpp" />
-    <ClCompile Include="CounterContainer.cpp" />
     <ClCompile Include="Dice.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="main.cpp" />
@@ -150,7 +149,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Counter.hpp" />
-    <ClInclude Include="CounterContainer.hpp" />
     <ClInclude Include="Dice.hpp" />
     <ClInclude Include="Engine.hpp" />
     <ClInclude Include="Player.hpp" />

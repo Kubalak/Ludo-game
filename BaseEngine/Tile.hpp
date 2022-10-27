@@ -26,15 +26,25 @@ public:
 	*/
 	void removePlayerCounters(const unsigned int playerId);
 	// @return Wektor z pionkami stoj¹cymi na polu.
-	std::vector<Counter*> getCounters() { return counters; }
+	std::vector<Counter*>& getCounters() { return counters; }
 
 	/* Przenosi pionek gracza na inne pole.
-	* @param to - Docelowe pole, na którym ma siê znaleŸæ pionek
+	* @param to - Docelowe pole, na którym ma siê znaleŸæ pionek.
+	* @return true jeœli zbity pionek lub false w przeciwnym wypadku (np. nie uda³o siê przesun¹æ pionka)
 	*/
 	bool movePlayerCounter(Tile& to, Player& whose);
-
+	/*
+	* @return Mapa z identyfikatorami graczy i iloœci¹ pionków.
+	*/
 	std::map<unsigned int, int>getPlayersCount();
 
+	/*
+	* @return Czy pionek gracza stoi na danym polu.
+	*/
 	bool hasCounter(Player& player);
+
+#ifdef _DEBUG
+	friend std::ostream& operator<< (std::ostream& os, const Tile& t);
+#endif
 };
 

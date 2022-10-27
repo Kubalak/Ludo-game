@@ -1,17 +1,14 @@
 #include "PlayerContainer.hpp"
-PlayerContainer::PlayerContainer(Player* p) :
+PlayerContainer::PlayerContainer(Player* p, unsigned int startPos) :
 	player(p),
-	hasFinished(false) {
-}
-
-bool PlayerContainer::areAllIn() {
-	hasFinished = last[5].size() == 4;
-	return hasFinished;
+	startPos(startPos) {
+	for (auto* c : p->getCounters())
+		holder.push_back(c);
 }
 
 Counter* PlayerContainer::holderPop() {
 	if (holder.empty())
-		return NULL;
+		return nullptr;
 	Counter* c = holder.back();
 	holder.pop_back();
 
@@ -70,8 +67,23 @@ unsigned int PlayerContainer::lastCount(unsigned int fieldNo) {
 	return last[fieldNo].size();
 }
 bool PlayerContainer::allIn() {
-	return areAllIn();
+	return last[5].size() == 4;
 }
+
+#ifdef _DEBUG
+std::ostream& operator<< (std::ostream& os, const PlayerContainer& e) {
+	os << "<PlayerContainer object " << std::hex << std::uppercase << &e << ">:\n{\n" << std::resetiosflags(std::ios_base::basefield);
+	os << "  " << *e.player << '\n';
+	os << "  Holder size: " << e.holder.size() << '\n';
+	os << "  Start position: " << e.startPos << '\n';
+	os << "  Counters in last count: [ ";
+	for (auto& c : e.last)
+		os << c.size() << ' ';
+	os << "]\n}\n";
+
+	return os;
+}
+#endif
 
 PlayerContainer::~PlayerContainer() {
 	delete player;

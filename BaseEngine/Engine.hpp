@@ -13,10 +13,22 @@ class Engine
 	//Zbiór, który przechowuje graczy w postaci <æwiartka,gracz>
 	std::map<int,PlayerContainer*> players;
 	// Podstawowa plansza do Chiñczyka.
-	std::array<Tile,52> tiles;
+	std::array<Tile,54> tiles;
 	// Kostka do gry.
 	Dice dice;
 	void resetMove();
+	/* Zwraca dystans jaki pokona gracz jeœli chce przesun¹æ pionek na wybrane pole.
+	* @param c - Kontener z danymi gracza.
+	* @param dest - Docelowy kafelek na planszy.
+	* @return Odleg³oœæ od punktu pocz¹tkowego gracza.
+	*/
+	unsigned int getDistance(PlayerContainer& c, unsigned int dest);
+	PlayerContainer& getCurrentPlayerContainer() { return *std::next(players.begin(), currentPlayer)->second; }
+
+	bool moveCounterOnBoard(unsigned int fieldNo);
+	bool moveCounterOnLast(unsigned int fieldNo);
+	bool moveCounterToLast(unsigned int from, unsigned int offset);
+	bool beatCountersToHolder(Tile& t);
 public:
 	// Domyœlny konstruktor klasy Engine
 	Engine();
@@ -44,20 +56,18 @@ public:
 	* @return Czy wykonano rzut kostk¹
 	*/
 	bool isDiceRolled() { return diceRolled; }
-	/*
-	* Kolejny krok w grze. Aktualizuje informacje o wykonaiu ruchu czy rzucie kostk¹ oraz zmienia aktywnego gracza.
+	/* Kolejny krok w grze. Aktualizuje informacje o wykonaiu ruchu czy rzucie kostk¹ oraz zmienia aktywnego gracza.
 	*/
 	bool step();
 	/* S³u¿y do rzucania kostk¹.
 	* @return Liczba oczek wyrzucona na kostce.
 	*/
 	unsigned int rollDice();
-	/* S³u¿y do poruszania pionkiem gracza.
-	* @param p - Gracz, który ma siê ruszyæ.
+	/* S³u¿y do poruszania pionkiem gracza. Jako gracz poruszaj¹cy wybierany jest aktualny gracz.
 	* @param fieldNo - Pole, z którego ma ruszyæ siê pionek.
 	* @return true jeœli ruch siê powiedzie lub false w przeciwnym razie np. pionek nie stoi na danym polu.
 	*/
-	bool move(Player& p, unsigned int fieldNo);
+	bool move(unsigned int fieldNo);
 	/* Informuje, czy wszyscy gracze zakoñczyli grê tj. czy wszystkie ich pionki dotar³y do ostatniego pola.
 	* @return Czy nale¿y zakoñczyæ rozgrywkê.
 	*/
@@ -65,6 +75,11 @@ public:
 	/* Pobiera listê z polami planszy.
 	* @return Lista z polami na planszy.
 	*/
-	std::array<Tile, 52>& getTiles() { return tiles; }
+	std::array<Tile, 54>& getTiles() { return tiles; }
+
+#ifdef _DEBUG
+	friend std::ostream& operator<< (std::ostream& os,const Engine& e);
+#endif
 };
+
 

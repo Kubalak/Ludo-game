@@ -32,5 +32,9 @@ public:
 	*/
 	bool move(unsigned int countNo);
 
+#ifdef _DEBUG
+	friend std::ostream& operator<< (std::ostream& os, const Player& e);
+#endif
+
 	~Player();
 };
