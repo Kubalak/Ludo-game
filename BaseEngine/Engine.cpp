@@ -1,5 +1,8 @@
 #include "Engine.hpp"
 #include <iostream>
+
+const std::string Engine::_VERSION = "0.1.0";
+
 Engine::Engine():
 	currentPlayer(-1),
 	gameStarted(false),
@@ -174,7 +177,7 @@ unsigned int Engine::getDistance(PlayerContainer& c, unsigned int dest) {
 
 #ifdef _DEBUG
 std::ostream& operator<< (std::ostream& os, const Engine& e) {
-	std::cout << "<Engine object " << std::hex << std::uppercase << &e << std::resetiosflags(std::ios_base::basefield) << ">:\n";
+	std::cout << "<Engine object " << std::hex << std::uppercase << &e << std::resetiosflags(std::ios_base::basefield) << " v"<< Engine::_VERSION << ">:\n";
 	os << "Is started: " << std::boolalpha << e.gameStarted << std::resetiosflags(std::ios_base::basefield) << '\n';
 	os << "Dice rolled: " << std::boolalpha << e.diceRolled << std::resetiosflags(std::ios_base::basefield) << '\n';
 	os << "Move made: " << std::boolalpha << e.moveMade << std::resetiosflags(std::ios_base::basefield) << '\n';

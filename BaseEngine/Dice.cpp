@@ -1,13 +1,11 @@
 #include "Dice.hpp"
-#include <random>
-#include <ctime>
 
 
 Dice::Dice() {
-	srand(time(NULL));
-	lastRes = 1 + rand() % 6;
+	distribution = std::uniform_int_distribution<int>(1, 6);
+	lastRes = distribution(generator);
 }
 unsigned int Dice::roll() {
-	lastRes = 1 + rand() % 6;
+	lastRes = distribution(generator);
 	return lastRes;
 }

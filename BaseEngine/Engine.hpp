@@ -4,9 +4,18 @@
 #include "Tile.hpp"
 #include "PlayerContainer.hpp"
 
+
+/** Klasa silnika gry w wersji offline. */
 class Engine
 {
+	
+	/**
+	* Nr aktualnego gracza od 0 do liczby graczy.
+	*/
 	int currentPlayer;
+	/**
+	* Czy gra jest rozpoczêta.
+	*/
 	bool gameStarted;
 	bool moveMade;
 	bool diceRolled;
@@ -17,7 +26,7 @@ class Engine
 	// Kostka do gry.
 	Dice dice;
 	void resetMove();
-	/* Zwraca dystans jaki pokona gracz jeœli chce przesun¹æ pionek na wybrane pole.
+	/** Zwraca dystans jaki pokona gracz jeœli chce przesun¹æ pionek na wybrane pole.
 	* @param c - Kontener z danymi gracza.
 	* @param dest - Docelowy kafelek na planszy.
 	* @return Odleg³oœæ od punktu pocz¹tkowego gracza.
@@ -30,54 +39,63 @@ class Engine
 	bool moveCounterToLast(unsigned int from, unsigned int offset);
 	bool beatCountersToHolder(Tile& t);
 public:
-	// Domyœlny konstruktor klasy Engine
+	/// Wersja silnika 
+	static const std::string _VERSION;
+	/*** 
+	* Domyœlny konstruktor klasy Engine 
+	*/
 	Engine();
 	~Engine();
-	/* Pozwala dodaæ gracza do wybranej æwiartki planszy.
+	/** Pozwala dodaæ gracza do wybranej æwiartki planszy.
 	* @param player - Gracz, który ma zostaæ dodany UWAGA: przekazaæ new Player(), poniewa¿ gracze s¹ usuwani przy destrukcji obiektu (aby nie mo¿na ich by³o u¿yæ przy nowej grze).
 	* @param quarter - Æwiartka, w której gracz mo¿e rozpocz¹æ grê od 1 do 4.
 	*/
 	bool addPlayer(Player* player, unsigned int quarter);
-	/* Pobiera aktualnego gracza.
+	/** Pobiera aktualnego gracza.
 	* @return Gracz aktualnie posiadaj¹cy ruch.
 	*/
 	Player& getCurrentPlayer() { return std::next(players.begin(), currentPlayer)->second->getPlayer(); }
-
+	/** Inicjuje grê.
+	* Powoduje to zablokowanie mo¿liwoœci dodawnia graczy i ustawia stan rozgrywki.
+	*/
 	void start();
-	/*
+	/**
 	* @return Informacja o tym czy gra zosta³a zaczêta.
 	*/
 	bool isStarted() { return gameStarted; }
-	/*
+	/**
 	* @return Informacja czy wykonano ruch.
 	*/
 	bool isMoveMade() { return moveMade; }
-	/*
+	/**
 	* @return Czy wykonano rzut kostk¹
 	*/
 	bool isDiceRolled() { return diceRolled; }
-	/* Kolejny krok w grze. Aktualizuje informacje o wykonaiu ruchu czy rzucie kostk¹ oraz zmienia aktywnego gracza.
+	/** Kolejny krok w grze. Aktualizuje informacje o wykonaiu ruchu czy rzucie kostk¹ oraz zmienia aktywnego gracza.
 	*/
 	bool step();
-	/* S³u¿y do rzucania kostk¹.
+	/** S³u¿y do rzucania kostk¹.
 	* @return Liczba oczek wyrzucona na kostce.
 	*/
 	unsigned int rollDice();
-	/* S³u¿y do poruszania pionkiem gracza. Jako gracz poruszaj¹cy wybierany jest aktualny gracz.
+	/** S³u¿y do poruszania pionkiem gracza. Jako gracz poruszaj¹cy wybierany jest aktualny gracz.
 	* @param fieldNo - Pole, z którego ma ruszyæ siê pionek.
 	* @return true jeœli ruch siê powiedzie lub false w przeciwnym razie np. pionek nie stoi na danym polu.
 	*/
 	bool move(unsigned int fieldNo);
-	/* Informuje, czy wszyscy gracze zakoñczyli grê tj. czy wszystkie ich pionki dotar³y do ostatniego pola.
+	/** Informuje, czy wszyscy gracze zakoñczyli grê tj. czy wszystkie ich pionki dotar³y do ostatniego pola.
 	* @return Czy nale¿y zakoñczyæ rozgrywkê.
 	*/
 	bool finished();
-	/* Pobiera listê z polami planszy.
+	/** Pobiera listê z polami planszy.
 	* @return Lista z polami na planszy.
 	*/
 	std::array<Tile, 54>& getTiles() { return tiles; }
 
 #ifdef _DEBUG
+	/**
+	* Umo¿liwia przekierowanie do strumienia.
+	*/
 	friend std::ostream& operator<< (std::ostream& os,const Engine& e);
 #endif
 };
