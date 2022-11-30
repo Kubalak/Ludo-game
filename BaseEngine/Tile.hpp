@@ -48,7 +48,12 @@ public:
 	* @return Czy pionek gracza stoi na danym polu.
 	*/
 	bool hasCounter(Player& player);
-	Tile operator=(const Tile& t);
+	/**
+	* Operator przypisania.
+	* @param t - Pole, którego wartoœæ ma byæ przypisana naszemu polu.
+	* @return Referencja bo *this.
+	*/
+	Tile& operator=(const Tile& t);
 
 #ifdef _DEBUG
 	friend std::ostream& operator<< (std::ostream& os, const Tile& t);

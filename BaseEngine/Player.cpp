@@ -34,7 +34,7 @@ std::array<Counter*, 4>& Player::getCounters() {
 
 #ifdef _DEBUG
 std::ostream& operator<< (std::ostream& os, const Player& e) {
-	os << "<Player object " << std::hex << std::uppercase << &e << std::resetiosflags(std::ios_base::basefield) << ">: Nick: " << e.nickname << " Id: " << e.id;
+	os << "<Player object 0x" << std::hex << std::uppercase << &e << std::resetiosflags(std::ios_base::basefield) << ">: Nick: " << e.nickname << " Id: " << e.id;
 	
 	return os;
 }

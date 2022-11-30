@@ -60,7 +60,7 @@ bool Tile::movePlayerCounter(Tile& to, Player& whose) {
 	return false;
 }
 
-Tile Tile::operator=(const Tile& t) {
+Tile& Tile::operator=(const Tile& t) {
 	lastBeat = t.lastBeat;
 	manyCanStand = t.manyCanStand;
 	counters = t.counters;
@@ -69,7 +69,7 @@ Tile Tile::operator=(const Tile& t) {
 
 #ifdef _DEBUG
 std::ostream& operator<< (std::ostream& os, const Tile& t) {
-	os << "<Tile object " << std::hex << std::uppercase << &t << ">:\n"<< std::resetiosflags(std::ios_base::basefield);
+	os << "<Tile object 0x" << std::hex << std::uppercase << &t << ">:\n"<< std::resetiosflags(std::ios_base::basefield);
 	os << "Allow many players: " << std::boolalpha << t.manyCanStand << std::resetiosflags(std::ios_base::basefield) << '\n';
 	os << "Total number of counters: " << t.counters.size() << '\n';
 	for (auto* p : t.counters)

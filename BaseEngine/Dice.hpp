@@ -9,7 +9,14 @@ class Dice {
 	std::uniform_int_distribution<int> distribution;
 	unsigned int lastRes;
 public:
+	/**
+	* Domyœlny konstruktor. U¿ywa ziarna time(NULL);
+	*/
 	Dice();
+	/** Konstruktor z ziarnem dla generatora.
+	* @param seed Ziarno generatora.
+	*/
+	Dice(unsigned int seed);
 	/** Metoda do rzutu kostk¹.
 	* @return Liczba oczek od 1 do 6.
 	*/

@@ -1,7 +1,7 @@
 #include "Engine.hpp"
 #include <iostream>
 
-const std::string Engine::_VERSION = "0.1.0";
+const std::string Engine::_VERSION = "0.1.2";
 
 Engine::Engine():
 	currentPlayer(-1),
@@ -77,7 +77,7 @@ unsigned int Engine::rollDice() {
 	return  dice.roll();
 }
 
-//FIXME: B³¹d z iteratorem.
+
 bool Engine::beatCountersToHolder(Tile& t) {
 	std::vector<Counter*>::iterator it = t.lastBeat.begin();
 	std::map<unsigned int, PlayerContainer*> mp;
@@ -94,10 +94,8 @@ bool Engine::beatCountersToHolder(Tile& t) {
 //~FIXME~: Naprawiæ b³¹d podczas przechodzeia na pocz¹tek planszy.
 bool Engine::moveCounterOnBoard(unsigned int fieldNo) {
 	Player& p = getCurrentPlayer();
-
 	if (!tiles[fieldNo].hasCounter(p))
 		return false;
-
 	unsigned int offset = dice.getLast();
 	bool result = tiles[fieldNo].movePlayerCounter(tiles[(fieldNo + offset) % 52], p);
 	if (result)
@@ -106,17 +104,20 @@ bool Engine::moveCounterOnBoard(unsigned int fieldNo) {
 	return result;
 }
 
-bool Engine::moveCounterOnLast(unsigned int fieldNo) {
-	if (fieldNo < 100 || fieldNo > 406) return false;
+//TODO: Sprawdziæ poruszanie siê po ostatnich.
+bool Engine::moveCounterOnLast(unsigned int fieldNo) { 
+	if (fieldNo <= 100 || fieldNo > 406) return false;
 	unsigned int Q = fieldNo / 100 - 1;
 	if (players.find(Q) == players.end())
 		return false;
 	PlayerContainer& c = *players[Q];
 	if (c.getPlayer().getId() != getCurrentPlayer().getId())
 		return false;
-	unsigned int field = fieldNo % 100;
-	state = EngineStates::MOVE_MADE;
-	return c.moveOnLast(field, dice.getLast());
+	unsigned int field = (fieldNo % 100) - 1;
+	bool result = c.moveOnLast(field, dice.getLast());
+	if(result)
+		state = EngineStates::MOVE_MADE;
+	return  result;
 }
 
 bool Engine::moveCounterToLast(unsigned int from, unsigned int offset) {
@@ -128,8 +129,10 @@ bool Engine::moveCounterToLast(unsigned int from, unsigned int offset) {
 		{
 			Counter* ct = *it;
 			v.erase(it);
-			state = EngineStates::MOVE_MADE;
-			return c.addToLast(ct, offset);
+			bool result = c.addToLast(ct, offset);
+			if(result)
+				state = EngineStates::MOVE_MADE;
+			return result;
 		}
 	
 	return false;
@@ -187,20 +190,28 @@ bool Engine::move(unsigned int fieldNo) {
 		Counter* c;
 		if ((c = pc.holderPop()) != nullptr) // Jeœli w domku by³ pionek.
 		{
+			std::cout << "Popping from holder " << *c << '\n';
 			bool result = tiles[pc.getStartPos()].addToTile(c);// Z za³o¿enia wiele pionków mo¿e na nim staæ.
 			if (result)
 				state = EngineStates::MOVE_MADE;
-			return  result; 
+			else pc.addToHolder(c);
+			return result; 
 		}
 	}
 	if (fieldNo < 52) {
-		unsigned int distance = getDistance(getCurrentPlayerContainer(), dice.getLast());
-		if (distance < 50)
+		unsigned int distance = getDistance(getCurrentPlayerContainer(), fieldNo + dice.getLast());
+		std::cout << "Calculated distance is " << distance << '\n';
+		if (distance < 50) {
+			std::cout << "Moving on board to " << fieldNo + dice.getLast() << '\n';
 			return moveCounterOnBoard(fieldNo);
+		}
+		std::cout << "Moving to last on " << distance - 50 << '\n';
 		return moveCounterToLast(fieldNo, distance - 50);
 	}
-	else if (fieldNo > 100)
+	else if (fieldNo > 100) {
+		std::cout << "Moving on last " << fieldNo << '\n';
 		return moveCounterOnLast(fieldNo);
+	}
 	return false;
 }
 
@@ -216,7 +227,7 @@ bool Engine::finished() {
 unsigned int Engine::getDistance(PlayerContainer& c, unsigned int dest) {
 	if (c.getStartPos() < dest)
 		return dest - c.getStartPos();
-	return 54 - c.getStartPos() + dest;
+	return 52 + dest - c.getStartPos();
 }
 
 
@@ -233,15 +244,16 @@ std::string Engine::stateToStr(Engine::EngineStates state) {
 	}
 }
 std::ostream& operator<< (std::ostream& os, const Engine& e) {
-	std::cout << "<Engine object " << std::hex << std::uppercase << &e << std::resetiosflags(std::ios_base::basefield) << " v"<< Engine::_VERSION << ">:\n";
+	std::cout << "<Engine object 0x" << std::hex << std::uppercase << &e << std::resetiosflags(std::ios_base::basefield) << " (v"<< Engine::_VERSION << ")>:\n";
 	os << "Current state: " << std::boolalpha << Engine::stateToStr(e.state) << std::resetiosflags(std::ios_base::basefield) << '\n';
 	os << "PlayerContainers:\n[";
 	for (auto p : e.players)
 		os << *p.second << ", \n";
 	os << "]\n";
 	os << "Tiles: [\n";
-	for (int i = 0; i < 54; ++i)
-		os << '[' << i << "]: " << e.tiles[i] << '\n';
+	unsigned int index = 0;
+	for (auto& i : e.tiles)
+		os << '[' << index++ << "]: " << i << '\n';
 	os << "]\n";
 	return os;
 }

@@ -4,6 +4,8 @@
 #include "Tile.hpp"
 #include "PlayerContainer.hpp"
 
+//TODO: Obs³uga Ctr-C itp. (zabezpieczenie przed niekontrolowanym zamkniêciem)
+//TODO: (WIN) Brak blokowania konsoli po klikniêciu
 
 /** Klasa silnika gry w wersji offline. 
 * @author Jakub Jach &copy; 2022 
@@ -90,8 +92,12 @@ public:
 	/** Zwraca listê z liczb¹ pionków dla gracza z danej æwiartki.
 	* @return Lista z liczb¹ pionków na ka¿dym z pól.
 	*/
-	std::array<unsigned int, 6> getLast(unsigned int quarter) { return players[quarter]->getLastCount(); }
+	std::array<unsigned int, 6> getLast(unsigned int quarter) { return players[quarter - 1]->getLastCount(); }
 
+	/**
+	* Zwraca aktualny stan silnika.
+	* @return Klasa enum EngineStates aktualnego stanu.
+	*/
 	EngineStates getCurrentState() { return state; }
 
 #ifdef _DEBUG

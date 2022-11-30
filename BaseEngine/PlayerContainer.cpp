@@ -48,7 +48,7 @@ bool PlayerContainer::moveOnLast(unsigned int fieldNo, unsigned int offset) {
 	if (fieldNo > 5 || offset > 6)// Zabezpiecznie przed zbyt du¿ym offsetem lub wybraniem pionka na koñcu.
 		return false;
 
-	std::vector<Counter*> v = last[fieldNo];
+	std::vector<Counter*>& v = last[fieldNo];
 
 	if (v.empty()) // Zabezpieczenie przed pustym polem
 		return false;
@@ -57,7 +57,7 @@ bool PlayerContainer::moveOnLast(unsigned int fieldNo, unsigned int offset) {
 	v.pop_back();
 
 	if (fieldNo + offset > 5)
-		last[6 - (fieldNo + offset) % 7].push_back(p);
+		last[6 - (fieldNo + offset) % 6].push_back(p);
 	else
 		last[fieldNo + offset].push_back(p);
 
@@ -71,7 +71,7 @@ unsigned int PlayerContainer::lastCount(unsigned int fieldNo) {
 }
 
 std::array<unsigned int, 6> PlayerContainer::getLastCount() {
-	std::array<unsigned int, 6> counts;
+	std::array<unsigned int, 6> counts{ 0U,0U,0U,0U,0U,0U };
 	unsigned int i = 0;
 	for (auto c : last)
 		counts[i++] = c.size();
@@ -84,7 +84,7 @@ bool PlayerContainer::allIn() {
 
 #ifdef _DEBUG
 std::ostream& operator<< (std::ostream& os, const PlayerContainer& e) {
-	os << "<PlayerContainer object " << std::hex << std::uppercase << &e << ">:\n{\n" << std::resetiosflags(std::ios_base::basefield);
+	os << "<PlayerContainer object 0x" << std::hex << std::uppercase << &e << ">:\n{\n" << std::resetiosflags(std::ios_base::basefield);
 	os << "  " << *e.player << '\n';
 	os << "  Holder size: " << e.holder.size() << '\n';
 	os << "  Start position: " << e.startPos << '\n';
