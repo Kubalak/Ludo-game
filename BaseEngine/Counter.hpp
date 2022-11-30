@@ -3,7 +3,9 @@
 	#include <iostream>
 	#include <iomanip>
 #endif
-/** Klasa pionka. */
+/** Klasa pionka. 
+* @author Jakub Jach &copy; 2022 
+*/
 class Counter
 {
 	/**

@@ -1,5 +1,5 @@
 #include "Tile.hpp"
-
+#include <algorithm>
 Tile::Tile(bool manyCanStand):
 	manyCanStand(manyCanStand) {
 
@@ -7,22 +7,18 @@ Tile::Tile(bool manyCanStand):
 
 bool Tile::addToTile(Counter* c) {
 	lastBeat.clear(); //Czyœæ wektor ostatnio zbitych elementów.
-	if (manyCanStand) {
-		if (std::find(counters.begin(), counters.end(), c) == counters.end())
-		   counters.push_back(c);
+	if (std::find(counters.begin(), counters.end(), c) != counters.end())
 		return false;
+	if (manyCanStand) 
+		counters.push_back(c);
+	else {
+		std::copy_if(counters.begin(), counters.end(), std::back_inserter(lastBeat), [=](Counter* cn) {return cn->getOwner() != c->getOwner(); });
+		counters.erase(std::remove_if(counters.begin(), counters.end(), [=](Counter* cn) {return cn->getOwner() != c->getOwner(); }),counters.end());
+		counters.push_back(c);
+		return true;
 	}
 	
-	bool hasBeenErased = false;
-	for (std::vector<Counter*>::iterator it = counters.begin(); it != counters.end(); it++)
-		if ((*it)->getOwner() != c->getOwner())
-		{
-			lastBeat.push_back(*it);
-			counters.erase(it);
-			hasBeenErased = true;
-		}
-	counters.push_back(c);
-	return hasBeenErased;
+	return true;
 }
 
 void Tile::removePlayerCounters(const unsigned int playerId) {
@@ -56,11 +52,19 @@ bool Tile::movePlayerCounter(Tile& to, Player& whose) {
 		if ((*it)->getOwner() == whose.getId())
 		{
 			bool res = to.addToTile(*it); // Przesuwa na docelowy kafelek.
-			counters.erase(it); // Usuwa z obecnego kafelka
+			if (res)
+				counters.erase(it); // Usuwa z obecnego kafelka
 			return res;
 		}
 
 	return false;
+}
+
+Tile Tile::operator=(const Tile& t) {
+	lastBeat = t.lastBeat;
+	manyCanStand = t.manyCanStand;
+	counters = t.counters;
+	return *this;
 }
 
 #ifdef _DEBUG

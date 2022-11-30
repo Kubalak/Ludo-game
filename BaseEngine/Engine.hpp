@@ -5,7 +5,9 @@
 #include "PlayerContainer.hpp"
 
 
-/** Klasa silnika gry w wersji offline. */
+/** Klasa silnika gry w wersji offline. 
+* @author Jakub Jach &copy; 2022 
+*/
 class Engine
 {
 	
@@ -13,19 +15,21 @@ class Engine
 	* Nr aktualnego gracza od 0 do liczby graczy.
 	*/
 	int currentPlayer;
-	/**
-	* Czy gra jest rozpoczêta.
-	*/
-	bool gameStarted;
-	bool moveMade;
-	bool diceRolled;
+	enum class EngineStates
+	{
+		CREATED,
+		STARTED,
+		DICE_ROLLED,
+		MOVE_MADE,
+		STEP_MADE
+	};
+	EngineStates state;
 	//Zbiór, który przechowuje graczy w postaci <æwiartka,gracz>
 	std::map<int,PlayerContainer*> players;
 	// Podstawowa plansza do Chiñczyka.
-	std::array<Tile,54> tiles;
+	std::array<Tile,52> tiles; 
 	// Kostka do gry.
 	Dice dice;
-	void resetMove();
 	/** Zwraca dystans jaki pokona gracz jeœli chce przesun¹æ pionek na wybrane pole.
 	* @param c - Kontener z danymi gracza.
 	* @param dest - Docelowy kafelek na planszy.
@@ -38,9 +42,13 @@ class Engine
 	bool moveCounterOnLast(unsigned int fieldNo);
 	bool moveCounterToLast(unsigned int from, unsigned int offset);
 	bool beatCountersToHolder(Tile& t);
+
 public:
 	/// Wersja silnika 
 	static const std::string _VERSION;
+#ifdef _DEBUG
+	static std::string stateToStr(EngineStates state);
+#endif
 	/*** 
 	* Domyœlny konstruktor klasy Engine 
 	*/
@@ -59,18 +67,6 @@ public:
 	* Powoduje to zablokowanie mo¿liwoœci dodawnia graczy i ustawia stan rozgrywki.
 	*/
 	void start();
-	/**
-	* @return Informacja o tym czy gra zosta³a zaczêta.
-	*/
-	bool isStarted() { return gameStarted; }
-	/**
-	* @return Informacja czy wykonano ruch.
-	*/
-	bool isMoveMade() { return moveMade; }
-	/**
-	* @return Czy wykonano rzut kostk¹
-	*/
-	bool isDiceRolled() { return diceRolled; }
 	/** Kolejny krok w grze. Aktualizuje informacje o wykonaiu ruchu czy rzucie kostk¹ oraz zmienia aktywnego gracza.
 	*/
 	bool step();
@@ -90,7 +86,13 @@ public:
 	/** Pobiera listê z polami planszy.
 	* @return Lista z polami na planszy.
 	*/
-	std::array<Tile, 54>& getTiles() { return tiles; }
+	std::array<Tile, 52>& getTiles() { return tiles; }
+	/** Zwraca listê z liczb¹ pionków dla gracza z danej æwiartki.
+	* @return Lista z liczb¹ pionków na ka¿dym z pól.
+	*/
+	std::array<unsigned int, 6> getLast(unsigned int quarter) { return players[quarter]->getLastCount(); }
+
+	EngineStates getCurrentState() { return state; }
 
 #ifdef _DEBUG
 	/**

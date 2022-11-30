@@ -4,14 +4,16 @@
 #include <vector>
 #include <map>
 
-/** Klasa do obs³ugi pola planszy. */
+/** Klasa do obs³ugi pola planszy. 
+* @author Jakub Jach &copy; 2022 
+*/
 class Tile
 {
 	/** Wektor z pionkami stoj¹cymi na danym polu. */
 	std::vector<Counter*> counters;
 public:
 	/** Zmienna okreœlaj¹ca czy wiele pionków mo¿e staæ na tym polu. */
-	const bool manyCanStand;
+	bool manyCanStand;
 	/** Wektor z ostatnio zbitymi pionkami. */
 	std::vector<Counter*> lastBeat;
 	/** Domyœlny konstruktor klasy.
@@ -19,8 +21,9 @@ public:
 	*/
 	Tile(bool manyCanStand = false);
 	/** S³u¿y do dodawania pionka do pola. Jeœli podany wskaŸnik ju¿ znajduje siê na polu to nic siê nie dzieje.
+	* Dodaje zbite pionki do zmiennej lastBeat.
 	* @param c - WskaŸnik do obiektu pionka.
-	* @return True jeœli zosta³ zbity pionek lub false jeœli nie.
+	* @return True jeœli dodanie pionka powiod³o siê lub false jeœli nie.
 	*/
 	bool addToTile(Counter* c);
 	/** Usuwa wszystkie pionki danego gracza z pola. UWAGA: Nie aktualizuje to ostatnio zbitych pionków!.
@@ -33,11 +36,11 @@ public:
 	/** Przenosi pionek gracza na inne pole.
 	* @param to - Docelowe pole, na którym ma siê znaleŸæ pionek.
 	* @param whose - Gracz, którego pionek przenieœæ.
-	* @return true jeœli zbity pionek lub false w przeciwnym wypadku (np. nie uda³o siê przesun¹æ pionka).
+	* @return true jeœli uda³o siê przenieœæ pionek lub false w przeciwnym wypadku.
 	*/
 	bool movePlayerCounter(Tile& to, Player& whose);
-	/**
-	* @return Mapa z identyfikatorami graczy i iloœci¹ pionków.
+	/** U¿ywane do zmapowania pionków do GUI.
+	* @return Mapa z identyfikatorami graczy i iloœci¹ pionków dla ka¿dego z nich.
 	*/
 	std::map<unsigned int, int>getPlayersCount();
 
@@ -45,6 +48,7 @@ public:
 	* @return Czy pionek gracza stoi na danym polu.
 	*/
 	bool hasCounter(Player& player);
+	Tile operator=(const Tile& t);
 
 #ifdef _DEBUG
 	friend std::ostream& operator<< (std::ostream& os, const Tile& t);

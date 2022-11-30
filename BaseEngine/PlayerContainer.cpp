@@ -18,8 +18,8 @@ bool PlayerContainer::addToHolder(Counter* c) {
 	if (holder.size() == 4) // Jeœli pe³ny
 		return false;
 	
-	//if (std::find(player->counters.begin(), player->counters.end(), c) == player->counters.end()) // Zabezpieczenie przed dodaniem pionków spoza udostêpnionych.
-	//	return false;
+	if (std::find(player->getCounters().begin(), player->getCounters().end(), c) == player->getCounters().end()) // Zabezpieczenie przed dodaniem pionków spoza udostêpnionych.
+		return false;
 
 	if (std::find(holder.begin(), holder.end(), c) != holder.end()) // Zabezpieczenie przed dodaniem istniej¹cego pionka.
 		return false;
@@ -28,11 +28,14 @@ bool PlayerContainer::addToHolder(Counter* c) {
 	return true;
 }
 bool PlayerContainer::addToLast(Counter* c, unsigned int offset) {
-	if (offset > 6) // Zabezpieczenie przed podaniem zbyt du¿ego przesuniêcia.
+	if (offset > 5) // Zabezpieczenie przed podaniem zbyt du¿ego przesuniêcia.
 		return false;
 
-	//if (std::find(player->counters.begin(), player->counters.end(), c) == player->counters.end()) // Zabezpieczenie przed dodaniem pionków spoza udostêpnionych.
-	//	return false;
+	if (std::find(holder.begin(), holder.end(), c) != holder.end()) // Dodanie pionka znajduj¹cego siê w domku.
+		return false;
+
+	if (std::find(player->getCounters().begin(), player->getCounters().end(), c) == player->getCounters().end()) // Zabezpieczenie przed dodaniem pionków spoza udostêpnionych.
+		return false;
 
 	for (auto v : last)
 		if (std::find(v.begin(), v.end(), c) != v.end())
@@ -66,6 +69,15 @@ unsigned int PlayerContainer::lastCount(unsigned int fieldNo) {
 		return false;
 	return last[fieldNo].size();
 }
+
+std::array<unsigned int, 6> PlayerContainer::getLastCount() {
+	std::array<unsigned int, 6> counts;
+	unsigned int i = 0;
+	for (auto c : last)
+		counts[i++] = c.size();
+	return counts;
+}
+
 bool PlayerContainer::allIn() {
 	return last[5].size() == 4;
 }

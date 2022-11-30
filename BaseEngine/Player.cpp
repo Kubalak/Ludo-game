@@ -1,14 +1,16 @@
 #include "Player.hpp"
 
+int Player::currId = 0;
+
 Player::Player():
-	id(0),
+	id(Player::currId++),
 	nickname("anonymous")	{
 	for (int i(0); i < 4; ++i)
 		counters[i] = new Counter(getId(), i);
 }
 
 Player::Player(std::string nick):
-	id(0),
+	id(Player::currId++),
 	nickname(nick) {
 	for (int i(0); i < 4; ++i)
 		counters[i] = new Counter(getId(), i);
@@ -26,7 +28,7 @@ Player::~Player() {
 		delete counters[i];
 }
 
-std::array<Counter*, 4> Player::getCounters() {
+std::array<Counter*, 4>& Player::getCounters() {
 	return counters;
 }
 

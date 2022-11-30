@@ -3,8 +3,11 @@
 #include <array>
 #include "Counter.hpp"
 
-/** Klasa do obs³ugi gracza */
+/** Klasa do obs³ugi gracza 
+* @author Jakub Jach &copy; 2022 
+*/
 class Player {
+	static int currId;
 	unsigned int id;
 	std::string nickname;
 	std::array<Counter*,4> counters;
@@ -33,7 +36,7 @@ public:
 	/** Zwraca zasobnik z pionkami dla gracza.
 	* @return Referencja do zasobnika z pionkami.
 	*/
-	std::array<Counter*,4> getCounters();
+	std::array<Counter*,4>& getCounters();
 	/* Pozwala na wykonanie ruchu przez gracza.
 	* @return Czy ruch zakoñczono powodzeniem.
 	*

@@ -3,6 +3,7 @@
 #include "Player.hpp"
 /**
 * Klasa przechowuj¹ca gracza wraz z pionkami w domku.
+* @author Jakub Jach &copy; 2022 
 */
 class PlayerContainer
 {
@@ -49,6 +50,10 @@ public:
 	* @return Liczba pionków na polu podanym w parametrze.
 	*/
 	unsigned int lastCount(unsigned int fieldNo);
+	/** Zwraca liczbê pionków na ka¿dym z pól
+	* @return Tablica z liczb¹ pionków na ka¿dym z pól
+	*/
+	std::array<unsigned int, 6> getLastCount();
 	/**
 	* @return Referencja do gracza.
 	*/
@@ -64,7 +69,7 @@ public:
 	/** Zwraca informacjê czy gracz mo¿e siê poruszaæ po planszy.
 	* @return Informacja czy pionek znajduje siê na planszy i nie na koñcu.
 	*/
-	bool canMove() { return holder.size() < 4 && last.size() != 4; }
+	bool canMove() { return holder.size() != 4 && last[5].size() != 4; }
 
 #ifdef _DEBUG
 	friend std::ostream& operator<< (std::ostream& os, const PlayerContainer& e);

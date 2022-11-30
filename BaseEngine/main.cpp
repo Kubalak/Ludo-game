@@ -1,6 +1,9 @@
-/*
+/**
 
 Plik wykorzystywany do testów silnika gry.
+
+@author Jakub Jach &copy; 2022
+*/
 
 ////////////     ////////////       ////////////
 ///      ///     ///      ///       ///      ///
@@ -10,9 +13,6 @@ Plik wykorzystywany do testów silnika gry.
 ///              ///      ///       ///      ///
 ///              ////////////       ////////////
 
-@author Jakub Jach &copy; 2022
-*/
-
 
 #include <iostream>
 #include "Engine.hpp"
@@ -21,7 +21,7 @@ Plik wykorzystywany do testów silnika gry.
 int main(int argc, char** argv) {
 	Engine* engine = new Engine();
 	std::cout << engine->addPlayer(new Player("Adam"),1) << ' ';
-	std::cout << engine->addPlayer(new Player("Ewa",1), 3) << '\n';
+	std::cout << engine->addPlayer(new Player("Ewa"), 3) << '\n';
 	engine->start();
 	//std::cout << *engine << '\n';
 	//std::cout << engine->getCurrentPlayer().getNick() << ' ' << engine->getCurrentPlayer().getId() << '\n';
@@ -34,17 +34,17 @@ int main(int argc, char** argv) {
 	
 	//Jeszcze nie dzia³a
 	//engine->start();
-	int decision, field;
+	int field;
 	while (!engine->finished()) {
-		std::cout << "Is dice rolled: " << engine->isDiceRolled() << '\n';
-		std::cout << "Is move made: " << engine->isMoveMade() << '\n';
 		std::cout << "Dice roll: " << engine->rollDice() << '\n';
-		std::cout << "Current player: " << engine->getCurrentPlayer().getNick() << "\nDecision: ";
+		std::cout << "Current state: " << Engine::stateToStr(engine->getCurrentState()) << "\n";
+		std::cout << "Current player: " << engine->getCurrentPlayer().getNick() << "\nPole: ";
 		std::cin >> field;
 		std::cout << "Move: " << engine->move(field) << ' ';
 		std::cout << "Step: " << engine->step() << "\n\n";
-		for (auto p : engine->getTiles())
-			std::cout << p << '\n';
+		int index = 0;
+		for (auto& p : engine->getTiles())
+			std::cout << '['<< index++ << "]: " << p << '\n';
 	}
 #ifdef _DEBUG
 	system("pause");
