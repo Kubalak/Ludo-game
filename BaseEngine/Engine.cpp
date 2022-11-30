@@ -77,21 +77,21 @@ unsigned int Engine::rollDice() {
 	return  dice.roll();
 }
 
+//FIXME: B³¹d z iteratorem.
 bool Engine::beatCountersToHolder(Tile& t) {
 	std::vector<Counter*>::iterator it = t.lastBeat.begin();
 	std::map<unsigned int, PlayerContainer*> mp;
 	for (auto p : players)
 		mp[p.second->getPlayer().getId()] = p.second;
-	for (; it != t.lastBeat.end(); it++)
-	{
+	for (; it != t.lastBeat.end(); it++) {
 		if (!mp[(*it)->getOwner()]->addToHolder(*it))
 			return false;
-		t.lastBeat.erase(it);
 	}
+	t.lastBeat.clear();
 	return t.lastBeat.size() == 0;
 }
 
-//FIXME: Naprawiæ b³¹d podczas przechodzeia na pocz¹tek planszy.
+//~FIXME~: Naprawiæ b³¹d podczas przechodzeia na pocz¹tek planszy.
 bool Engine::moveCounterOnBoard(unsigned int fieldNo) {
 	Player& p = getCurrentPlayer();
 
@@ -99,9 +99,9 @@ bool Engine::moveCounterOnBoard(unsigned int fieldNo) {
 		return false;
 
 	unsigned int offset = dice.getLast();
-	bool result = tiles[fieldNo].movePlayerCounter(tiles[fieldNo + offset], p);
+	bool result = tiles[fieldNo].movePlayerCounter(tiles[(fieldNo + offset) % 52], p);
 	if (result)
-		result |= beatCountersToHolder(tiles[fieldNo + offset]);
+		result |= beatCountersToHolder(tiles[(fieldNo + offset) % 52]);
 	state = EngineStates::MOVE_MADE;
 	return result;
 }
@@ -142,7 +142,7 @@ bool Engine::moveCounterToLast(unsigned int from, unsigned int offset) {
 // 301-306 Q3
 // 401-406 Q4
 
-//TODO: Poprawiæ metodê move() tak, by korzysta³a z nowych w³aœciwoœci Tile.
+//~TODO~: Poprawiæ metodê move() tak, by korzysta³a z nowych w³aœciwoœci Tile.
 
 //bool Engine::move(unsigned int fieldNo) {
 //
