@@ -1,4 +1,6 @@
 #include "PlayerContainer.hpp"
+#include <algorithm>
+
 PlayerContainer::PlayerContainer(Player* p, unsigned int startPos) :
 	player(p),
 	startPos(startPos) {
@@ -67,14 +69,14 @@ bool PlayerContainer::moveOnLast(unsigned int fieldNo, unsigned int offset) {
 unsigned int PlayerContainer::lastCount(unsigned int fieldNo) {
 	if (fieldNo > 5)
 		return false;
-	return last[fieldNo].size();
+	return static_cast<unsigned int>(last[fieldNo].size());
 }
 
 std::array<unsigned int, 6> PlayerContainer::getLastCount() {
 	std::array<unsigned int, 6> counts{ 0U,0U,0U,0U,0U,0U };
 	unsigned int i = 0;
 	for (auto c : last)
-		counts[i++] = c.size();
+		counts[i++] = static_cast<unsigned int>(c.size());
 	return counts;
 }
 

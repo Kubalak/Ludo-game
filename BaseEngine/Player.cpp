@@ -17,8 +17,8 @@ Player::Player(std::string nick):
 }
 
 Player::Player(std::string nick, unsigned int id):
-	nickname(nick),
-	id(id) {
+	id(id),
+	nickname(nick) {
 	for (int i(0); i < 4; ++i)
 		counters[i] = new Counter(getId(), i);
 }

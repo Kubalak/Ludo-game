@@ -44,7 +44,7 @@ public:
 	/**
 	* @return Liczba pionków w zasobniku.
 	*/
-	unsigned int holderCount() { return holder.size(); }
+	unsigned int holderCount() { return static_cast<unsigned int>(holder.size()); }
 	/**
 	* @param fieldNo - Nr pola, z którego ma pobraæ iloœæ pionków.
 	* @return Liczba pionków na polu podanym w parametrze.

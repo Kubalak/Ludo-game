@@ -2,6 +2,11 @@
 
 # CHANGELOG <i>(all changes are shown below)</i>
 
+# v0.0.4
+- Fixed known Engine issues (index out of bounds and nullptr exception).
+- Code refactorization.
+- Prepared for GUI version.
+
 # v0.0.3
 - Added more logic to `CounterContainer`, `Dice`, `Player`, `Tile`, `Engine`, etc.
 - Methods have been shortened to provide better standards.

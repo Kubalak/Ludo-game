@@ -1,5 +1,9 @@
 #include "Engine.hpp"
-#include <iostream>
+#include <string>
+#include <algorithm>
+#ifdef _DEBUG
+	#include <iostream>
+#endif
 
 const std::string Engine::_VERSION = "0.1.2";
 

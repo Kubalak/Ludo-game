@@ -62,7 +62,7 @@ IDI_ICON1               ICON                    "icon.ico"
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION 1,0,0,0
- PRODUCTVERSION 0,0,0,1
+ PRODUCTVERSION 0,0,0,4
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -77,14 +77,14 @@ BEGIN
     BEGIN
         BLOCK "041504b0"
         BEGIN
-            VALUE "CompanyName", "Patryk & Kuba (C) Inc."
+            VALUE "CompanyName", "Patryk & Kuba Inc."
             VALUE "FileDescription", "Ludo game"
             VALUE "FileVersion", "1.0.0.0"
             VALUE "InternalName", "game.exe"
-            VALUE "LegalCopyright", "Copyright Jakub & Patryk(C) 2022"
+            VALUE "LegalCopyright", "Copyright Jakub & Patryk © 2022"
             VALUE "OriginalFilename", "game.exe"
             VALUE "ProductName", "Ludo game"
-            VALUE "ProductVersion", "0.0.0.1"
+            VALUE "ProductVersion", "0.0.0.4"
         END
     END
     BLOCK "VarFileInfo"

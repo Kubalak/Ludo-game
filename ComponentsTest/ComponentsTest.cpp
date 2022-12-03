@@ -83,14 +83,14 @@ namespace ComponentsTest
 			a.addToTile(firstc[0]);
 			a.addToTile(firstc[1]);
 			a.movePlayerCounter(b, first);
-			Assert::AreEqual(1U, a.getCounters().size());;
+			Assert::AreEqual(1UL, static_cast<unsigned long>(a.getCounters().size()));
 		}
 		TEST_METHOD(moveCounterSSizeTest) {
 			Tile a, b;
 			a.addToTile(firstc[0]);
 			a.addToTile(firstc[1]);
 			a.movePlayerCounter(b, first);
-			Assert::AreEqual(1U, b.getCounters().size());;
+			Assert::AreEqual(1UL, static_cast<unsigned long>(b.getCounters().size()));
 		}
 	};
 	/*TEST_CLASS(PlayerTest) // Nie potrzeba wiêcej testów - brak zmian.
