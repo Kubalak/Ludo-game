@@ -56,35 +56,43 @@ public:
 	*/
 	Engine();
 	~Engine();
+
 	/** Pozwala dodaæ gracza do wybranej æwiartki planszy.
 	* @param player - Gracz, który ma zostaæ dodany UWAGA: przekazaæ new Player(), poniewa¿ gracze s¹ usuwani przy destrukcji obiektu (aby nie mo¿na ich by³o u¿yæ przy nowej grze).
 	* @param quarter - Æwiartka, w której gracz mo¿e rozpocz¹æ grê od 1 do 4.
 	*/
 	bool addPlayer(Player* player, unsigned int quarter);
+
 	/** Pobiera aktualnego gracza.
 	* @return Gracz aktualnie posiadaj¹cy ruch.
 	*/
 	Player& getCurrentPlayer() { return std::next(players.begin(), currentPlayer)->second->getPlayer(); }
+
 	/** Inicjuje grê.
 	* Powoduje to zablokowanie mo¿liwoœci dodawnia graczy i ustawia stan rozgrywki.
 	*/
 	void start();
+
 	/** Kolejny krok w grze. Aktualizuje informacje o wykonaiu ruchu czy rzucie kostk¹ oraz zmienia aktywnego gracza.
 	*/
 	bool step();
+
 	/** S³u¿y do rzucania kostk¹.
 	* @return Liczba oczek wyrzucona na kostce.
 	*/
 	unsigned int rollDice();
+
 	/** S³u¿y do poruszania pionkiem gracza. Jako gracz poruszaj¹cy wybierany jest aktualny gracz.
 	* @param fieldNo - Pole, z którego ma ruszyæ siê pionek.
 	* @return true jeœli ruch siê powiedzie lub false w przeciwnym razie np. pionek nie stoi na danym polu.
 	*/
 	bool move(unsigned int fieldNo);
+
 	/** Informuje, czy wszyscy gracze zakoñczyli grê tj. czy wszystkie ich pionki dotar³y do ostatniego pola.
 	* @return Czy nale¿y zakoñczyæ rozgrywkê.
 	*/
 	bool finished();
+
 	/** Pobiera listê z polami planszy.
 	* @return Lista z polami na planszy.
 	*/

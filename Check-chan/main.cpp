@@ -2,6 +2,8 @@
 #include <fstream>
 #include <SFML/Graphics.hpp>
 #include <nlohmann/json.hpp>
+#include "Game.h"
+#include "Engine.hpp"
 //#include "Player.hpp"
 
 //int main(int argc, char** argv, char** env) {
@@ -32,32 +34,7 @@ int main()
 		return 1;
 	}
 
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    auto image = sf::Image();
-    if (!image.loadFromFile("icon.png")) {
-        std::cerr << "Nie udalo sie zaladowac pliku!\n";
-        exit(-1);
-    }
-    window.setIcon(image.getSize().x, image.getSize().y, image.getPixelsPtr());
-    window.setFramerateLimit(60);
-    system("title Check chan");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-    
-
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        window.clear();
-        window.draw(shape);
-        window.display();
-    }
-
+	Game myGame;
+	myGame.run();
     return 0;
 }
