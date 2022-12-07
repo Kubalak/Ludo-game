@@ -4,7 +4,8 @@
 #include "Game.h"
 
 
-Game::Game(){
+Game::Game(Engine& engine):
+    engine(engine) {
     mWindow.create(sf::VideoMode(1280,768), "Chinczyk");
     mWindow.setFramerateLimit(60);
     mWindow.display();
@@ -178,8 +179,25 @@ int Game::drawMenuContent()
 int Game::drawGameContent()
 {
     mWindow.draw(BoardBackground);
-
-        return 0;
+    auto& tiles = engine.getTiles();
+    unsigned int index = 0U;
+    for (auto& t : tiles) {
+        sf::RectangleShape s;
+        s.setSize(sf::Vector2f(25, 25));
+        s.setPosition(50.0f + (index % 10) * 30, 50.0f + ((index / 10) * 30)); // ¯eby by³ sobie ³adny grid.
+        auto c = t.getCounters().size(); // Pobiera ile pionków jest na danym polu (w ogóle)
+        
+        /*
+        * Dla konkretnego gracza wzi¹æ
+        * auto mp = t.getPlayersCount();
+        * mp.first -> Id gracza.
+        * mp.second -> Liczba pionków gracza, która znajduje siê na tym polu.
+        */
+        s.setFillColor(sf::Color(c * 64, 0, 0, 127 + !t.allowManyPlayers() * 128));
+        mWindow.draw(s);
+        ++index;
+    }
+    return 0;
 }
 
 int Game::drawOptionsContent()

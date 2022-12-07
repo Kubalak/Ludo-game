@@ -11,9 +11,11 @@ class Tile
 {
 	/** Wektor z pionkami stoj¹cymi na danym polu. */
 	std::vector<Counter*> counters;
-public:
 	/** Zmienna okreœlaj¹ca czy wiele pionków mo¿e staæ na tym polu. */
 	bool manyCanStand;
+public:
+	/** Zmienna okreœlaj¹ca czy wiele pionków mo¿e staæ na tym polu. */
+	bool allowManyPlayers() { return manyCanStand; }
 	/** Wektor z ostatnio zbitymi pionkami. */
 	std::vector<Counter*> lastBeat;
 	/** Domyœlny konstruktor klasy.

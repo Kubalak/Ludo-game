@@ -181,15 +181,23 @@ bool Engine::moveCounterToLast(unsigned int from, unsigned int offset) {
 //	return false;
 //}
 
+std::map<unsigned int, unsigned int> Engine::getQuarters() {
+	std::map<unsigned int, unsigned int> m;
+	for (auto& pc : players)
+		m[pc.first] = pc.second->getPlayer().getId();
+	
+	return m;
+}
+
 //TODO: Sprawdziæ czy dzia³a poprawnie.
 //FIXME: Naprawiæ b³¹d podczas przechodzenia na pocz¹tek planszy.
-bool Engine::move(unsigned int fieldNo) {
+bool Engine::move(int fieldNo) {
 	if (state != EngineStates::DICE_ROLLED) return false;
 	if (!getCurrentPlayerContainer().canMove() && dice.getLast() != 6) {
 		state = EngineStates::MOVE_MADE;
 		return false;
 	}
-	if (dice.getLast() == 6 && fieldNo == getCurrentPlayerContainer().getStartPos()) {
+	if (dice.getLast() == 6 && fieldNo < 0) {
 		PlayerContainer& pc = getCurrentPlayerContainer();
 		Counter* c;
 		if ((c = pc.holderPop()) != nullptr) // Jeœli w domku by³ pionek.
@@ -202,7 +210,7 @@ bool Engine::move(unsigned int fieldNo) {
 			return result; 
 		}
 	}
-	if (fieldNo < 52) {
+	else if (fieldNo < 52) {
 		unsigned int distance = getDistance(getCurrentPlayerContainer(), fieldNo + dice.getLast());
 		std::cout << "Calculated distance is " << distance << '\n';
 		if (distance < 50) {

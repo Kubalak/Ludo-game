@@ -83,10 +83,10 @@ public:
 	unsigned int rollDice();
 
 	/** S³u¿y do poruszania pionkiem gracza. Jako gracz poruszaj¹cy wybierany jest aktualny gracz.
-	* @param fieldNo - Pole, z którego ma ruszyæ siê pionek.
+	* @param fieldNo - Pole, z którego ma ruszyæ siê pionek. Dla wystawienia pionka gracza nale¿y u¿yæ wartoœci < 0. Aby ruszyæ pionek na ostatnich szeœciu polach nale¿y wybraæ wartoœci 101-105 201-205 301-305 401-405
 	* @return true jeœli ruch siê powiedzie lub false w przeciwnym razie np. pionek nie stoi na danym polu.
 	*/
-	bool move(unsigned int fieldNo);
+	bool move(int fieldNo);
 
 	/** Informuje, czy wszyscy gracze zakoñczyli grê tj. czy wszystkie ich pionki dotar³y do ostatniego pola.
 	* @return Czy nale¿y zakoñczyæ rozgrywkê.
@@ -101,6 +101,17 @@ public:
 	* @return Lista z liczb¹ pionków na ka¿dym z pól.
 	*/
 	std::array<unsigned int, 6> getLast(unsigned int quarter) { return players[quarter - 1]->getLastCount(); }
+
+	/** Zwraca liczbê pionków w domku dla gracza z danej æwiartki.
+	* @param quarter - Numer æwiartki, z której ma zostaæ pobrana iloœæ pionków w domku.
+	* @return Liczba pionków w domku dla danejæwiartki.
+	*/
+	unsigned int getHolderCount(unsigned int quarter) { return players[quarter - 1]->holderCount(); }
+	/**
+	* Zwraca mapê z kluczem bêd¹cym æwiartk¹ planszy a wartoœci¹ id gracza.
+	* @return Mapa okreœlaj¹ca powi¹zania æwiartki z graczem.
+	*/
+	std::map<unsigned int, unsigned int> getQuarters();
 
 	/**
 	* Zwraca aktualny stan silnika.

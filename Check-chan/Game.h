@@ -3,6 +3,7 @@
 #include <SFML/Audio.hpp>
 #include <string>
 #include <iostream>
+#include "../BaseEngine/Engine.hpp"
 
 #define MAX_NUMBER_OF_ITEMS 3
 #define MAX_NUMBER_OF_ITEMS 3
@@ -25,7 +26,7 @@ private:
     sf::Vector2i mousePosScreen;
     sf::Vector2i mousePosWindow;
     sf::Vector2f mousePosView;
-
+    Engine& engine;
 
     enum class GameState {
         MainMenu,
@@ -42,7 +43,7 @@ private:
     GameState mCurrentState;
    
 public:
-    Game();
+    Game(Engine& engine);
     ~Game();
     int run();
     int handleEvents();
