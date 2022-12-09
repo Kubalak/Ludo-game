@@ -82,6 +82,8 @@ public:
     void MoveDown();
     void UpdateMousePos();
     void drawDice(int val);
+    sf::Vector2f rotate(sf::Vector2f position, sf::Vector2f around, float rad);
+    sf::Vector2f rotate(float x, float y, float ox, float oy, float rad);
     Game::GameState GetPressedItem();
 };
 

@@ -56,7 +56,9 @@ bool Engine::step() {
 	if (finished())
 		return true;
 	if (state == EngineStates::CREATED) {
+#ifdef _DEBUG
 		std::cerr << "Nale¿y rozpocz¹æ grê przed wykonaniem kroku!\n";
+#endif
 		return false;
 	}
 
@@ -202,7 +204,9 @@ bool Engine::move(int fieldNo) {
 		Counter* c;
 		if ((c = pc.holderPop()) != nullptr) // Jeœli w domku by³ pionek.
 		{
+#ifdef _DEBUG
 			std::cout << "Popping from holder " << *c << '\n';
+#endif
 			bool result = tiles[pc.getStartPos()].addToTile(c);// Z za³o¿enia wiele pionków mo¿e na nim staæ.
 			if (result)
 				state = EngineStates::MOVE_MADE;
@@ -212,16 +216,22 @@ bool Engine::move(int fieldNo) {
 	}
 	else if (fieldNo < 52) {
 		unsigned int distance = getDistance(getCurrentPlayerContainer(), fieldNo + dice.getLast());
+#ifdef _DEBUG
 		std::cout << "Calculated distance is " << distance << '\n';
+#endif
 		if (distance < 50) {
 			std::cout << "Moving on board to " << fieldNo + dice.getLast() << '\n';
 			return moveCounterOnBoard(fieldNo);
 		}
+#ifdef _DEBUG
 		std::cout << "Moving to last on " << distance - 50 << '\n';
+#endif
 		return moveCounterToLast(fieldNo, distance - 50);
 	}
 	else if (fieldNo > 100) {
+#ifdef _DEBUG
 		std::cout << "Moving on last " << fieldNo << '\n';
+#endif
 		return moveCounterOnLast(fieldNo);
 	}
 	return false;

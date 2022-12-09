@@ -5,12 +5,15 @@
 #include "../BaseEngine/Engine.hpp"
 #include "SfmlTile.hpp"
 #include<cmath>
-#define M_PI 3.14159265359
+#define M_PI 3.14159265359f
 
 
 Game::Game(Engine& engine):
     engine(engine) {
     mWindow.create(sf::VideoMode(1060,750), "Chinczyk");
+    sf::Image img;
+    img.loadFromFile("textures/icon.png");
+    mWindow.setIcon(img.getSize().x, img.getSize().y,img.getPixelsPtr());
     mWindow.setFramerateLimit(60);
     mWindow.display();
     mCurrentState = GameState::MainMenu;
@@ -18,11 +21,13 @@ Game::Game(Engine& engine):
     selectedItemIndexMenu = 0;
     selectedItemIndexOptions = 0;
     Background.setSize(sf::Vector2f(1060,750));
-    Texture.loadFromFile("Images/BackgroundMenu.jpg");
+    Texture.loadFromFile("textures/BackgroundMenu.jpg");
     Background.setTexture(&Texture);
-    BoardBackground.setSize(sf::Vector2f(1060, 750));
-    BoardTexture.loadFromFile("Images/BOARD.jpg");
+    BoardBackground.setSize(sf::Vector2f(750, 750));
+    BoardTexture.loadFromFile("textures/BOARD.jpg");
     BoardBackground.setTexture(&BoardTexture);
+     BoardBackground.setOrigin(375, 375);
+    BoardBackground.setPosition(520, 375);
     diceRoll = 0;
     //music.openFromFile("C:/Users/Patryk/source/repos/SFML_MENU/SFML_MENU/SUICIDEBOYS-MATTE-BLACK.ogg");
     music.play();
@@ -30,33 +35,33 @@ Game::Game(Engine& engine):
     MainMenuText[0].setFont(font);
     MainMenuText[0].setFillColor(sf::Color::Red);
     MainMenuText[0].setString("Play");
-    MainMenuText[0].setPosition(sf::Vector2f(mWindow.getSize().x / 2, mWindow.getSize().y / (MAX_NUMBER_OF_ITEMS + 1) * 1));
+    MainMenuText[0].setPosition(sf::Vector2f(mWindow.getSize().x / 2.f, mWindow.getSize().y / (MAX_NUMBER_OF_ITEMS + 1) * 1.f));
     
     MainMenuText[1].setFont(font);
     MainMenuText[1].setFillColor(sf::Color::White);
     MainMenuText[1].setString("Options");
-    MainMenuText[1].setPosition(sf::Vector2f(mWindow.getSize().x / 2, mWindow.getSize().y / (MAX_NUMBER_OF_ITEMS + 1) * 2));
+    MainMenuText[1].setPosition(sf::Vector2f(mWindow.getSize().x / 2.f, mWindow.getSize().y / (MAX_NUMBER_OF_ITEMS + 1) * 2.f));
 
     MainMenuText[2].setFont(font);
     MainMenuText[2].setFillColor(sf::Color::White);
     MainMenuText[2].setString("Exit");
-    MainMenuText[2].setPosition(sf::Vector2f(mWindow.getSize().x / 2, mWindow.getSize().y / (MAX_NUMBER_OF_ITEMS + 1) * 3));
+    MainMenuText[2].setPosition(sf::Vector2f(mWindow.getSize().x / 2.f, mWindow.getSize().y / (MAX_NUMBER_OF_ITEMS + 1) * 3.f));
 
     OptionsText[0].setFont(font);
     OptionsText[0].setFillColor(sf::Color::Red);
     OptionsText[0].setString("Sound: ON");
-    OptionsText[0].setPosition(sf::Vector2f(mWindow.getSize().x / 2, mWindow.getSize().y / (MAX_NUMBER_OF_ITEMS + 1) * 1));
+    OptionsText[0].setPosition(sf::Vector2f(mWindow.getSize().x / 2.f, mWindow.getSize().y / (MAX_NUMBER_OF_ITEMS + 1) * 1.f));
 
     OptionsText[1].setFont(font);
     OptionsText[1].setFillColor(sf::Color::White);
     OptionsText[1].setString("1280x720");
-    OptionsText[1].setPosition(sf::Vector2f(mWindow.getSize().x / 2, mWindow.getSize().y / (MAX_NUMBER_OF_ITEMS + 1) * 2));
+    OptionsText[1].setPosition(sf::Vector2f(mWindow.getSize().x / 2.f, mWindow.getSize().y / (MAX_NUMBER_OF_ITEMS + 1) * 2.f));
 
     OptionsText[2].setFont(font);
 
     OptionsText[2].setFillColor(sf::Color::White);
     OptionsText[2].setString("Back");
-    OptionsText[2].setPosition(sf::Vector2f(mWindow.getSize().x / 2, mWindow.getSize().y / (MAX_NUMBER_OF_ITEMS + 1) * 3));
+    OptionsText[2].setPosition(sf::Vector2f(mWindow.getSize().x / 2.f, mWindow.getSize().y / (MAX_NUMBER_OF_ITEMS + 1) * 3.f));
 
     dice.setSize(sf::Vector2f(90, 90));
     dice.setPosition(sf::Vector2f(860, 55));
@@ -137,11 +142,16 @@ Game::Game(Engine& engine):
     r_6_6.setFillColor(sf::Color::Black);
     r_6_6.setPosition(875, 88);
 
+
     unsigned int index = 0;
     for (auto& tile : engine.getTiles()) {
-        tiles[index++] = new SfmlTile(tile);
-        if (index % 13 == 0)
-        (*tiles[index - 1])().setPosition(sf::Vector2f(530 + 50 * std::sin(90 * static_cast<int>((index / 13)) * M_PI / 180), 375 + 50 * std::cos(90 * static_cast<int>((index / 13)) * M_PI / 180)));
+        tiles[index] = new SfmlTile(tile);
+        if (index % 13 == 0) {
+            int num = index / 13;
+            float deg = 90.0f * num * M_PI / 180.0f;
+            (*tiles[index])().setPosition(rotate((*tiles[index])().getPosition(), BoardBackground.getPosition(), deg));
+        }
+        ++index;
     }
 }
 
@@ -269,18 +279,25 @@ int Game::drawMenuContent()
 
 int Game::drawGameContent()
 {
-    SfmlTile tile(engine.getTiles()[0]);
-   
+ 
     mWindow.draw(BoardBackground);
     mWindow.draw(dice);
     // Przeniesc do konstruktora
     //Dice
-
-    for (auto* tile : tiles)
+    //sf::CircleShape s(2.0f);
+    //s.setOrigin(1.f, 1.f);
+    for (auto* tile : tiles) //{
+        //s.setFillColor(sf::Color::Blue);
+        //s.setPosition((*tile)().getPosition());
         mWindow.draw((*tile)());
-
-
-
+        //mWindow.draw(s);
+    //}
+    
+    /*for (int i = 0; i < 360; ++i) {
+        s.setFillColor(sf::Color::Cyan);
+        s.setPosition(rotate(sf::Vector2f(560.f, 116.f), BoardBackground.getPosition(), i * M_PI / 180.f));
+        mWindow.draw(s);
+    }*/
     diceRoll = engine.getDice();
     
     if (diceRoll == 1)
@@ -326,11 +343,11 @@ int Game::drawGameContent()
 
     auto& tiles = engine.getTiles();
     unsigned int index = 0U;
+    sf::RectangleShape s;
+    s.setSize(sf::Vector2f(25, 25));
     for (auto& t : tiles) {
-        sf::RectangleShape s;
-        s.setSize(sf::Vector2f(25, 25));
         s.setPosition(50.0f + (index % 10) * 30, 50.0f + ((index / 10) * 30)); // ¯eby by³ sobie ³adny grid.
-        auto c = t.getCounters().size(); // Pobiera ile pionków jest na danym polu (w ogóle)
+        int c = static_cast<int>(t.getCounters().size()); // Pobiera ile pionków jest na danym polu (w ogóle)
         
         /*
         * Dla konkretnego gracza wzi¹æ
@@ -449,4 +466,24 @@ Game::GameState Game::GetPressedItem()
 void Game::drawDice(int val) {
 
     
+}
+
+sf::Vector2f Game::rotate(sf::Vector2f position, sf::Vector2f around, float rad) {
+    float s = sin(rad);
+    float c = cos(rad);
+    float px = position.x;
+    float py = position.y;
+    float ox = around.x;
+    float oy = around.y;
+    float x = (px - ox) * c - (py - oy) * s + ox;
+    float y = (px - ox) * s + (py - oy) * c + oy;
+    return sf::Vector2f(x, y);
+}
+
+sf::Vector2f Game::rotate(float x, float y, float ox, float oy, float rad) {
+    float s = sin(rad);
+    float c = cos(rad);
+    float rx = (x - ox) * c - (y - oy) * s + ox;
+    float ry = (x - ox) * s + (y - oy) * c + oy;
+    return sf::Vector2f(rx, ry);
 }
