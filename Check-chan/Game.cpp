@@ -2,23 +2,28 @@
 #include "SFML/Graphics.hpp"
 #include <SFML/Audio.hpp>
 #include "Game.h"
+#include "../BaseEngine/Engine.hpp"
+#include "SfmlTile.hpp"
+#include<cmath>
+#define M_PI 3.14159265359
 
 
 Game::Game(Engine& engine):
     engine(engine) {
-    mWindow.create(sf::VideoMode(1280,768), "Chinczyk");
+    mWindow.create(sf::VideoMode(1060,750), "Chinczyk");
     mWindow.setFramerateLimit(60);
     mWindow.display();
     mCurrentState = GameState::MainMenu;
     mButtonState = Button_State::BTN_IDLE;
     selectedItemIndexMenu = 0;
     selectedItemIndexOptions = 0;
-    Background.setSize(sf::Vector2f(1280,720));
+    Background.setSize(sf::Vector2f(1060,750));
     Texture.loadFromFile("Images/BackgroundMenu.jpg");
     Background.setTexture(&Texture);
-    BoardBackground.setSize(sf::Vector2f(1280, 720));
+    BoardBackground.setSize(sf::Vector2f(1060, 750));
     BoardTexture.loadFromFile("Images/BOARD.jpg");
     BoardBackground.setTexture(&BoardTexture);
+    diceRoll = 0;
     //music.openFromFile("C:/Users/Patryk/source/repos/SFML_MENU/SFML_MENU/SUICIDEBOYS-MATTE-BLACK.ogg");
     music.play();
     
@@ -52,9 +57,95 @@ Game::Game(Engine& engine):
     OptionsText[2].setFillColor(sf::Color::White);
     OptionsText[2].setString("Back");
     OptionsText[2].setPosition(sf::Vector2f(mWindow.getSize().x / 2, mWindow.getSize().y / (MAX_NUMBER_OF_ITEMS + 1) * 3));
+
+    dice.setSize(sf::Vector2f(90, 90));
+    dice.setPosition(sf::Vector2f(860, 55));
+    dice.setFillColor(sf::Color::White);
+
+    //1
+    r_1.setRadius(10.f);
+    r_1.setFillColor(sf::Color::Black);
+    r_1.setPosition(893, 92);
+
+    //2
+    r_2_1.setRadius(10.f);
+    r_2_2.setRadius(10.f);
+    r_2_1.setFillColor(sf::Color::Black);
+    r_2_1.setPosition(870, 67);
+    r_2_2.setFillColor(sf::Color::Black);
+    r_2_2.setPosition(920, 113);
+
+    //3
+    r_3_1.setRadius(10.f);
+    r_3_2.setRadius(10.f);
+    r_3_3.setRadius(10.f);
+    r_3_1.setFillColor(sf::Color::Black);
+    r_3_1.setPosition(870, 67);
+    r_3_2.setFillColor(sf::Color::Black);
+    r_3_2.setPosition(895, 88);
+    r_3_3.setFillColor(sf::Color::Black);
+    r_3_3.setPosition(920, 113);
+
+    //4
+    r_4_1.setRadius(10.f);
+    r_4_2.setRadius(10.f);
+    r_4_3.setRadius(10.f);
+    r_4_4.setRadius(10.f);
+    r_4_1.setFillColor(sf::Color::Black);
+    r_4_1.setPosition(870, 112);
+    r_4_2.setFillColor(sf::Color::Black);
+    r_4_2.setPosition(920, 112);
+    r_4_3.setFillColor(sf::Color::Black);
+    r_4_3.setPosition(870, 72);
+    r_4_4.setFillColor(sf::Color::Black);
+    r_4_4.setPosition(920, 72);
+
+    //5
+    r_5_1.setRadius(10.f);
+    r_5_2.setRadius(10.f);
+    r_5_3.setRadius(10.f);
+    r_5_4.setRadius(10.f);
+    r_5_5.setRadius(10.f);
+    r_5_1.setFillColor(sf::Color::Black);
+    r_5_1.setPosition(875, 112);
+    r_5_2.setFillColor(sf::Color::Black);
+    r_5_2.setPosition(915, 112);
+    r_5_3.setFillColor(sf::Color::Black);
+    r_5_3.setPosition(875, 72);
+    r_5_4.setFillColor(sf::Color::Black);
+    r_5_4.setPosition(915, 72);
+    r_5_5.setFillColor(sf::Color::Black);
+    r_5_5.setPosition(895, 92);
+
+    //6
+    r_6_1.setRadius(10.f);
+    r_6_2.setRadius(10.f);
+    r_6_3.setRadius(10.f);
+    r_6_4.setRadius(10.f);
+    r_6_5.setRadius(10.f);
+    r_6_6.setRadius(10.f);
+    r_6_1.setFillColor(sf::Color::Black);
+    r_6_1.setPosition(875, 120);
+    r_6_2.setFillColor(sf::Color::Black);
+    r_6_2.setPosition(915, 120);
+    r_6_3.setFillColor(sf::Color::Black);
+    r_6_3.setPosition(915, 60);
+    r_6_4.setFillColor(sf::Color::Black);
+    r_6_4.setPosition(875, 60);
+    r_6_5.setFillColor(sf::Color::Black);
+    r_6_5.setPosition(915, 88);
+    r_6_6.setFillColor(sf::Color::Black);
+    r_6_6.setPosition(875, 88);
+
+    unsigned int index = 0;
+    for (auto& tile : engine.getTiles()) {
+        tiles[index++] = new SfmlTile(tile);
+        if (index % 13 == 0)
+        (*tiles[index - 1])().setPosition(sf::Vector2f(530 + 50 * std::sin(90 * static_cast<int>((index / 13)) * M_PI / 180), 375 + 50 * std::cos(90 * static_cast<int>((index / 13)) * M_PI / 180)));
+    }
 }
 
-Game::~Game() {}
+Game::~Game() { for (auto* tile : tiles) delete tile; }
 
     //G³ówna pêtla która chodzi zawsze
 int Game::run(){
@@ -178,7 +269,61 @@ int Game::drawMenuContent()
 
 int Game::drawGameContent()
 {
+    SfmlTile tile(engine.getTiles()[0]);
+   
     mWindow.draw(BoardBackground);
+    mWindow.draw(dice);
+    // Przeniesc do konstruktora
+    //Dice
+
+    for (auto* tile : tiles)
+        mWindow.draw((*tile)());
+
+
+
+    diceRoll = engine.getDice();
+    
+    if (diceRoll == 1)
+    {
+        mWindow.draw(r_1);
+    }
+    else if (diceRoll == 2)
+    {
+        mWindow.draw(r_2_1);
+        mWindow.draw(r_2_2);
+    }
+    else if (diceRoll == 3)
+    {
+        mWindow.draw(r_3_1);
+        mWindow.draw(r_3_2);
+        mWindow.draw(r_3_3);
+    }
+    else if (diceRoll == 4)
+    {
+        mWindow.draw(r_4_1);
+        mWindow.draw(r_4_2);
+        mWindow.draw(r_4_3);
+        mWindow.draw(r_4_4);
+    }
+    else if (diceRoll == 5)
+    {
+        mWindow.draw(r_5_1);
+        mWindow.draw(r_5_2);
+        mWindow.draw(r_5_3);
+        mWindow.draw(r_5_4);
+        mWindow.draw(r_5_5);
+    }
+    else if (diceRoll == 6)
+    {
+        mWindow.draw(r_6_1);
+        mWindow.draw(r_6_2);
+        mWindow.draw(r_6_3);
+        mWindow.draw(r_6_4);
+        mWindow.draw(r_6_5);
+        mWindow.draw(r_6_6);
+    }
+
+
     auto& tiles = engine.getTiles();
     unsigned int index = 0U;
     for (auto& t : tiles) {
@@ -301,7 +446,7 @@ Game::GameState Game::GetPressedItem()
         return mCurrentState;
 }
 
-void Game::MovePiece(int player_no, int& curx, int& cury)
-{
-         
+void Game::drawDice(int val) {
+
+    
 }

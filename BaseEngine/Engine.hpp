@@ -82,6 +82,11 @@ public:
 	*/
 	unsigned int rollDice();
 
+	/** S³u¿y do pobrania liczby oczek wyrzuconych w ostatnim rzucie.
+	* @return Liczba oczek wyrzucona na kostce.
+	*/
+	unsigned int getDice() { return dice.getLast(); }
+
 	/** S³u¿y do poruszania pionkiem gracza. Jako gracz poruszaj¹cy wybierany jest aktualny gracz.
 	* @param fieldNo - Pole, z którego ma ruszyæ siê pionek. Dla wystawienia pionka gracza nale¿y u¿yæ wartoœci < 0. Aby ruszyæ pionek na ostatnich szeœciu polach nale¿y wybraæ wartoœci 101-105 201-205 301-305 401-405
 	* @return true jeœli ruch siê powiedzie lub false w przeciwnym razie np. pionek nie stoi na danym polu.
