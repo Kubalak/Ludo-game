@@ -144,15 +144,28 @@ Game::Game(Engine& engine):
 
 
     unsigned int index = 0;
-    for (auto& tile : engine.getTiles()) {
-        tiles[index] = new SfmlTile(tile);
-        if (index % 13 == 0) {
-            int num = index / 13;
-            float deg = 90.0f * num * M_PI / 180.0f;
-            (*tiles[index])().setPosition(rotate((*tiles[index])().getPosition(), BoardBackground.getPosition(), deg));
-        }
-        ++index;
+    for (auto& tile : engine.getTiles())
+        tiles[index++] = new SfmlTile(tile);
+    for (int i = 0; i < 4; ++i) {
+       float deg = 90.0f * i * M_PI / 180.0f;
+       for (int j = 0; j < 5; j++) {
+           index = 13 * i + j;
+           (*tiles[index])().move(sf::Vector2f(0, j * 43.f));
+           (*tiles[index])().setPosition(rotate((*tiles[index])().getPosition(), BoardBackground.getPosition(), deg));
+       }
+       for(int j=5;j<11;++j) {
+           index = 13 * i + j;
+           (*tiles[index])().move(sf::Vector2f(-172.f + j * 43.f, 215.f));
+           (*tiles[index])().setPosition(rotate((*tiles[index])().getPosition(), BoardBackground.getPosition(), deg));
+       }
+       index = 13 * i + 11;
+       (*tiles[index])().move(sf::Vector2f(258.f, 256.f));
+       (*tiles[index])().setPosition(rotate((*tiles[index])().getPosition(), BoardBackground.getPosition(), deg));
+       index = 13 * i + 12;
+       (*tiles[index])().move(sf::Vector2f(258.f, 296.f));
+       (*tiles[index])().setPosition(rotate((*tiles[index])().getPosition(), BoardBackground.getPosition(), deg));
     }
+        
 }
 
 Game::~Game() { for (auto* tile : tiles) delete tile; }
