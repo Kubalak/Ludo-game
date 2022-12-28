@@ -54,10 +54,19 @@ void doEngine(Engine* engine) {
 
 int main()
 {
+	try {
+		std::ifstream f("sample.json");
+		nlohmann::json data = nlohmann::json::parse(f);
+		std::cout << data["quiz"]["sport"]["q1"]["question"] << '\n'; // Which one is correct team name in NBA?
+	}
+	catch (std::exception& e) {
+		std::cerr << e.what() << '\n';
+		return 1;
+	}
 	Engine engine;
-    Game myGame(engine);
+	Game myGame(engine);
 	std::thread a(doEngine, &engine);
 	myGame.run();
 	a.join();
-    return 0;
+	return 0;
 }

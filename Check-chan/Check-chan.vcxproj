@@ -131,13 +131,13 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>..BaseEngine;./JSON/include;SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\BaseEngine;..\JSON\include;SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>SFML\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;sfml-audio-s-d.lib;openal32.lib;flac.lib;ogg.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;kernel32.lib;user32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)BaseEngine\$(IntDir)Counter.obj;$(SolutionDir)BaseEngine\$(IntDir)Dice.obj;$(SolutionDir)BaseEngine\$(IntDir)Player.obj;$(SolutionDir)BaseEngine\$(IntDir)PlayerContainer.obj;$(SolutionDir)BaseEngine\$(IntDir)Tile.obj;$(SolutionDir)BaseEngine\$(IntDir)Engine.obj;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;sfml-audio-s-d.lib;openal32.lib;flac.lib;ogg.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;kernel32.lib;user32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -149,7 +149,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>../BaseEngine;./JSON/include;SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\BaseEngine;..\JSON\include;SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,27 +157,15 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>SFML\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;sfml-audio-s.lib;openal32.lib;flac.lib;ogg.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;kernel32.lib;user32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)BaseEngine\$(IntDir)Counter.obj;$(SolutionDir)BaseEngine\$(IntDir)Dice.obj;$(SolutionDir)BaseEngine\$(IntDir)Player.obj;$(SolutionDir)BaseEngine\$(IntDir)PlayerContainer.obj;$(SolutionDir)BaseEngine\$(IntDir)Tile.obj;$(SolutionDir)BaseEngine\$(IntDir)Engine.obj;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;sfml-audio-s.lib;openal32.lib;flac.lib;ogg.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;kernel32.lib;user32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\BaseEngine\Counter.cpp" />
-    <ClCompile Include="..\BaseEngine\Dice.cpp" />
-    <ClCompile Include="..\BaseEngine\Engine.cpp" />
-    <ClCompile Include="..\BaseEngine\Player.cpp" />
-    <ClCompile Include="..\BaseEngine\PlayerContainer.cpp" />
-    <ClCompile Include="..\BaseEngine\Tile.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SfmlTile.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\BaseEngine\Counter.hpp" />
-    <ClInclude Include="..\BaseEngine\Dice.hpp" />
-    <ClInclude Include="..\BaseEngine\Engine.hpp" />
-    <ClInclude Include="..\BaseEngine\Player.hpp" />
-    <ClInclude Include="..\BaseEngine\PlayerContainer.hpp" />
-    <ClInclude Include="..\BaseEngine\Tile.hpp" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SfmlTile.hpp" />
@@ -187,6 +175,11 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseEngine\BaseEngine.vcxproj">
+      <Project>{02c9510b-c797-4776-8250-db7bfdd88a93}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

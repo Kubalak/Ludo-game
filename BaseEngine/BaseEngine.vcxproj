@@ -116,13 +116,16 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;ZMQ_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>..\ZeroMQ\include;..\JSON\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\ZeroMQ\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libzmq-v142-mt-sgd-4_3_5.lib;ws2_32.lib;wsock32.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -134,18 +137,24 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>..\ZeroMQ\include;..\JSON\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\ZeroMQ\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libzmq-v142-mt-s-4_3_5.lib;ws2_32.lib;wsock32.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Counter.cpp" />
     <ClCompile Include="Dice.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="OnlineEngine.cpp" />
+    <ClCompile Include="OnlineServer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerContainer.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -154,9 +163,13 @@
     <ClInclude Include="Counter.hpp" />
     <ClInclude Include="Dice.hpp" />
     <ClInclude Include="Engine.hpp" />
+    <ClInclude Include="OnlineEngine.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="PlayerContainer.hpp" />
     <ClInclude Include="Tile.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OnlineServer.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -39,3 +39,6 @@ std::ostream& operator<< (std::ostream& os, const Player& e) {
 	return os;
 }
 #endif
+std::string Player::json() {
+	return "{\"nick\":\"" + nickname + "\",\"id\":" + std::to_string(id) + "}";
+}

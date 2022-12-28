@@ -48,6 +48,7 @@ public:
 	*/
 	friend std::ostream& operator<< (std::ostream& os, const Player& e);
 #endif
+	std::string json();
 
 	~Player();
 };

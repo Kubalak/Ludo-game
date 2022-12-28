@@ -12,7 +12,8 @@
 */
 class Engine
 {
-	
+
+protected:
 	/**
 	* Nr aktualnego gracza od 0 do liczby graczy.
 	*/
@@ -28,6 +29,8 @@ class Engine
 	EngineStates state;
 	//Zbiór, który przechowuje graczy w postaci <æwiartka,gracz>
 	std::map<int,PlayerContainer*> players;
+	/** Tablica wyników */
+	std::vector<Player> top;
 	// Podstawowa plansza do Chiñczyka.
 	std::array<Tile,52> tiles; 
 	// Kostka do gry.
@@ -123,6 +126,8 @@ public:
 	* @return Klasa enum EngineStates aktualnego stanu.
 	*/
 	EngineStates getCurrentState() { return state; }
+	/** Zwraca wektor z wynikami graczy */
+	std::vector<Player>& getTop() { return top; }
 
 #ifdef _DEBUG
 	/**

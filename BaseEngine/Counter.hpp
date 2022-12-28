@@ -3,6 +3,9 @@
 	#include <iostream>
 	#include <iomanip>
 #endif
+
+#include <string>
+
 /** Klasa pionka. 
 * @author Jakub Jach &copy; 2022 
 */
@@ -34,6 +37,8 @@ public:
 	* @return W³aœciciel pionka.
 	*/
 	const unsigned int getOwner() { return ownedBy; }
+
+	std::string json();
 
 #ifdef _DEBUG
 	/**

@@ -16,14 +16,21 @@ Plik wykorzystywany do testów silnika gry.
 
 #include <iostream>
 #include "Engine.hpp"
+#include "OnlineEngine.hpp"
+#include "OnlineServer.hpp"
 
 
 int main(int argc, char** argv) {
+
+	/*OnlineEngine e;
+	e.start();*/
+
 	Engine* engine = new Engine();
 	engine->addPlayer(new Player("Adam"), 1);
 	engine->addPlayer(new Player("Ewa"), 3);
 	std::cout << *engine << '\n';
 	engine->start();
+	std::cout << engine->getCurrentPlayer().json() << '\n';
 	//std::cout << *engine << '\n';
 	//std::cout << engine->getCurrentPlayer().getNick() << ' ' << engine->getCurrentPlayer().getId() << '\n';
 	//engine->step();
@@ -56,11 +63,18 @@ int main(int argc, char** argv) {
 		int index = 0;
 		for (auto& p : engine->getTiles())
 			std::cout << '['<< index++ << "]: " << p << '\n';
-	}
+	 }
+	//OnlineEngine engine;
+	//std::cout << "Add player: " << engine.addPlayer(new Player("Ewa"), 1) << '\n';
+	//std::cout << "Connect: " << engine.connect("tcp://127.0.0.1:2000", "tcp://127.0.0.1:3000") << '\n';
+	//OnlineServer engine;
+	//auto n = engine.bind("tcp://127.0.0.1:3000", "tcp://127.0.0.1:2000");
+	//std::cout << "Bind: " << n << '\n';
+	//engine.start();
 #ifdef _DEBUG
 	system("pause");
 #endif
 
-	delete engine;
+    // delete engine;
 	return 0;
 }

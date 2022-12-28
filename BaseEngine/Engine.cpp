@@ -121,8 +121,11 @@ bool Engine::moveCounterOnLast(unsigned int fieldNo) {
 		return false;
 	unsigned int field = (fieldNo % 100) - 1;
 	bool result = c.moveOnLast(field, dice.getLast());
-	if(result)
+	if (result) {
+		if (c.allIn())
+			top.push_back(c.getPlayer());
 		state = EngineStates::MOVE_MADE;
+	}
 	return  result;
 }
 

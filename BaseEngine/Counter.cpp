@@ -6,3 +6,8 @@ std::ostream& operator<< (std::ostream& os,const Counter& e) {
 	return os;
 }
 #endif
+
+std::string Counter::json() {
+	std::string result = "{\"id\":" + std::to_string(id) + ",\"ownedBy\":" + std::to_string(ownedBy) + "}";
+	return result;
+}
