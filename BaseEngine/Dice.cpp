@@ -17,3 +17,10 @@ unsigned int Dice::roll() {
 	lastRes = distribution(generator);
 	return lastRes;
 }
+
+bool Dice::setLast(unsigned int value) {
+	if (!value || value > 6)
+		return false;
+	lastRes = value;
+	return true;
+}

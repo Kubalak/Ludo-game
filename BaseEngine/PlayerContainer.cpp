@@ -59,7 +59,7 @@ bool PlayerContainer::moveOnLast(unsigned int fieldNo, unsigned int offset) {
 	v.pop_back();
 
 	if (fieldNo + offset > 5)
-		last[6 - (fieldNo + offset) % 6].push_back(p);
+		last[6 - (fieldNo + offset) % 5].push_back(p);
 	else
 		last[fieldNo + offset].push_back(p);
 

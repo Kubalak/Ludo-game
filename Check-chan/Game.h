@@ -43,10 +43,10 @@ private:
     sf::CircleShape r_6_4;
     sf::CircleShape r_6_5;
     sf::CircleShape r_6_6;
-    sf::Texture Texture, BoardTexture;
+    sf::Texture Texture, BoardTexture, counterTexture;
     sf::Sprite boardImg;
     sf::Music music;
-
+    std::map<unsigned int, sf::Color> playerColors;
     sf::Vector2i mousePosScreen;
     sf::Vector2i mousePosWindow;
     sf::Vector2f mousePosView;

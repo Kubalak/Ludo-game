@@ -22,11 +22,12 @@ Game::Game(Engine& engine):
     selectedItemIndexOptions = 0;
     Background.setSize(sf::Vector2f(1060,750));
     Texture.loadFromFile("textures/BackgroundMenu.jpg");
+    counterTexture.loadFromFile("textures/counter.png");
     Background.setTexture(&Texture);
     BoardBackground.setSize(sf::Vector2f(750, 750));
     BoardTexture.loadFromFile("textures/BOARD.jpg");
     BoardBackground.setTexture(&BoardTexture);
-     BoardBackground.setOrigin(375, 375);
+    BoardBackground.setOrigin(375, 375);
     BoardBackground.setPosition(520, 375);
     diceRoll = 0;
     //music.openFromFile("C:/Users/Patryk/source/repos/SFML_MENU/SFML_MENU/SUICIDEBOYS-MATTE-BLACK.ogg");
@@ -142,29 +143,39 @@ Game::Game(Engine& engine):
     r_6_6.setFillColor(sf::Color::Black);
     r_6_6.setPosition(875, 88);
 
+    for (auto& player : engine.getQuarters()) {
+        std::cout << "p.first " << player.first << " p.second " << player.second << '\n';
+        switch (player.first) {
+        case 0: playerColors[player.second] = sf::Color::Yellow; break;
+        case 1: playerColors[player.second] = sf::Color::Blue; break;
+        case 2: playerColors[player.second] = sf::Color::Red; break;
+        case 3: playerColors[player.second] = sf::Color::Green; break;
+        }
+    }
 
     unsigned int index = 0;
     for (auto& tile : engine.getTiles())
-        tiles[index++] = new SfmlTile(tile);
+        tiles[index++] = new SfmlTile(tile, counterTexture, playerColors);
     for (int i = 0; i < 4; ++i) {
        float deg = 90.0f * i * M_PI / 180.0f;
        for (int j = 0; j < 5; j++) {
            index = 13 * i + j;
-           (*tiles[index])().move(sf::Vector2f(0, j * 43.f));
-           (*tiles[index])().setPosition(rotate((*tiles[index])().getPosition(), BoardBackground.getPosition(), deg));
+           (*tiles[index]).move(sf::Vector2f(0, j * 43.f));
+           (*tiles[index]).setPosition(rotate((*tiles[index]).getPosition(), BoardBackground.getPosition(), deg));
        }
        for(int j=5;j<11;++j) {
            index = 13 * i + j;
-           (*tiles[index])().move(sf::Vector2f(-172.f + j * 43.f, 215.f));
-           (*tiles[index])().setPosition(rotate((*tiles[index])().getPosition(), BoardBackground.getPosition(), deg));
+           (*tiles[index]).move(sf::Vector2f(-172.f + j * 43.f, 215.f));
+           (*tiles[index]).setPosition(rotate((*tiles[index]).getPosition(), BoardBackground.getPosition(), deg));
        }
        index = 13 * i + 11;
-       (*tiles[index])().move(sf::Vector2f(258.f, 256.f));
-       (*tiles[index])().setPosition(rotate((*tiles[index])().getPosition(), BoardBackground.getPosition(), deg));
+       (*tiles[index]).move(sf::Vector2f(258.f, 256.f));
+       (*tiles[index]).setPosition(rotate((*tiles[index]).getPosition(), BoardBackground.getPosition(), deg));
        index = 13 * i + 12;
-       (*tiles[index])().move(sf::Vector2f(258.f, 296.f));
-       (*tiles[index])().setPosition(rotate((*tiles[index])().getPosition(), BoardBackground.getPosition(), deg));
+       (*tiles[index]).move(sf::Vector2f(258.f, 296.f));
+       (*tiles[index]).setPosition(rotate((*tiles[index]).getPosition(), BoardBackground.getPosition(), deg));
     }
+    
         
 }
 
@@ -174,6 +185,7 @@ Game::~Game() { for (auto* tile : tiles) delete tile; }
 int Game::run(){
     if (!font.loadFromFile("font.ttf"))
         return-1;
+    
 
     while (mWindow.isOpen()) {
             handleEvents();
@@ -302,7 +314,7 @@ int Game::drawGameContent()
     for (auto* tile : tiles) //{
         //s.setFillColor(sf::Color::Blue);
         //s.setPosition((*tile)().getPosition());
-        mWindow.draw((*tile)());
+        mWindow.draw((*tile));
         //mWindow.draw(s);
     //}
     
@@ -354,24 +366,24 @@ int Game::drawGameContent()
     }
 
 
-    auto& tiles = engine.getTiles();
-    unsigned int index = 0U;
-    sf::RectangleShape s;
-    s.setSize(sf::Vector2f(25, 25));
-    for (auto& t : tiles) {
-        s.setPosition(50.0f + (index % 10) * 30, 50.0f + ((index / 10) * 30)); // ¯eby by³ sobie ³adny grid.
-        int c = static_cast<int>(t.getCounters().size()); // Pobiera ile pionków jest na danym polu (w ogóle)
-        
-        /*
-        * Dla konkretnego gracza wzi¹æ
-        * auto mp = t.getPlayersCount();
-        * mp.first -> Id gracza.
-        * mp.second -> Liczba pionków gracza, która znajduje siê na tym polu.
-        */
-        s.setFillColor(sf::Color(c * 64, 0, 0, 127 + !t.allowManyPlayers() * 128));
-        mWindow.draw(s);
-        ++index;
-    }
+    //auto& tiles = engine.getTiles();
+    //unsigned int index = 0U;
+    //sf::RectangleShape s;
+    //s.setSize(sf::Vector2f(25, 25));
+    //for (auto& t : tiles) {
+    //    s.setPosition(50.0f + (index % 10) * 30, 50.0f + ((index / 10) * 30)); // ¯eby by³ sobie ³adny grid.
+    //    int c = static_cast<int>(t.getCounters().size()); // Pobiera ile pionków jest na danym polu (w ogóle)
+    //    
+    //    /*
+    //    * Dla konkretnego gracza wzi¹æ
+    //    * auto mp = t.getPlayersCount();
+    //    * mp.first -> Id gracza.
+    //    * mp.second -> Liczba pionków gracza, która znajduje siê na tym polu.
+    //    */
+    //    s.setFillColor(sf::Color(c * 64, 0, 0, 127 + !t.allowManyPlayers() * 128));
+    //    mWindow.draw(s);
+    //    ++index;
+    //}
     return 0;
 }
 

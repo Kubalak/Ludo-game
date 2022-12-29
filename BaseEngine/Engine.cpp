@@ -79,8 +79,10 @@ bool Engine::step() {
 unsigned int Engine::rollDice() {
 	if (state == EngineStates::DICE_ROLLED || state == EngineStates::MOVE_MADE)
 		return dice.getLast();
-	state = EngineStates::DICE_ROLLED;
-	return  dice.roll();
+	state = EngineStates::DICE_ROLLED; 
+	//unsigned int val = dice.roll();
+	//dice.setLast( 1 + (val % 2) * 5);
+	return dice.roll();
 }
 
 
@@ -139,8 +141,10 @@ bool Engine::moveCounterToLast(unsigned int from, unsigned int offset) {
 			Counter* ct = *it;
 			v.erase(it);
 			bool result = c.addToLast(ct, offset);
-			if(result)
+			if (result)
 				state = EngineStates::MOVE_MADE;
+			else
+				tiles[from].getCounters().push_back(ct);
 			return result;
 		}
 	
@@ -217,19 +221,26 @@ bool Engine::move(int fieldNo) {
 			return result; 
 		}
 	}
-	else if (fieldNo < 52) {
+	else if (fieldNo < 52 && fieldNo >= 0) {
+		unsigned int distance_start = getDistance(getCurrentPlayerContainer(), fieldNo);
 		unsigned int distance = getDistance(getCurrentPlayerContainer(), fieldNo + dice.getLast());
 #ifdef _DEBUG
-		std::cout << "Calculated distance is " << distance << '\n';
+		std::cout << "Calculated distance is " << distance << " start is  " << distance_start << '\n';
 #endif
-		if (distance < 50) {
+		if (distance < 51 && distance_start < distance) {
 			std::cout << "Moving on board to " << fieldNo + dice.getLast() << '\n';
 			return moveCounterOnBoard(fieldNo);
 		}
+		else {
+			unsigned int dest = 0;
+			if (distance > distance_start)
+				dest = distance - 51;
+			else dest = 51 - distance_start;
 #ifdef _DEBUG
-		std::cout << "Moving to last on " << distance - 50 << '\n';
+		std::cout << "Moving to last on " << dest << '\n';
 #endif
-		return moveCounterToLast(fieldNo, distance - 50);
+			return moveCounterToLast(fieldNo, dest);
+		}
 	}
 	else if (fieldNo > 100) {
 #ifdef _DEBUG
@@ -250,7 +261,7 @@ bool Engine::finished() {
 
 
 unsigned int Engine::getDistance(PlayerContainer& c, unsigned int dest) {
-	if (c.getStartPos() < dest)
+	if (c.getStartPos() <= dest)
 		return dest - c.getStartPos();
 	return 52 + dest - c.getStartPos();
 }

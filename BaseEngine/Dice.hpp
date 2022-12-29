@@ -25,4 +25,10 @@ public:
 	* @return Wynik ostatniego rzutu.
 	*/
 	const unsigned int getLast() { return lastRes; }
+
+	/** Pozwala ustawiæ wartoœæ kostki. U¿ywane do silnika online.
+	* @param value - Wartoœæ jaka ma byæ nadana kostce.
+	* @return true w przypadku powodzenia lub false w przypadku podania b³êdnej wartoœci.
+	*/
+	bool setLast(unsigned int);
 };

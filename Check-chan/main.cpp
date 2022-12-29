@@ -44,6 +44,10 @@ void doEngine(Engine* engine) {
 
 		std::cout << "Current player: " << engine->getCurrentPlayer().getNick() << "\nPole: ";
 		std::cin >> field;
+		if (std::cin.fail()) {
+			std::cin.clear();
+			std::cin.ignore();
+		}
 		std::cout << "Move: " << engine->move(field) << ' ';
 		std::cout << "Step: " << engine->step() << "\n\n";
 		int index = 0;
@@ -54,19 +58,20 @@ void doEngine(Engine* engine) {
 
 int main()
 {
-	try {
-		std::ifstream f("sample.json");
-		nlohmann::json data = nlohmann::json::parse(f);
-		std::cout << data["quiz"]["sport"]["q1"]["question"] << '\n'; // Which one is correct team name in NBA?
-	}
-	catch (std::exception& e) {
-		std::cerr << e.what() << '\n';
-		return 1;
-	}
+	//try {
+	//	std::ifstream f("sample.json");
+	//	nlohmann::json data = nlohmann::json::parse(f);
+	//	std::cout << data["quiz"]["sport"]["q1"]["question"] << '\n'; // Which one is correct team name in NBA?
+	//}
+	//catch (std::exception& e) {
+	//	std::cerr << e.what() << '\n';
+	//	return 1;
+	//}
 	Engine engine;
-	Game myGame(engine);
 	std::thread a(doEngine, &engine);
-	myGame.run();
+	Game* myGame = new Game(engine);	
+	myGame->run();
 	a.join();
+	delete myGame;
 	return 0;
 }
