@@ -1,0 +1,345 @@
+{
+    "version": "0.1.2",
+    "state": 4,
+    "diceVal": 2,
+    "currentPlayer": 1,
+    "players": [
+        {
+            "quarter": 0,
+            "playerContainer": {
+                "startPos": 0,
+                "playerObj": {
+                    "nick": "Ewelina",
+                    "id": 4154004264
+                },
+                "holder": [
+                    {
+                        "id": 0,
+                        "ownedBy": 4154004264
+                    },
+                    {
+                        "id": 1,
+                        "ownedBy": 4154004264
+                    }
+                ],
+                "last": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            }
+        },
+        {
+            "quarter": 2,
+            "playerContainer": {
+                "startPos": 26,
+                "playerObj": {
+                    "nick": "Arnold Schnitzel",
+                    "id": 579864488
+                },
+                "holder": [
+                    {
+                        "id": 0,
+                        "ownedBy": 579864488
+                    },
+                    {
+                        "id": 1,
+                        "ownedBy": 579864488
+                    },
+                    {
+                        "id": 2,
+                        "ownedBy": 579864488
+                    }
+                ],
+                "last": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            }
+        }
+    ],
+    "tiles": [
+        {
+            "manyCanStand": true,
+            "lastBeat": [],
+            "counters": [
+                {
+                    "id": 2,
+                    "ownedBy": 4154004264
+                }
+            ]
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": [
+                {
+                    "id": 3,
+                    "ownedBy": 4154004264
+                }
+            ]
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": true,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": true,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": true,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": true,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": [
+                {
+                    "id": 3,
+                    "ownedBy": 579864488
+                }
+            ]
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": true,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": true,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": true,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
+        }
+    ]
+}

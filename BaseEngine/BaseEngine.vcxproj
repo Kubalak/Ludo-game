@@ -162,11 +162,14 @@
   <ItemGroup>
     <ClInclude Include="Counter.hpp" />
     <ClInclude Include="Dice.hpp" />
+    <ClInclude Include="endianness.h" />
     <ClInclude Include="Engine.hpp" />
+    <ClInclude Include="EventMsg.hpp" />
     <ClInclude Include="OnlineEngine.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="PlayerContainer.hpp" />
     <ClInclude Include="Tile.hpp" />
+    <ClInclude Include="uuid_v4.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="OnlineServer.hpp" />

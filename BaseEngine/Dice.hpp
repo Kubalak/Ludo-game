@@ -1,8 +1,9 @@
 #pragma once
 #include <random>
+#include <iostream>
 
-/** Klasa do obs³ugi kostki. 
-* @author Jakub Jach &copy; 2022 
+/** Klasa do obs³ugi kostki.
+* @author Jakub Jach &copy; 2022
 */
 class Dice {
 	std::default_random_engine generator;
@@ -31,4 +32,6 @@ public:
 	* @return true w przypadku powodzenia lub false w przypadku podania b³êdnej wartoœci.
 	*/
 	bool setLast(unsigned int);
+
+	friend std::ostream& operator<<(std::ostream& os, const Dice& dice);
 };

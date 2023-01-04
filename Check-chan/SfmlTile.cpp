@@ -30,14 +30,14 @@ void SfmlTile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 			}
 			else if (total == 2) {
 				auto pos = PawnRect.getPosition();
-				for (unsigned int j = 0; j < count.second; ++j) {
+				for (int j = 0; j < count.second; ++j) {
 					c.setPosition(pos.x - 9 + (index + j) * 18, pos.y);
 					target.draw(c);
 				}
 			}
 			else if (total <= 4) {
 				auto pos = PawnRect.getPosition();
-				for (unsigned int j = 0; j < count.second; ++j) {
+				for (int j = 0; j < count.second; ++j) {
 					c.setPosition(pos.x - 9 + static_cast<int>((index + j) % 2) * 18, pos.y - 9 + static_cast<int>((index + j) / 2) * 18);
 					target.draw(c);
 				}

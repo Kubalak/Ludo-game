@@ -31,8 +31,8 @@ public:
 	/** Inicjuje grê jak w Engine.
 		! DODATKOWO !
 		Uruchamia silnik online w postaci nowego w¹tku.
-		Do silnika mo¿na odwo³ywaæ siê jak do zwyk³ego Engine. 
-		Osobny w¹tek zajmuje siê komunikacj¹ z serwerem. 
+		Do silnika mo¿na odwo³ywaæ siê jak do zwyk³ego Engine.
+		Osobny w¹tek zajmuje siê komunikacj¹ z serwerem.
 	*/
 	void start();
 	/**  Dzia³a jak z Engine ale z u¿yciem mutexa */
@@ -40,7 +40,7 @@ public:
 	/**  Dzia³a jak z Engine ale z u¿yciem mutexa */
 	unsigned int rollDice();
 
-	/** Pod³¹cza klienta do serwera gry. 
+	/** Pod³¹cza klienta do serwera gry.
 	* @param server - Adres serwera gry.
 	* @return true przy powodzeniu zestawienia i konfiguracji po³¹czenia lub false w ka¿dym innym przypadku.
 	*/

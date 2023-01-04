@@ -1,15 +1,37 @@
 #include "Engine.hpp"
 #include <string>
 #include <algorithm>
-#ifdef _DEBUG
-	#include <iostream>
-#endif
+constexpr auto ESRC = "BaseEngine/Engine.cpp";
 
-const std::string Engine::_VERSION = "0.1.2";
+const std::string Engine::_VERSION = "0.3.1";
 
-Engine::Engine():
+const std::map<Engine::EngineStates, std::string> Engine::stateStr{
+	{ EngineStates::CREATED, "CREATED"},
+	{ EngineStates::STARTED, "STARTED"},
+	{ EngineStates::DICE_ROLLED,"DICE_ROLLED"},
+	{ EngineStates::STEP_MADE,"STEP_MADE"},
+	{ EngineStates::MOVE_MADE, "MOVE_MADE"}
+};
+
+const std::map<Engine::EngineStates, int> Engine::stateInt{
+	{ EngineStates::CREATED, 1},
+	{ EngineStates::STARTED, 2},
+	{ EngineStates::DICE_ROLLED, 3},
+	{ EngineStates::STEP_MADE,4},
+	{ EngineStates::MOVE_MADE, 5}
+};
+
+const std::map<int, Engine::EngineStates> Engine::intState{
+	{ 1, EngineStates::CREATED},
+	{ 2, EngineStates::STARTED},
+	{ 3, EngineStates::DICE_ROLLED},
+	{ 4, EngineStates::STEP_MADE},
+	{ 5, EngineStates::MOVE_MADE}
+};
+
+Engine::Engine() :
 	currentPlayer(-1),
-	state(Engine::EngineStates::CREATED) {
+	state(EngineStates::CREATED) {
 	/*
 	*			|
 	*	*4*		|	 *1*
@@ -25,28 +47,61 @@ Engine::Engine():
 		tiles[8 + i * 13] = a; // Pola dodatkowe
 	}
 }
+
+Engine::Engine(nlohmann::json& obj) :
+	currentPlayer(obj["currentPlayer"].get<int>()),
+	state(intState.at(obj["state"].get<int>())) {
+
+	std::map<unsigned int, Player*> pmap;
+	if (!dice.setLast(obj["diceVal"].get<unsigned int>()))
+		throw std::string("Invalid dice value encountered! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+	for (auto& c : obj["players"]) {
+		unsigned int q = c["quarter"].get<unsigned int>();
+		if (q > 3)
+			throw std::string("Invalid quarter value! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+		if (players.find(q) != players.end())
+			throw std::string("Selected quarter is already taken! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+		auto* p = new PlayerContainer(c["playerContainer"]);
+		for (auto& pc : players)
+			if (pc.second->getPlayer().getId() == p->getPlayer().getId())
+				throw std::string("Player alrady exists! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+		pmap[p->getPlayer().getId()] = &p->getPlayer();
+		players[q] = p;
+		if (q * 13 != players[q]->getStartPos())
+			throw std::string("Start position does not match quarter value! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+	}
+	auto index = 0u;
+	for (auto& t : obj["tiles"]) {
+		tiles[index] = Tile(t["manyCanStand"].get<bool>());
+		for (auto& lb : t["lastBeat"]);
+		index++;
+	}
+
+}
+
+
 Engine::~Engine() {
-	for (auto p : players)
+	for (auto& p : players)
 		delete players[p.first];
 }
 
 bool Engine::addPlayer(Player* player, unsigned int quarter) {
 	if (state != EngineStates::CREATED) return false;
-	for (auto p : players)
+	for (auto& p : players)
 		if (p.second->getPlayer().getId() == player->getId())
 			return false;
-	
+
 	if (quarter == 0 || quarter > 4)
 		return false;
 	players[quarter - 1] = new PlayerContainer(player, (quarter - 1) * 13);
-	
-	return true;	
+
+	return true;
 }
 
 void Engine::start()
 {
 	if (players.empty() || players.size() < 1) throw std::exception("Nie mo¿na uruchomiæ gry, zbyt ma³a liczba graczy!");
-	if(state == EngineStates::CREATED) {
+	if (state == EngineStates::CREATED) {
 		currentPlayer = 0;
 		state = EngineStates::STARTED;
 	}
@@ -63,15 +118,15 @@ bool Engine::step() {
 	}
 
 	if (state == EngineStates::MOVE_MADE) {
-		if(dice.getLast() != 6 || getCurrentPlayerContainer().allIn()) // Je¿eli gracz nie wyrzuci³ 6 lub zakoñczy³ grê.
+		if (dice.getLast() != 6 || getCurrentPlayerContainer().allIn()) // Je¿eli gracz nie wyrzuci³ 6 lub zakoñczy³ grê.
 			do {
 				currentPlayer += 1;
 				currentPlayer %= players.size();
 			} while (getCurrentPlayerContainer().allIn());
-		
-		state = EngineStates::STEP_MADE;
-		
-		return true;
+
+			state = EngineStates::STEP_MADE;
+
+			return true;
 	}
 	return false;
 }
@@ -79,7 +134,7 @@ bool Engine::step() {
 unsigned int Engine::rollDice() {
 	if (state == EngineStates::DICE_ROLLED || state == EngineStates::MOVE_MADE)
 		return dice.getLast();
-	state = EngineStates::DICE_ROLLED; 
+	state = EngineStates::DICE_ROLLED;
 	//unsigned int val = dice.roll();
 	//dice.setLast( 1 + (val % 2) * 5);
 	return dice.roll();
@@ -113,7 +168,7 @@ bool Engine::moveCounterOnBoard(unsigned int fieldNo) {
 }
 
 //TODO: Sprawdziæ poruszanie siê po ostatnich.
-bool Engine::moveCounterOnLast(unsigned int fieldNo) { 
+bool Engine::moveCounterOnLast(unsigned int fieldNo) {
 	if (fieldNo <= 100 || fieldNo > 406) return false;
 	unsigned int Q = fieldNo / 100 - 1;
 	if (players.find(Q) == players.end())
@@ -135,7 +190,7 @@ bool Engine::moveCounterToLast(unsigned int from, unsigned int offset) {
 	std::vector<Counter*>& v = tiles[from].getCounters();
 	PlayerContainer& c = getCurrentPlayerContainer();
 	std::vector<Counter*>::iterator it = v.begin();
-	for(;it!=v.end();it++)
+	for (; it != v.end(); it++)
 		if ((*it)->getOwner() == c.getPlayer().getId())
 		{
 			Counter* ct = *it;
@@ -147,7 +202,7 @@ bool Engine::moveCounterToLast(unsigned int from, unsigned int offset) {
 				tiles[from].getCounters().push_back(ct);
 			return result;
 		}
-	
+
 	return false;
 }
 
@@ -194,7 +249,7 @@ std::map<unsigned int, unsigned int> Engine::getQuarters() {
 	std::map<unsigned int, unsigned int> m;
 	for (auto& pc : players)
 		m[pc.first] = pc.second->getPlayer().getId();
-	
+
 	return m;
 }
 
@@ -218,7 +273,7 @@ bool Engine::move(int fieldNo) {
 			if (result)
 				state = EngineStates::MOVE_MADE;
 			else pc.addToHolder(c);
-			return result; 
+			return result;
 		}
 	}
 	else if (fieldNo < 52 && fieldNo >= 0) {
@@ -237,7 +292,7 @@ bool Engine::move(int fieldNo) {
 				dest = distance - 51;
 			else dest = 51 - distance_start;
 #ifdef _DEBUG
-		std::cout << "Moving to last on " << dest << '\n';
+			std::cout << "Moving to last on " << dest << '\n';
 #endif
 			return moveCounterToLast(fieldNo, dest);
 		}
@@ -251,7 +306,7 @@ bool Engine::move(int fieldNo) {
 	return false;
 }
 
-bool Engine::finished() { 
+bool Engine::finished() {
 	for (auto p : players) {
 		if (!p.second->allIn())
 			return false;
@@ -267,30 +322,71 @@ unsigned int Engine::getDistance(PlayerContainer& c, unsigned int dest) {
 }
 
 
-
-#ifdef _DEBUG
-std::string Engine::stateToStr(Engine::EngineStates state) {
-	switch (state) {
-		case EngineStates::CREATED: return "CREATED";
-		case EngineStates::STARTED: return "STARTED";
-		case EngineStates::DICE_ROLLED: return "DICE_ROLLED";
-		case EngineStates::STEP_MADE: return "STEP_MADE";
-		case EngineStates::MOVE_MADE: return "MOVE_MADE";
-		default: return "<UNKNOWN>";
-	}
-}
 std::ostream& operator<< (std::ostream& os, const Engine& e) {
-	std::cout << "<Engine object 0x" << std::hex << std::uppercase << &e << std::resetiosflags(std::ios_base::basefield) << " (v"<< Engine::_VERSION << ")>:\n";
-	os << "Current state: " << std::boolalpha << Engine::stateToStr(e.state) << std::resetiosflags(std::ios_base::basefield) << '\n';
-	os << "PlayerContainers:\n[";
-	for (auto p : e.players)
-		os << *p.second << ", \n";
-	os << "]\n";
-	os << "Tiles: [\n";
-	unsigned int index = 0;
-	for (auto& i : e.tiles)
-		os << '[' << index++ << "]: " << i << '\n';
-	os << "]\n";
+	os << "{\"version\":\"" << Engine::_VERSION << "\",";
+	os << "\"state\":" << Engine::stateInt.at(e.state) << ',';
+	os << "\"diceVal\":" << e.dice << ',';
+	os << "\"currentPlayer\":" << e.currentPlayer << ',';
+	os << "\"players\":[";
+	auto it = e.players.begin();
+	while (it != e.players.end()) {
+		os << "{\"quarter\":" << (*it).first << ",\"playerContainer\":" << *((*it).second) << '}';
+		it++;
+		if (it != e.players.end())
+			os << ',';
+	}
+	os << "],\"tiles\":[";
+	auto tit = e.tiles.begin();
+	while (tit != e.tiles.end()) {
+		os << *tit;
+		tit++;
+		if (tit != e.tiles.end())
+			os << ',';
+	}
+	os << "]}";
+
 	return os;
 }
-#endif
+
+std::string Engine::str() {
+	std::stringstream ss;
+	ss << "<Engine object 0x" << std::hex << std::uppercase << this << std::resetiosflags(std::ios_base::basefield) << " (v" << Engine::_VERSION << ")>:\n";
+	ss << "Current state: " << std::boolalpha << stateStr.at(state) << std::resetiosflags(std::ios_base::basefield) << '\n';
+	ss << "PlayerContainers:\n[";
+	for (auto& p : players)
+		ss << p.second->str() << ", \n";
+	ss << "]\n";
+	ss << "Tiles: [\n";
+	unsigned int index = 0;
+	for (auto& i : tiles)
+		ss << '[' << index++ << "]: " << i.str() << '\n';
+	ss << "]\n";
+	return ss.str();
+}
+
+std::string Engine::json() {
+	std::stringstream ss;
+	ss << "{\"version\":\"" << Engine::_VERSION << "\",";
+	ss << "\"state\":" << Engine::stateInt.at(state) << ',';
+	ss << "\"diceVal\":" << dice.getLast() << ',';
+	ss << "\"currentPlayer\":" << currentPlayer << ',';
+	ss << "\"players\":[";
+	auto it = players.begin();
+	while (it != players.end()) {
+		ss << "{\"quarter\":" << (*it).first << ",\"playerContainer\":" << (*it).second->json() << '}';
+		it++;
+		if (it != players.end())
+			ss << ',';
+	}
+	ss << "],\"tiles\":[";
+	auto tit = tiles.begin();
+	while (tit != tiles.end()) {
+		ss << (*tit).json();
+		tit++;
+		if (tit != tiles.end())
+			ss << ',';
+	}
+	ss << "]}";
+
+	return ss.str();
+}

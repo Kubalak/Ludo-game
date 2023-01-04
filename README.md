@@ -1,11 +1,12 @@
-# Projekt gra chiÅ„czyk.
+# Projekt gra chiñczyk.
 
-# CHANGELOG <i>(zmiany widoczne poniÅ¼ej)</i>
+# CHANGELOG <i>(zmiany widoczne poni¿ej)</i>
 
 # v0.0.1.0
-- Dodano bibliotekÄ™ <a href="https://zeromq.org/" target="blank">ZeroMQ.</a>
-- Uproszczono relacje projektÃ³w.
-- RozpoczÄ™to prace nad silnikiem w wersji online.
+- Dodano bibliotekê <a href="https://zeromq.org/" target="blank">ZeroMQ.</a>
+- Uproszczono relacje projektów.
+- Generowanie UUID z u¿yciem <a href="https://github.com/crashoz/uuid_v4" target="blank">uuid_v4</a>
+- Rozpoczêto prace nad silnikiem w wersji online.
 
 # v0.0.0.4
 - Fixed known Engine issues (index out of bounds and nullptr exception).

@@ -1,13 +1,17 @@
 #include "Counter.hpp"
-#ifdef _DEBUG
-std::ostream& operator<< (std::ostream& os,const Counter& e) {
-	os << "<Counter object " << std::hex << std::uppercase << &e << std::resetiosflags(std::ios_base::basefield) << ">: Id: " << e.id << " Owned by: " << e.ownedBy;
-	
+std::ostream& operator<< (std::ostream& os, const Counter& e) {
+
+	os << "{\"id\":" << std::to_string(e.id) << ",\"ownedBy\":" << std::to_string(e.ownedBy) << "}";
 	return os;
 }
-#endif
+
+std::string Counter::str() {
+	std::stringstream ss;
+	ss << "<Counter object " << std::hex << std::uppercase << this << std::resetiosflags(std::ios_base::basefield) << ">: Id: " << id << " Owned by: " << ownedBy;
+	return ss.str();
+}
+
 
 std::string Counter::json() {
-	std::string result = "{\"id\":" + std::to_string(id) + ",\"ownedBy\":" + std::to_string(ownedBy) + "}";
-	return result;
+	return "{\"id\":" + std::to_string(id) + ",\"ownedBy\":" + std::to_string(ownedBy) + "}";
 }

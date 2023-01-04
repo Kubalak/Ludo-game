@@ -55,9 +55,9 @@ bool OnlineEngine::connect(std::string serverpub, std::string serversub) {
 	try {
 		serverSubscriber.connect(serversub);
 		eventPublisher.connect(serverpub);
-//		addr = server;
-		//serverSubscriber.set(zmq::sockopt::subscribe, "events");
-		//eventPublisher.send(zmq::str_buffer("NEW_PLAYERS"), zmq::send_flags::none);
+		//		addr = server;
+				//serverSubscriber.set(zmq::sockopt::subscribe, "events");
+				//eventPublisher.send(zmq::str_buffer("NEW_PLAYERS"), zmq::send_flags::none);
 		auto t = eventPublisher.send(zmq::buffer(localP->json()));
 		std::cout << "Has value: " << t.has_value() << '\n';
 		if (t.has_value())
@@ -79,15 +79,15 @@ OnlineEngine::~OnlineEngine() {
 		delete online;
 	}
 	//try {
-		if (serverSubscriber)
-			serverSubscriber.close();
-		if (eventPublisher)
-			eventPublisher.close();
-/*	}
-	catch (std::exception& e) {
-		std::cerr << e.what() << '\n';
-	}
-	catch (...) {
-		std::cerr << "Unknown exception in " << __FILE__ << " line: " << __LINE__ << '\n';
-	}*/
+	if (serverSubscriber)
+		serverSubscriber.close();
+	if (eventPublisher)
+		eventPublisher.close();
+	/*	}
+		catch (std::exception& e) {
+			std::cerr << e.what() << '\n';
+		}
+		catch (...) {
+			std::cerr << "Unknown exception in " << __FILE__ << " line: " << __LINE__ << '\n';
+		}*/
 }

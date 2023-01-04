@@ -20,7 +20,7 @@ bool OnlineServer::addPlayer(Player* player, unsigned int quarter) {
 void OnlineServer::start() {
 	if (state == EngineStates::CREATED) {
 		//Engine::start();
-		run(); 
+		run();
 	}
 }
 
@@ -30,10 +30,10 @@ void OnlineServer::run() {
 	std::vector<zmq::message_t> messages;
 	while (onlineShouldWork) {
 		zmq::message_t message;
-		zmq::recv_result_t result = zmq::recv_multipart(serverSocketSubscriber,std::back_inserter(messages));
-		if(result.has_value())
+		zmq::recv_result_t result = zmq::recv_multipart(serverSocketSubscriber, std::back_inserter(messages));
+		if (result.has_value())
 			std::cout << "Value: " << result.value() << '\n';
-		
+
 		std::cout << messages[0].to_string() << '\n';
 	}
 }

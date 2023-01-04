@@ -1,5 +1,6 @@
 #include "PlayerContainer.hpp"
 #include <algorithm>
+constexpr auto PSRC = "BaseEngine/PlayerContainer.cpp";
 
 PlayerContainer::PlayerContainer(Player* p, unsigned int startPos) :
 	player(p),
@@ -7,6 +8,46 @@ PlayerContainer::PlayerContainer(Player* p, unsigned int startPos) :
 	for (auto* c : p->getCounters())
 		holder.push_back(c);
 }
+
+PlayerContainer::PlayerContainer(nlohmann::json obj) :
+	startPos(obj["startPos"].get<unsigned int>()),
+	player(new Player(obj["playerObj"])) {
+	auto it = obj["holder"].begin();
+	// Kopiuje pionki do holder.
+	for (; it != obj["holder"].end(); ++it) {
+		if ((*it)["ownedBy"].get<unsigned int>() != player->getId())
+			throw std::string("Invalid owner encountered! " + std::string(PSRC) + ":" + std::to_string(__LINE__));
+		holder.push_back(player->getCounters()[(*it)["id"].get<unsigned int>()]);
+	}
+
+	// Sprawdza czy nie powtórzy³ siê ju¿ dany pionek.
+	auto t = holder.begin();
+	for (; t != holder.end(); ++t)
+		if (std::count_if(holder.begin(), holder.end(), [&t](Counter* arg) {return (*t)->getId() == arg->getId(); }) != 1)
+			throw std::string("Double counter id encountered " + std::string(PSRC) + ":" + std::to_string(__LINE__));
+
+	it = obj["last"].begin();
+	unsigned int index = 0;
+
+	// Kopiuje pionki do last i sprawdza czy taki nie zosta³ dodany wczeœniej.
+	for (; it != obj["last"].end(); ++it) {
+		for (auto lit = (*it).begin(); lit != (*it).end(); ++lit) {
+			if ((*lit)["ownedBy"].get<unsigned int>() != player->getId())
+				throw std::string("Invalid owner encountered! " + std::string(PSRC) + ":" + std::to_string(__LINE__));
+			unsigned int id = (*lit)["id"].get<unsigned int>();
+			// Sprawdza czy dotychczas nie by³o takiego pionka.
+			for (unsigned int i{ 0 }; i <= index; ++i)
+				if (std::count_if(last[i].begin(), last[i].end(), [&id](Counter* arg) {return id == arg->getId(); }) != 0)
+					throw std::string("Double counter id encountered " + std::string(PSRC) + ":" + std::to_string(__LINE__));
+			// Czy nie znajduje siê ju¿ w domku.
+			if (std::count_if(holder.begin(), holder.end(), [&id](Counter* arg) {return id == arg->getId(); }) != 0)
+				throw std::string("Counter is in holder " + std::string(PSRC) + ":" + std::to_string(__LINE__));
+			last[index].push_back(player->getCounters()[id]);
+		}
+		index++;
+	}
+}
+
 
 Counter* PlayerContainer::holderPop() {
 	if (holder.empty())
@@ -19,7 +60,7 @@ Counter* PlayerContainer::holderPop() {
 bool PlayerContainer::addToHolder(Counter* c) {
 	if (holder.size() == 4) // Jeœli pe³ny
 		return false;
-	
+
 	if (std::find(player->getCounters().begin(), player->getCounters().end(), c) == player->getCounters().end()) // Zabezpieczenie przed dodaniem pionków spoza udostêpnionych.
 		return false;
 
@@ -84,20 +125,86 @@ bool PlayerContainer::allIn() {
 	return last[5].size() == 4;
 }
 
-#ifdef _DEBUG
-std::ostream& operator<< (std::ostream& os, const PlayerContainer& e) {
-	os << "<PlayerContainer object 0x" << std::hex << std::uppercase << &e << ">:\n{\n" << std::resetiosflags(std::ios_base::basefield);
-	os << "  " << *e.player << '\n';
-	os << "  Holder size: " << e.holder.size() << '\n';
-	os << "  Start position: " << e.startPos << '\n';
-	os << "  Counters in last count: [ ";
-	for (auto& c : e.last)
-		os << c.size() << ' ';
-	os << "]\n}\n";
 
+std::ostream& operator<< (std::ostream& os, const PlayerContainer& e) {
+	os << "{\"startPos\":" << e.startPos << ",";
+	os << "\"playerObj\":" << *e.player << ",";
+	os << "\"holder\":[";
+	auto it = e.holder.begin();
+	while (1) {
+		os << *(*it);
+		++it;
+		if (it != e.holder.end())
+			os << ",";
+		else break;
+	}
+	os << "],\"last\":[";
+	auto lit = e.last.begin();
+	while (lit != e.last.end()) {
+		os << "[";
+		auto c = (*lit).begin();
+		while (c != (*lit).end()) {
+			os << *(*c);
+			++c;
+			if (c != (*lit).end())
+				os << ",";
+		}
+		os << "]";
+		lit++;
+		if (lit != e.last.end())
+			os << ",";
+	}
+	os << "]}";
 	return os;
 }
-#endif
+
+std::string PlayerContainer::str() {
+	std::stringstream ss;
+	ss << "<PlayerContainer object 0x" << std::hex << std::uppercase << this << ">:\n{\n" << std::resetiosflags(std::ios_base::basefield);
+	ss << (*player).str() << '\n';
+	ss << "Holder size : " << holder.size() << '\n';
+	ss << "Start position: " << startPos << '\n';
+	ss << "Counters in last count: [ ";
+	for (auto& c : last)
+		ss << c.size() << ' ';
+	ss << "]\n}\n";
+	return ss.str();
+}
+
+std::string PlayerContainer::json() {
+	std::stringstream ss;
+	ss << "{\"startPos\":" << startPos << ",";
+	ss << "\"playerObj\":" << player->json() << ",";
+	ss << "\"holder\":[";
+	auto it = holder.begin();
+	while (1) {
+		ss << (*it)->json();
+		++it;
+		if (it != holder.end())
+			ss << ",";
+		else break;
+	}
+	ss << "],\"last\":[";
+	auto lit = last.begin();
+	while (lit != last.end()) {
+		ss << "[";
+		auto c = (*lit).begin();
+		while (c != (*lit).end()) {
+			ss << (*c)->json();
+			++c;
+			if (c != (*lit).end())
+				ss << ",";
+		}
+		ss << "]";
+		lit++;
+		if (lit != last.end())
+			ss << ",";
+	}
+	ss << "]}";
+
+	return ss.str();
+}
+
 
 PlayerContainer::~PlayerContainer() {
 	delete player;

@@ -7,9 +7,10 @@
 //TODO: Obs³uga Ctr-C itp. (zabezpieczenie przed niekontrolowanym zamkniêciem)
 //TODO: (WIN) Brak blokowania konsoli po klikniêciu
 
-/** Klasa silnika gry w wersji offline. 
-* @author Jakub Jach &copy; 2022 
+/** Klasa silnika gry w wersji offline.
+* @author Jakub Jach &copy; 2022
 */
+
 class Engine
 {
 
@@ -20,19 +21,19 @@ protected:
 	int currentPlayer;
 	enum class EngineStates
 	{
-		CREATED,
-		STARTED,
-		DICE_ROLLED,
-		MOVE_MADE,
-		STEP_MADE
+		CREATED = 0,
+		STARTED = 1,
+		DICE_ROLLED = 2,
+		MOVE_MADE = 3,
+		STEP_MADE = 4
 	};
 	EngineStates state;
 	//Zbiór, który przechowuje graczy w postaci <æwiartka,gracz>
-	std::map<int,PlayerContainer*> players;
+	std::map<int, PlayerContainer*> players;
 	/** Tablica wyników */
 	std::vector<Player> top;
 	// Podstawowa plansza do Chiñczyka.
-	std::array<Tile,52> tiles; 
+	std::array<Tile, 52> tiles;
 	// Kostka do gry.
 	Dice dice;
 	/** Zwraca dystans jaki pokona gracz jeœli chce przesun¹æ pionek na wybrane pole.
@@ -51,14 +52,18 @@ protected:
 public:
 	/// Wersja silnika 
 	static const std::string _VERSION;
-#ifdef _DEBUG
-	static std::string stateToStr(EngineStates state);
-#endif
-	/*** 
-	* Domyœlny konstruktor klasy Engine 
+	static const std::map<EngineStates, std::string> stateStr;
+	static const std::map<EngineStates, int> stateInt;
+	static const std::map<int, EngineStates> intState;
+
+	/***
+	* Domyœlny konstruktor klasy Engine
 	*/
 	Engine();
-	~Engine();
+	/** Tworzy obiekt na bazie przekazanego obiektu JSON.
+	* @param obj - Obiekt, na bazie którego ma byæ tworzony silnik.
+	*/
+	Engine(nlohmann::json&);
 
 	/** Pozwala dodaæ gracza do wybranej æwiartki planszy.
 	* @param player - Gracz, który ma zostaæ dodany UWAGA: przekazaæ new Player(), poniewa¿ gracze s¹ usuwani przy destrukcji obiektu (aby nie mo¿na ich by³o u¿yæ przy nowej grze).
@@ -129,12 +134,20 @@ public:
 	/** Zwraca wektor z wynikami graczy */
 	std::vector<Player>& getTop() { return top; }
 
-#ifdef _DEBUG
 	/**
 	* Umo¿liwia przekierowanie do strumienia.
 	*/
-	friend std::ostream& operator<< (std::ostream& os,const Engine& e);
-#endif
+	friend std::ostream& operator<< (std::ostream& os, const Engine& e);
+	/**
+	* Zwraca reprezentacjê obiektu w bardziej czytelnej postaci
+	*/
+	std::string str();
+	/**
+	* Zwraca obiekt w postaci tekstu JSON.
+	*/
+	std::string json();
+
+	~Engine();
 };
 
 

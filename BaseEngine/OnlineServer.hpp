@@ -29,7 +29,7 @@ class OnlineServer : private Engine {
 		Do silnika mo¿na odwo³ywaæ siê jak do zwyk³ego Engine.
 		Osobny w¹tek zajmuje siê komunikacj¹ z serwerem.
 	*/
-	
+
 	/**  Dzia³a jak z Engine ale z u¿yciem mutexa */
 	bool step();
 	/**  Dzia³a jak z Engine ale z u¿yciem mutexa */
