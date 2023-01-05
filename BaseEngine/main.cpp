@@ -81,11 +81,11 @@ int main(int argc, char** argv) {
 		nlohmann::json js = nlohmann::json::parse(f);
 		Engine e(js);
 		auto stop = std::chrono::high_resolution_clock::now();
-		std::cout << "Ladowanie z JSON zajelo: " << std::chrono::duration_cast<std::chrono::duration<double>>(stop - start).count() << " ms\n";
+		std::cout << "Ladowanie z JSON zajelo: " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count()/1000.0 << " ms\n";
 		start = std::chrono::high_resolution_clock::now();
 		std::string s = e.json();
 		stop = std::chrono::high_resolution_clock::now();
-		std::cout << "Zrzut do JSON zajal: " << std::chrono::duration_cast<std::chrono::duration<double>>(stop - start).count() << " ms\n";
+		std::cout << "Zrzut do JSON zajal: " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count()/1000.0 << " ms\n";
 		std::cout << s << '\n';
 		f.close();
 		//PlayerContainer c("{\"startPos\":1,\"playerObj\":{\"nick\":\"Arnold\",\"id\":235},\"holder\":[{\"id\":0,\"ownedBy\":235},{\"id\":1,\"ownedBy\":235}],\"last\":[[],[],[],[{\"id\":3,\"ownedBy\":235},{\"id\":2,\"ownedBy\":235}],[],[]]}"_json);
