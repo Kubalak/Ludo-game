@@ -16,6 +16,7 @@ Plik wykorzystywany do testów silnika gry.
 
 #include <iostream>
 #include <chrono>
+#include <fstream>
 #include "Engine.hpp"
 #include "OnlineEngine.hpp"
 #include "OnlineServer.hpp"
@@ -75,10 +76,22 @@ int main(int argc, char** argv) {
 	//engine.start();
 	try {
 		//Player* p = new Player("{\"id\":235, \"nick\":\"Arnold\"}"_json);
+		std::ifstream f("tmp.json");
+		auto start = std::chrono::high_resolution_clock::now();
+		nlohmann::json js = nlohmann::json::parse(f);
+		Engine e(js);
+		auto stop = std::chrono::high_resolution_clock::now();
+		std::cout << "Ladowanie z JSON zajelo: " << std::chrono::duration_cast<std::chrono::duration<double>>(stop - start).count() << " ms\n";
+		start = std::chrono::high_resolution_clock::now();
+		std::string s = e.json();
+		stop = std::chrono::high_resolution_clock::now();
+		std::cout << "Zrzut do JSON zajal: " << std::chrono::duration_cast<std::chrono::duration<double>>(stop - start).count() << " ms\n";
+		std::cout << s << '\n';
+		f.close();
 		//PlayerContainer c("{\"startPos\":1,\"playerObj\":{\"nick\":\"Arnold\",\"id\":235},\"holder\":[{\"id\":0,\"ownedBy\":235},{\"id\":1,\"ownedBy\":235}],\"last\":[[],[],[],[{\"id\":3,\"ownedBy\":235},{\"id\":2,\"ownedBy\":235}],[],[]]}"_json);
 		//c.addToLast(c.holderPop(), 3);
 		//c.addToLast(c.holderPop(), 3);
-		Engine e;
+		/*Engine e;
 		e.addPlayer(new Player(std::string("Ewelina")), 1);
 		e.addPlayer(new Player(std::string("Arnold Schnitzel")), 3);
 		e.start();
@@ -86,10 +99,13 @@ int main(int argc, char** argv) {
 		auto start = std::chrono::high_resolution_clock::now();
 		auto s = e.json();
 		auto stop = std::chrono::high_resolution_clock::now();
-		std::cout << s << "\nTime taken: " << std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count() << "ns\n";
+		std::cout << s << "\nTime taken: " << std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count() << "ns\n";*/
+		if (e.getCurrentState() == EngineStates::CREATED)
+			e.start();
 		int field;
 		while (!e.finished())
-		{
+		{	std::cout << e.str() << "\n\n";
+		std::cout << "Current player: " << e.getCurrentPlayer().getNick() << '\n';
 			std::cout << "Dice roll: " << e.rollDice() << '\n';
 			std::cin >> field;
 			if (std::cin.fail()) {
@@ -98,7 +114,7 @@ int main(int argc, char** argv) {
 			}
 			std::cout << "Move: " << e.move(field) << ' ';
 			std::cout << "Step: " << e.step() << "\n\n";
-			std::cout << e << "\n\n";
+			
 		}
 
 		//std::cout << constructMessage(EventType::PLAYER_JOINED, p.json()) << '\n';

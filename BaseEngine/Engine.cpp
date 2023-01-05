@@ -5,7 +5,7 @@ constexpr auto ESRC = "BaseEngine/Engine.cpp";
 
 const std::string Engine::_VERSION = "0.3.1";
 
-const std::map<Engine::EngineStates, std::string> Engine::stateStr{
+const std::map<EngineStates, std::string> Engine::stateStr{
 	{ EngineStates::CREATED, "CREATED"},
 	{ EngineStates::STARTED, "STARTED"},
 	{ EngineStates::DICE_ROLLED,"DICE_ROLLED"},
@@ -13,7 +13,7 @@ const std::map<Engine::EngineStates, std::string> Engine::stateStr{
 	{ EngineStates::MOVE_MADE, "MOVE_MADE"}
 };
 
-const std::map<Engine::EngineStates, int> Engine::stateInt{
+const std::map<EngineStates, int> Engine::stateInt{
 	{ EngineStates::CREATED, 1},
 	{ EngineStates::STARTED, 2},
 	{ EngineStates::DICE_ROLLED, 3},
@@ -21,7 +21,7 @@ const std::map<Engine::EngineStates, int> Engine::stateInt{
 	{ EngineStates::MOVE_MADE, 5}
 };
 
-const std::map<int, Engine::EngineStates> Engine::intState{
+const std::map<int, EngineStates> Engine::intState{
 	{ 1, EngineStates::CREATED},
 	{ 2, EngineStates::STARTED},
 	{ 3, EngineStates::DICE_ROLLED},
@@ -53,6 +53,7 @@ Engine::Engine(nlohmann::json& obj) :
 	state(intState.at(obj["state"].get<int>())) {
 
 	std::map<unsigned int, Player*> pmap;
+	std::vector<Counter*> fcounters;
 	if (!dice.setLast(obj["diceVal"].get<unsigned int>()))
 		throw std::string("Invalid dice value encountered! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
 	for (auto& c : obj["players"]) {
@@ -69,13 +70,58 @@ Engine::Engine(nlohmann::json& obj) :
 		players[q] = p;
 		if (q * 13 != players[q]->getStartPos())
 			throw std::string("Start position does not match quarter value! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+		for (auto* fc : p->getHolder())
+			fcounters.push_back(fc);
+		for (auto& f : p->getLast())
+			for (auto* fc : f)
+				fcounters.push_back(fc);
 	}
 	auto index = 0u;
 	for (auto& t : obj["tiles"]) {
 		tiles[index] = Tile(t["manyCanStand"].get<bool>());
-		for (auto& lb : t["lastBeat"]);
+		for (auto& lb : t["lastBeat"]) {
+			unsigned int id = lb["id"].get<unsigned int>();
+			if (id > 3)
+				throw std::string("Invalid counterId encountered! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+			unsigned int owner = lb["ownedBy"].get<unsigned int>();
+			if (!std::count_if(pmap.begin(), pmap.end(), [&owner](const auto& p) {return owner == p.second->getId(); }))
+				throw std::string("The given owner is invalid! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+			Counter* cp = pmap[owner]->getCounters()[id];
+			if (std::count_if(fcounters.begin(), fcounters.end(), [&cp](Counter* cnt) {return cnt == cp; }))
+				throw std::string("Counter already on board! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+			fcounters.push_back(cp);
+			tiles[index].lastBeat.push_back(cp);
+		}
+		std::vector<Counter*>::iterator it = tiles[index].lastBeat.begin();
+		std::map<unsigned int, PlayerContainer*> mp;
+		for (auto& p : players)
+			mp[p.second->getPlayer().getId()] = p.second;
+		for (; it != tiles[index].lastBeat.end(); it++) {
+			if (!mp[(*it)->getOwner()]->addToHolder(*it))
+				throw std::string("Error while moving to holder! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+		}
+		tiles[index].lastBeat.clear();
+		for (auto& lb : t["counters"]) {
+			unsigned int id = lb["id"].get<unsigned int>();
+			if (id > 3)
+				throw std::string("Invalid counterId encountered! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+			unsigned int owner = lb["ownedBy"].get<unsigned int>();
+			if (!std::count_if(pmap.begin(), pmap.end(), [&owner](const auto& p) {return owner == p.second->getId(); }))
+				throw std::string("The given owner is invalid! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+			Counter* cp = pmap[owner]->getCounters()[id];
+			if (std::count_if(fcounters.begin(), fcounters.end(), [&cp](Counter* cnt) {return cnt == cp; }))
+				throw std::string("Counter already on board! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+			fcounters.push_back(cp);
+			tiles[index].getCounters().push_back(cp);
+		}
 		index++;
 	}
+	if (fcounters.size() != 4 * players.size())
+		throw std::string("Counters missing! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+	if(currentPlayer > static_cast<int>(players.size()))
+		throw std::string("Invalid current player value! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+	if((currentPlayer < 0 && state != EngineStates::CREATED) || (currentPlayer >= 0 && state == EngineStates::CREATED))
+		throw std::string("Current player doesn't match game state! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
 
 }
 
@@ -144,7 +190,7 @@ unsigned int Engine::rollDice() {
 bool Engine::beatCountersToHolder(Tile& t) {
 	std::vector<Counter*>::iterator it = t.lastBeat.begin();
 	std::map<unsigned int, PlayerContainer*> mp;
-	for (auto p : players)
+	for (auto& p : players)
 		mp[p.second->getPlayer().getId()] = p.second;
 	for (; it != t.lastBeat.end(); it++) {
 		if (!mp[(*it)->getOwner()]->addToHolder(*it))

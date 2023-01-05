@@ -83,7 +83,6 @@
     <TargetName>game</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
     <TargetName>game</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -141,8 +140,9 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /f  "$(ProjectDir)\textures\*" "$(OutDir)\textures\"
-xcopy /y /f "$(ProjectDir)\sounds\*" "$(OutDir)\sounds\"
-xcopy /y /f "$(ProjectDir)\fonts\**" "$(OutDir)\fonts\"</Command>
+xcopy /y /f "$(ProjectDir)\sounds\*.flac" "$(OutDir)\sounds\"
+xcopy /y /f "$(ProjectDir)\fonts\**" "$(OutDir)\fonts\"
+xcopy /y /f "$(ProjectDir)\*.dll**" "$(OutDir)\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -166,8 +166,9 @@ xcopy /y /f "$(ProjectDir)\fonts\**" "$(OutDir)\fonts\"</Command>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /f  "$(ProjectDir)\textures\*" "$(OutDir)\textures\"
-xcopy /y /f "$(ProjectDir)\sounds\*" "$(OutDir)\sounds\"
-xcopy /y /f "$(ProjectDir)\fonts\**" "$(OutDir)\fonts\"</Command>
+xcopy /y /f "$(ProjectDir)\sounds\*.flac" "$(OutDir)\sounds\"
+xcopy /y /f "$(ProjectDir)\fonts\**" "$(OutDir)\fonts\"
+xcopy /y /f "$(ProjectDir)\*.dll**" "$(OutDir)\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

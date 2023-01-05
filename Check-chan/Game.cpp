@@ -30,7 +30,7 @@ Game::Game(Engine& engine):
     BoardBackground.setOrigin(375, 375);
     BoardBackground.setPosition(520, 375);
     diceRoll = 0;
-    //music.openFromFile("sounds/damage(e).flac");
+    music.openFromFile("sounds/damage(e).flac");
     music.play();
     
     MainMenuText[0].setFont(font);

@@ -65,6 +65,16 @@ public:
 	*/
 	Player& getPlayer() { return *player; }
 	/**
+	* Zwraca referencjê do domku.
+	* @return Referencja do domku.
+	*/
+	std::vector<Counter*>& getHolder() { return holder; }
+	/**
+	* Zwraca ostatnie pola.
+	* @return Tablica z list¹ pionków na koñcowych polach.
+	*/
+	std::array<std::vector<Counter*>, 6>& getLast() { return last; }
+	/**
 	* @return Pozycja startowa na planszy.
 	*/
 	unsigned int getStartPos() { return startPos; }

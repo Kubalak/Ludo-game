@@ -17,7 +17,10 @@ PlayerContainer::PlayerContainer(nlohmann::json obj) :
 	for (; it != obj["holder"].end(); ++it) {
 		if ((*it)["ownedBy"].get<unsigned int>() != player->getId())
 			throw std::string("Invalid owner encountered! " + std::string(PSRC) + ":" + std::to_string(__LINE__));
-		holder.push_back(player->getCounters()[(*it)["id"].get<unsigned int>()]);
+		unsigned int id = (*it)["id"].get<unsigned int>();
+		if (id > 3)
+			throw std::string("Invalid counterId encountered! " + std::string(PSRC) + ":" + std::to_string(__LINE__));
+		holder.push_back(player->getCounters()[id]);
 	}
 
 	// Sprawdza czy nie powtórzy³ siê ju¿ dany pionek.
@@ -35,6 +38,8 @@ PlayerContainer::PlayerContainer(nlohmann::json obj) :
 			if ((*lit)["ownedBy"].get<unsigned int>() != player->getId())
 				throw std::string("Invalid owner encountered! " + std::string(PSRC) + ":" + std::to_string(__LINE__));
 			unsigned int id = (*lit)["id"].get<unsigned int>();
+			if (id > 3)
+				throw std::string("Invalid counterId encountered! " + std::string(PSRC) + ":" + std::to_string(__LINE__));
 			// Sprawdza czy dotychczas nie by³o takiego pionka.
 			for (unsigned int i{ 0 }; i <= index; ++i)
 				if (std::count_if(last[i].begin(), last[i].end(), [&id](Counter* arg) {return id == arg->getId(); }) != 0)

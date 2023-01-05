@@ -7,6 +7,18 @@
 //TODO: Obs³uga Ctr-C itp. (zabezpieczenie przed niekontrolowanym zamkniêciem)
 //TODO: (WIN) Brak blokowania konsoli po klikniêciu
 
+/**
+* Klasa enum dla stanów silnika.
+*/
+enum class EngineStates
+{
+	CREATED = 0,
+	STARTED = 1,
+	DICE_ROLLED = 2,
+	MOVE_MADE = 3,
+	STEP_MADE = 4
+};
+
 /** Klasa silnika gry w wersji offline.
 * @author Jakub Jach &copy; 2022
 */
@@ -19,14 +31,7 @@ protected:
 	* Nr aktualnego gracza od 0 do liczby graczy.
 	*/
 	int currentPlayer;
-	enum class EngineStates
-	{
-		CREATED = 0,
-		STARTED = 1,
-		DICE_ROLLED = 2,
-		MOVE_MADE = 3,
-		STEP_MADE = 4
-	};
+
 	EngineStates state;
 	//Zbiór, który przechowuje graczy w postaci <æwiartka,gracz>
 	std::map<int, PlayerContainer*> players;
