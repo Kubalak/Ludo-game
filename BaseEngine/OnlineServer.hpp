@@ -30,9 +30,13 @@ class OnlineServer : private Engine {
 		Osobny w¹tek zajmuje siê komunikacj¹ z serwerem.
 	*/
 
-	/**  Dzia³a jak z Engine ale z u¿yciem mutexa */
+	/** 
+	Dzia³a jak z Engine ale z u¿yciem mutexa 
+	*/
 	bool step();
-	/**  Dzia³a jak z Engine ale z u¿yciem mutexa */
+	/** 
+	Dzia³a jak z Engine ale z u¿yciem mutexa 
+	*/
 	unsigned int rollDice();
 
 public:

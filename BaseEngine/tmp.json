@@ -1,5 +1,5 @@
 {
-    "version": "0.1.2",
+    "version": "0.3.1",
     "state": 5,
     "diceVal": 2,
     "currentPlayer": 0,
@@ -12,23 +12,31 @@
                     "nick": "Ewelina",
                     "id": 4154004264
                 },
-                "holder": [
-                    {
-                        "id": 0,
-                        "ownedBy": 4154004264
-                    },
-                    {
-                        "id": 1,
-                        "ownedBy": 4154004264
-                    }
-                ],
+                "holder": [],
                 "last": [
                     [],
                     [],
                     [],
                     [],
                     [],
-                    []
+                    [
+                        {
+                            "id": 0,
+                            "ownedBy": 4154004264
+                        },
+                        {
+                            "id": 1,
+                            "ownedBy": 4154004264
+                        },
+                        {
+                            "id": 2,
+                            "ownedBy": 4154004264
+                        },
+                        {
+                            "id": 3,
+                            "ownedBy": 4154004264
+                        }
+                    ]
                 ]
             }
         },
@@ -65,31 +73,22 @@
             }
         }
     ],
+    "topPlayers": [4154004264],
     "tiles": [
         {
             "manyCanStand": true,
-            "lastBeat": [
-                {
-                    "id": 2,
-                    "ownedBy": 4154004264
-                }
-            ],
-            "counters": []
-        },
-        {
-            "manyCanStand": false,
             "lastBeat": [],
             "counters": []
         },
         {
             "manyCanStand": false,
             "lastBeat": [],
-            "counters": [
-                {
-                    "id": 3,
-                    "ownedBy": 4154004264
-                }
-            ]
+            "counters": []
+        },
+        {
+            "manyCanStand": false,
+            "lastBeat": [],
+            "counters": []
         },
         {
             "manyCanStand": false,

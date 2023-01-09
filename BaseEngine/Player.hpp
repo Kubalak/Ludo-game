@@ -51,14 +51,17 @@ public:
 	/**
 	* Umo¿liwia przekierowanie do strumienia.
 	* Wyjœcie w postaci takiej jak metoda json()
+	* @return Strumieñ os.
 	*/
 	friend std::ostream& operator<< (std::ostream& os, const Player& e);
 	/**
 	* Zwraca reprezentacjê obiektu w bardziej czytelnej postaci
+	* @return Reprezentacja obiektu jako std::string.
 	*/
 	std::string str();
 	/**
 	* Zwraca obiekt w postaci tekstu JSON.
+	* @return Reprezentacja obiektu w postaci JSON.
 	*/
 	std::string json();
 

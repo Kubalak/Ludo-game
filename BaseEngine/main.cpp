@@ -103,15 +103,18 @@ int main(int argc, char** argv) {
 		if (e.getCurrentState() == EngineStates::CREATED)
 			e.start();
 		int field;
-		while (!e.finished())
-		{	std::cout << e.str() << "\n\n";
-		std::cout << "Current player: " << e.getCurrentPlayer().getNick() << '\n';
+		while (!e.finished()) {
+			
+			std::cout << e.str() << "\n\n";
+			std::cout << "Current player: " << e.getCurrentPlayer().getNick() << '\n';
 			std::cout << "Dice roll: " << e.rollDice() << '\n';
 			std::cin >> field;
+
 			if (std::cin.fail()) {
 				std::cin.clear();
 				std::cin.ignore();
 			}
+
 			std::cout << "Move: " << e.move(field) << ' ';
 			std::cout << "Step: " << e.step() << "\n\n";
 			

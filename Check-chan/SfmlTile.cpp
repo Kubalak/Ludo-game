@@ -1,7 +1,8 @@
 #include "SfmlTile.hpp"
 
-SfmlTile::SfmlTile(Tile& tile, sf::Texture& counterText, std::map<unsigned int, sf::Color>& colors) :
+SfmlTile::SfmlTile(Tile& tile, unsigned int id, sf::Texture& counterText, std::map<unsigned int, sf::Color>& colors) :
 	tile(tile), 
+	id(id),
 	counterText(counterText),
 	playerColors(colors) {
 	PawnRect.setSize(sf::Vector2f(36, 36));

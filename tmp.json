@@ -1,8 +1,8 @@
 {
     "version": "0.3.1",
-    "state": 4,
+    "state": 5,
     "diceVal": 2,
-    "currentPlayer": 1,
+    "currentPlayer": 0,
     "players": [
         {
             "quarter": 0,
@@ -69,6 +69,7 @@
             }
         }
     ],
+    "topPlayers": [],
     "tiles": [
         {
             "manyCanStand": true,

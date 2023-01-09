@@ -65,6 +65,10 @@ public:
 	*/
 	Player& getPlayer() { return *player; }
 	/**
+	* @return WskaŸnik do obiektu gracza.
+	*/
+	Player* getPlayerPtr() noexcept { return player; }
+	/**
 	* Zwraca referencjê do domku.
 	* @return Referencja do domku.
 	*/

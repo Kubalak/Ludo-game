@@ -36,7 +36,7 @@ protected:
 	//Zbiór, który przechowuje graczy w postaci <æwiartka,gracz>
 	std::map<int, PlayerContainer*> players;
 	/** Tablica wyników */
-	std::vector<Player> top;
+	std::vector<Player*> top;
 	// Podstawowa plansza do Chiñczyka.
 	std::array<Tile, 52> tiles;
 	// Kostka do gry.
@@ -137,7 +137,7 @@ public:
 	*/
 	EngineStates getCurrentState() { return state; }
 	/** Zwraca wektor z wynikami graczy */
-	std::vector<Player>& getTop() { return top; }
+	std::vector<Player*>& getTop() { return top; }
 
 	/**
 	* Umo¿liwia przekierowanie do strumienia.

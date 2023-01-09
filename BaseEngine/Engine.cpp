@@ -52,10 +52,11 @@ Engine::Engine(nlohmann::json& obj) :
 	currentPlayer(obj["currentPlayer"].get<int>()),
 	state(intState.at(obj["state"].get<int>())) {
 
-	std::map<unsigned int, Player*> pmap;
-	std::vector<Counter*> fcounters;
+	std::map<unsigned int, Player*> pmap; // Mapuje id gracza na obiekt gracza.
+	std::vector<Counter*> fcounters; // Zbiera wszystkie pionki razem.
 	if (!dice.setLast(obj["diceVal"].get<unsigned int>()))
 		throw std::string("Invalid dice value encountered! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+	// Dodawanie graczy.
 	for (auto& c : obj["players"]) {
 		unsigned int q = c["quarter"].get<unsigned int>();
 		if (q > 3)
@@ -77,9 +78,11 @@ Engine::Engine(nlohmann::json& obj) :
 				fcounters.push_back(fc);
 	}
 	auto index = 0u;
+	// Dodawanie pionków do pól.
 	for (auto& t : obj["tiles"]) {
 		tiles[index] = Tile(t["manyCanStand"].get<bool>());
 		for (auto& lb : t["lastBeat"]) {
+			
 			unsigned int id = lb["id"].get<unsigned int>();
 			if (id > 3)
 				throw std::string("Invalid counterId encountered! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
@@ -101,6 +104,7 @@ Engine::Engine(nlohmann::json& obj) :
 				throw std::string("Error while moving to holder! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
 		}
 		tiles[index].lastBeat.clear();
+		// Dodawanie pionków na planszê.
 		for (auto& lb : t["counters"]) {
 			unsigned int id = lb["id"].get<unsigned int>();
 			if (id > 3)
@@ -116,12 +120,25 @@ Engine::Engine(nlohmann::json& obj) :
 		}
 		index++;
 	}
+	// Testowanie liczby pionków na planszy, gracza oraz stanu silnika do obecnego gracza.
 	if (fcounters.size() != 4 * players.size())
 		throw std::string("Counters missing! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
 	if(currentPlayer > static_cast<int>(players.size()))
 		throw std::string("Invalid current player value! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
 	if((currentPlayer < 0 && state != EngineStates::CREATED) || (currentPlayer >= 0 && state == EngineStates::CREATED))
 		throw std::string("Current player doesn't match game state! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+	unsigned int p;
+	// Budowanie tablicy wyników z JSON.
+	for (auto& tp : obj["topPlayers"]) {
+		p = tp.get<unsigned int>();
+		if(std::count_if(pmap.begin(),pmap.end(),[&p](std::pair<unsigned int, Player*> player){return player.second->getId() == p; }) == 0)
+			throw std::string("Top player with given id doesn't exist! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+		std::pair<unsigned int, PlayerContainer*> pc = *(std::find_if(players.begin(), players.end(), [&p](std::pair<unsigned int, PlayerContainer*> c) {return p == c.second->getPlayer().getId(); }));
+		if(!pc.second->allIn())
+			throw std::string("This player hasn't finished yet! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
+		top.push_back(pmap[p]);
+
+	}
 
 }
 
@@ -226,7 +243,7 @@ bool Engine::moveCounterOnLast(unsigned int fieldNo) {
 	bool result = c.moveOnLast(field, dice.getLast());
 	if (result) {
 		if (c.allIn())
-			top.push_back(c.getPlayer());
+			top.push_back(c.getPlayerPtr());
 		state = EngineStates::MOVE_MADE;
 	}
 	return  result;
@@ -381,6 +398,14 @@ std::ostream& operator<< (std::ostream& os, const Engine& e) {
 		if (it != e.players.end())
 			os << ',';
 	}
+	os << "],\"topPlayers\":[";
+	auto pit = e.top.begin();
+	while (pit != e.top.end()) {
+		os << (*pit)->getId();
+		pit++;
+		if (pit != e.top.end())
+			os << ',';
+	}
 	os << "],\"tiles\":[";
 	auto tit = e.tiles.begin();
 	while (tit != e.tiles.end()) {
@@ -422,6 +447,14 @@ std::string Engine::json() {
 		ss << "{\"quarter\":" << (*it).first << ",\"playerContainer\":" << (*it).second->json() << '}';
 		it++;
 		if (it != players.end())
+			ss << ',';
+	}
+	ss << "],\"topPlayers\":[";
+	auto pit = top.begin();
+	while (pit != top.end()) {
+		ss << (*pit)->getId();
+		pit++;
+		if (pit != top.end())
 			ss << ',';
 	}
 	ss << "],\"tiles\":[";

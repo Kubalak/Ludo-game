@@ -136,12 +136,11 @@ std::ostream& operator<< (std::ostream& os, const PlayerContainer& e) {
 	os << "\"playerObj\":" << *e.player << ",";
 	os << "\"holder\":[";
 	auto it = e.holder.begin();
-	while (1) {
+	while (it != e.holder.end()) {
 		os << *(*it);
 		++it;
 		if (it != e.holder.end())
 			os << ",";
-		else break;
 	}
 	os << "],\"last\":[";
 	auto lit = e.last.begin();
@@ -182,12 +181,11 @@ std::string PlayerContainer::json() {
 	ss << "\"playerObj\":" << player->json() << ",";
 	ss << "\"holder\":[";
 	auto it = holder.begin();
-	while (1) {
+	while (it != holder.end()) {
 		ss << (*it)->json();
 		++it;
 		if (it != holder.end())
 			ss << ",";
-		else break;
 	}
 	ss << "],\"last\":[";
 	auto lit = last.begin();
