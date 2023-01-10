@@ -7,6 +7,7 @@
 /** Klasa do typów wiadomoœci */
 enum class EventType {
 	PLAYER_JOINED,
+	NEW_PLAYER,
 	ENGINE_STATE,
 	GAME_START,
 	DICE_ROLL,
@@ -19,6 +20,7 @@ enum class EventType {
 /** Mapa u¿yta do konwersji obiektu EventType na std::string.*/
 const static std::map<EventType, std::string> eventStr{
 	{EventType::PLAYER_JOINED, "PLAYER_JOINED"},
+	{EventType::NEW_PLAYER, "NEW_PLAYER"},
 	{EventType::ENGINE_STATE, "ENGINE_STATE"},
 	{EventType::GAME_START, "GAME_START"},
 	{EventType::DICE_ROLL, "DICE_ROLL"},

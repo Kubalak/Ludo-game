@@ -5,13 +5,14 @@
 #include <thread> // <- Uruchamiana bêdzie metoda run() z klasy.
 #include <nlohmann/json.hpp>
 
-//TODO: Sieæ i wymiana danych.
-//TODO: Dzia³anie jako klient (wysy³anie komunikatów odbieranie zmian).
-//TODO: Zabezpieczenie metod modyfikuj¹cych dane.
+
+//TODO: Sprawdzenie czy dzia³a zgodnie z oczekiwaniami.
+/**
+Klasa obs³uguj¹ca klienta gry Chiñczyk.
+@author Jakub Jach &copy; 2023
+*/
 
 class OnlineEngine : public Engine {
-	/** Zapewnia bezpieczeñstwo danych przy u¿yciu metod */
-	std::mutex method_lock;
 	/** W¹tek do wersji online */
 	std::thread* online;
 	/** Metoda uruchamiania przez w¹tek */
@@ -22,23 +23,37 @@ class OnlineEngine : public Engine {
 	zmq::context_t context{ 1 };
 	zmq::socket_t serverSubscriber;
 	zmq::socket_t eventPublisher;
+	const std::map<std::string, std::function<bool(nlohmann::json&)>> respFuncs;
+
+	bool handlePlayers(nlohmann::json&);
+	bool handleNewPlayer(nlohmann::json&);
+	bool handleStart(nlohmann::json&);
+	bool handleMove(nlohmann::json&);
+	bool handleRoll(nlohmann::json&);
+
 public:
 	OnlineEngine();
-	/** Dzia³a jak z Engine ale z u¿yciem mutexa */
+	/** Wysy³a ¿¹danie ruchu do serwera
+	* @param fieldNo Numer pola, z którego chcemy siê ruszyæ.
+	* @return Informacja czy wys³ano ¿¹danie.
+	*/
 	bool move(int fieldNo);
-	/** Dodaje nowego gracza ze wskazaniem, czy jest to gracz lokalny. Uniemo¿liwia dodanie wiêcej jak jednego gracza lokalnego. */
-	bool addPlayer(Player* player, unsigned int quarter, bool local = true);
+	/** Dodaje nowego gracza lokalnego. Uniemo¿liwia dodanie wiêcej jak jednego gracza lokalnego. 
+	* @param player Gracz lokalny, którego dodajemy (gracze zdalni zostan¹ dodani automatycznie).
+	* @param quarter Æwiartka, w której ma znaleŸæ siê gracz. Mo¿liwa jest zmiana æwiartki nawet je¿eli gracz lokalny ju¿ istnieje.
+	*/
+	bool addPlayer(Player* player, unsigned int quarter);
 	/** 
-	Inicjuje grê jak w Engine.
+	Wysy³a ¿¹danie rozpoczêcia gry do serwera gry.
 	! DODATKOWO !
 	Uruchamia silnik online w postaci nowego w¹tku.
 	Do silnika mo¿na odwo³ywaæ siê jak do zwyk³ego Engine.
-	Osobny w¹tek zajmuje siê komunikacj¹ z serwerem.
+	Osobny w¹tek zajmuje siê pobieraniem zmian z serwera.
 	*/
-	void start();
-	/**  Dzia³a jak z Engine ale z u¿yciem mutexa */
+	bool start();
+	/**  Nic nie robi. Zwraca zawsze true. U¿yte by przes³oniæ metodê z Engine i nie pospuæ gry desynchronizacj¹ klientów z serwerem. */
 	bool step();
-	/**  Dzia³a jak z Engine ale z u¿yciem mutexa */
+	/**  Wysy³a do serwera ¿¹danie rzutu kostk¹. Zwraca aktualn¹ wartoœæ kostki. */
 	unsigned int rollDice();
 
 	/** Pod³¹cza klienta do serwera gry.

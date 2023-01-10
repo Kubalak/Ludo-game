@@ -3,7 +3,7 @@
 #include <algorithm>
 constexpr auto ESRC = "BaseEngine/Engine.cpp";
 
-const std::string Engine::_VERSION = "0.3.1";
+const std::string Engine::_VERSION = "0.5.3";
 
 const std::map<EngineStates, std::string> Engine::stateStr{
 	{ EngineStates::CREATED, "CREATED"},
@@ -144,14 +144,16 @@ Engine::Engine(nlohmann::json& obj) :
 
 
 Engine::~Engine() {
+	std::cout << "Engine destructor\n";
 	for (auto& p : players)
 		delete players[p.first];
+	
 }
 
 bool Engine::addPlayer(Player* player, unsigned int quarter) {
 	if (state != EngineStates::CREATED) return false;
 	for (auto& p : players)
-		if (p.second->getPlayer().getId() == player->getId() || p.first == quarter) // Sprawdzamy czy gracz lub æwiartka ju¿ nie wystêpuje.
+		if (p.second->getPlayer().getId() == player->getId() || p.first == quarter - 1) // Sprawdzamy czy gracz lub æwiartka ju¿ nie wystêpuje.
 			return false;
 
 	if (quarter == 0 || quarter > 4)
@@ -161,13 +163,15 @@ bool Engine::addPlayer(Player* player, unsigned int quarter) {
 	return true;
 }
 
-void Engine::start()
+bool Engine::start()
 {
-	if (players.empty() || players.size() < 1) throw std::exception("Nie mo¿na uruchomiæ gry, zbyt ma³a liczba graczy!");
+	if (players.empty() || players.size() < 2) return false;
 	if (state == EngineStates::CREATED) {
 		currentPlayer = 0;
 		state = EngineStates::STARTED;
+		return true;
 	}
+	return false;
 }
 
 bool Engine::step() {
@@ -338,7 +342,8 @@ bool Engine::move(int fieldNo) {
 }
 
 bool Engine::finished() {
-	for (auto p : players) {
+	if (players.empty())return false;
+	for (auto& p : players) {
 		if (!p.second->allIn())
 			return false;
 	}

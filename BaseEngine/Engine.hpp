@@ -83,8 +83,9 @@ public:
 
 	/** Inicjuje grê.
 	* Powoduje to zablokowanie mo¿liwoœci dodawnia graczy i ustawia stan rozgrywki.
+	* @return true jeœli mo¿liwe jest uruchomienie gry lub false w przeciwnym wypadku.
 	*/
-	void start();
+	bool start();
 
 	/** Kolejny krok w grze. Aktualizuje informacje o wykonaiu ruchu czy rzucie kostk¹ oraz zmienia aktywnego gracza.
 	*/
