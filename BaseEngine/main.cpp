@@ -20,7 +20,7 @@ Plik wykorzystywany do testów silnika gry.
 #include "Engine.hpp"
 #include "OnlineEngine.hpp"
 #include "OnlineServer.hpp"
-#include "EventMsg.hpp"
+// #define SERVER
 
 
 int main(int argc, char** argv) {
@@ -74,60 +74,87 @@ int main(int argc, char** argv) {
 	//auto n = engine.bind("tcp://127.0.0.1:3000", "tcp://127.0.0.1:2000");
 	//std::cout << "Bind: " << n << '\n';
 	//engine.start();
+	//try {
+	//	//Player* p = new Player("{\"id\":235, \"nick\":\"Arnold\"}"_json);
+	//	std::ifstream f("tmp.json");
+	//	auto start = std::chrono::high_resolution_clock::now();
+	//	nlohmann::json js = nlohmann::json::parse(f);
+	//	Engine e(js);
+	//	auto stop = std::chrono::high_resolution_clock::now();
+	//	std::cout << "Ladowanie z JSON zajelo: " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count()/1000.0 << " ms\n";
+	//	start = std::chrono::high_resolution_clock::now();
+	//	std::string s = e.json();
+	//	stop = std::chrono::high_resolution_clock::now();
+	//	std::cout << "Zrzut do JSON zajal: " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count()/1000.0 << " ms\n";
+	//	std::cout << s << '\n';
+	//	f.close();
+	//	//PlayerContainer c("{\"startPos\":1,\"playerObj\":{\"nick\":\"Arnold\",\"id\":235},\"holder\":[{\"id\":0,\"ownedBy\":235},{\"id\":1,\"ownedBy\":235}],\"last\":[[],[],[],[{\"id\":3,\"ownedBy\":235},{\"id\":2,\"ownedBy\":235}],[],[]]}"_json);
+	//	//c.addToLast(c.holderPop(), 3);
+	//	//c.addToLast(c.holderPop(), 3);
+	//	/*Engine e;
+	//	e.addPlayer(new Player(std::string("Ewelina")), 1);
+	//	e.addPlayer(new Player(std::string("Arnold Schnitzel")), 3);
+	//	e.start();
+	//	std::cout << e.json() << "\n\n";
+	//	auto start = std::chrono::high_resolution_clock::now();
+	//	auto s = e.json();
+	//	auto stop = std::chrono::high_resolution_clock::now();
+	//	std::cout << s << "\nTime taken: " << std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count() << "ns\n";*/
+	//	if (e.getCurrentState() == EngineStates::CREATED)
+	//		e.start();
+	//	int field;
+	//	while (!e.finished()) {
+	//		
+	//		std::cout << e.str() << "\n\n";
+	//		std::cout << "Current player: " << e.getCurrentPlayer().getNick() << '\n';
+	//		std::cout << "Dice roll: " << e.rollDice() << '\n';
+	//		std::cin >> field;
+
+	//		if (std::cin.fail()) {
+	//			std::cin.clear();
+	//			std::cin.ignore();
+	//		}
+
+	//		std::cout << "Move: " << e.move(field) << ' ';
+	//		std::cout << "Step: " << e.step() << "\n\n";
+	//		
+	//	}
+
+	//	//std::cout << constructMessage(EventType::PLAYER_JOINED, p.json()) << '\n';
+	//}
+	//catch (std::exception& e) {
+	//	std::cerr << e.what() << ' ' << __FILE__ << ':' << __LINE__ << '\n';
+	//}
+	//catch (std::string& e) {
+	//	std::cerr << e << '\n';
+	//}
+#ifdef SERVER
 	try {
-		//Player* p = new Player("{\"id\":235, \"nick\":\"Arnold\"}"_json);
-		std::ifstream f("tmp.json");
-		auto start = std::chrono::high_resolution_clock::now();
-		nlohmann::json js = nlohmann::json::parse(f);
-		Engine e(js);
-		auto stop = std::chrono::high_resolution_clock::now();
-		std::cout << "Ladowanie z JSON zajelo: " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count()/1000.0 << " ms\n";
-		start = std::chrono::high_resolution_clock::now();
-		std::string s = e.json();
-		stop = std::chrono::high_resolution_clock::now();
-		std::cout << "Zrzut do JSON zajal: " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count()/1000.0 << " ms\n";
-		std::cout << s << '\n';
-		f.close();
-		//PlayerContainer c("{\"startPos\":1,\"playerObj\":{\"nick\":\"Arnold\",\"id\":235},\"holder\":[{\"id\":0,\"ownedBy\":235},{\"id\":1,\"ownedBy\":235}],\"last\":[[],[],[],[{\"id\":3,\"ownedBy\":235},{\"id\":2,\"ownedBy\":235}],[],[]]}"_json);
-		//c.addToLast(c.holderPop(), 3);
-		//c.addToLast(c.holderPop(), 3);
-		/*Engine e;
-		e.addPlayer(new Player(std::string("Ewelina")), 1);
-		e.addPlayer(new Player(std::string("Arnold Schnitzel")), 3);
-		e.start();
-		std::cout << e.json() << "\n\n";
-		auto start = std::chrono::high_resolution_clock::now();
-		auto s = e.json();
-		auto stop = std::chrono::high_resolution_clock::now();
-		std::cout << s << "\nTime taken: " << std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count() << "ns\n";*/
-		if (e.getCurrentState() == EngineStates::CREATED)
-			e.start();
-		int field;
-		while (!e.finished()) {
-			
-			std::cout << e.str() << "\n\n";
-			std::cout << "Current player: " << e.getCurrentPlayer().getNick() << '\n';
-			std::cout << "Dice roll: " << e.rollDice() << '\n';
-			std::cin >> field;
-
-			if (std::cin.fail()) {
-				std::cin.clear();
-				std::cin.ignore();
-			}
-
-			std::cout << "Move: " << e.move(field) << ' ';
-			std::cout << "Step: " << e.step() << "\n\n";
-			
-		}
-
-		//std::cout << constructMessage(EventType::PLAYER_JOINED, p.json()) << '\n';
+		OnlineServer server;
+		server.bind("127.0.0.1");
+		server.start();
 	}
 	catch (std::exception& e) {
-		std::cerr << e.what() << ' ' << __FILE__ << ':' << __LINE__ << '\n';
+		std::cerr << e.what() << '\n';
 	}
-	catch (std::string& e) {
-		std::cerr << e << '\n';
+	catch (...) {
+		std::cerr << "Unknown exception!\n";
 	}
+#else
+	try {
+		OnlineEngine engine;
+		engine.addPlayer(new Player(std::string("Anne Marie")), 1);
+		engine.connect("127.0.0.1");
+		engine.start();
+		system("pause");
+	}
+	catch (std::exception& e) {
+		std::cerr << e.what() << '\n';
+	}
+	catch (...) {
+		std::cerr << "Unknown exception!\n";
+	}
+#endif
 #ifdef _DEBUG
 	system("pause");
 #endif

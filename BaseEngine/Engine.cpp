@@ -43,8 +43,8 @@ Engine::Engine() :
 	*/
 	Tile a(true);
 	for (int i = 0; i < 4; ++i) {
-		tiles[i * 13] = a; // Pola startowe graczy
-		tiles[8 + i * 13] = a; // Pola dodatkowe
+		tiles[static_cast<std::array<Tile, 52Ui64>::size_type>(i) * 13] = a; // Pola startowe graczy (static_cast przez VS)
+		tiles[8 + static_cast<std::array<Tile, 52Ui64>::size_type>(i) * 13] = a; // Pola dodatkowe (static_cast przez VS)
 	}
 }
 
@@ -151,7 +151,7 @@ Engine::~Engine() {
 bool Engine::addPlayer(Player* player, unsigned int quarter) {
 	if (state != EngineStates::CREATED) return false;
 	for (auto& p : players)
-		if (p.second->getPlayer().getId() == player->getId())
+		if (p.second->getPlayer().getId() == player->getId() || p.first == quarter) // Sprawdzamy czy gracz lub æwiartka ju¿ nie wystêpuje.
 			return false;
 
 	if (quarter == 0 || quarter > 4)
@@ -270,44 +270,6 @@ bool Engine::moveCounterToLast(unsigned int from, unsigned int offset) {
 }
 
 
-
-// 101-106 Q1
-// 201-206 Q2
-// 301-306 Q3
-// 401-406 Q4
-
-//~TODO~: Poprawiæ metodê move() tak, by korzysta³a z nowych w³aœciwoœci Tile.
-
-//bool Engine::move(unsigned int fieldNo) {
-//
-//	if (state != EngineStates::DICE_ROLLED) return false;
-//	if (!getCurrentPlayerContainer().canMove() && dice.getLast() != 6) {
-//		std::cout << "Cannot move!\n";
-//		state = EngineStates::MOVE_MADE;
-//		return false;
-//	}
-//	else if (dice.getLast() == 6) {
-//		PlayerContainer& c = getCurrentPlayerContainer();
-//		tiles[c.getStartPos()].addToTile(c.holderPop());
-//		std::cout << "6 hit!\n";
-//		state = EngineStates::MOVE_MADE;
-//		return true;
-//	}
-//	if (fieldNo < 54)
-//	{
-//		std::cout << "Normal field!\n";
-//		unsigned int distance = getDistance(getCurrentPlayerContainer(), dice.getLast());
-//		if (distance > 52) 
-//			return moveCounterToLast(fieldNo, distance - 52);
-//		return moveCounterOnBoard(fieldNo);
-//	}
-//	else if(fieldNo > 100) {
-//		std::cout << "Player special!\n";
-//		return moveCounterOnLast(fieldNo);
-//	}
-//	return false;
-//}
-
 std::map<unsigned int, unsigned int> Engine::getQuarters() {
 	std::map<unsigned int, unsigned int> m;
 	for (auto& pc : players)
@@ -316,8 +278,12 @@ std::map<unsigned int, unsigned int> Engine::getQuarters() {
 	return m;
 }
 
+// 101-106 Q1
+// 201-206 Q2
+// 301-306 Q3
+// 401-406 Q4
 //TODO: Sprawdziæ czy dzia³a poprawnie.
-//FIXME: Naprawiæ b³¹d podczas przechodzenia na pocz¹tek planszy.
+
 bool Engine::move(int fieldNo) {
 	if (state != EngineStates::DICE_ROLLED) return false;
 	if (!getCurrentPlayerContainer().canMove() && dice.getLast() != 6) {
@@ -346,7 +312,9 @@ bool Engine::move(int fieldNo) {
 		std::cout << "Calculated distance is " << distance << " start is  " << distance_start << '\n';
 #endif
 		if (distance < 51 && distance_start < distance) {
+#ifdef _DEBUG
 			std::cout << "Moving on board to " << fieldNo + dice.getLast() << '\n';
+#endif
 			return moveCounterOnBoard(fieldNo);
 		}
 		else {

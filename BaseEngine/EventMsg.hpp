@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 #include <sstream>
+#include <ctime>
 
 /** Klasa do typów wiadomoœci */
 enum class EventType {
@@ -40,3 +41,5 @@ template <typename T> std::string constructMessage(EventType type, const T& obj)
 
 	return ss.str();
 }
+
+const char* currentTimestamp(char buf[], int bufflen);

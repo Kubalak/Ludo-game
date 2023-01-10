@@ -5,14 +5,14 @@
 class SfmlTile : public sf::Drawable{
 private:
 	Tile& tile;
-	const unsigned int id;
 	sf::Texture& counterText;
 	/** Kszta³t zajmuj¹cy ca³¹ powierzchniê pola */
 	sf::RectangleShape PawnRect;
 	std::map<unsigned int, sf::Color>& playerColors;
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-public:
+public:	
+	const unsigned int id;
 	SfmlTile(Tile& tile, unsigned int, sf::Texture& counterText, std::map<unsigned int, sf::Color>&);
 	~SfmlTile();
 	/** Pozwala ustawiæ obiekt w odpowiednim miejscu */

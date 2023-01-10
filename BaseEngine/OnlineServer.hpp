@@ -6,7 +6,7 @@
 #include <thread> // <- Uruchamiana bêdzie metoda run() z klasy.
 #include <nlohmann/json.hpp>
 
-
+//TODO: Przepisaæ na system obs³ugi komunikatów od klientów.
 class OnlineServer : private Engine {
 	/** Zapewnia bezpieczeñstwo danych przy u¿yciu metod */
 	std::mutex method_lock;
@@ -42,7 +42,7 @@ class OnlineServer : private Engine {
 public:
 	OnlineServer();
 	void start();
-	bool bind(std::string pubaddr, std::string subaddr);
+	bool bind(std::string addr);
 
 	~OnlineServer();
 };

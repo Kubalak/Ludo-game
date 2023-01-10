@@ -6,7 +6,7 @@
 #include <nlohmann/json.hpp>
 
 //TODO: Sieæ i wymiana danych.
-//TODO: Dzia³anie jako klient / serwer gry.
+//TODO: Dzia³anie jako klient (wysy³anie komunikatów odbieranie zmian).
 //TODO: Zabezpieczenie metod modyfikuj¹cych dane.
 
 class OnlineEngine : public Engine {
@@ -28,11 +28,12 @@ public:
 	bool move(int fieldNo);
 	/** Dodaje nowego gracza ze wskazaniem, czy jest to gracz lokalny. Uniemo¿liwia dodanie wiêcej jak jednego gracza lokalnego. */
 	bool addPlayer(Player* player, unsigned int quarter, bool local = true);
-	/** Inicjuje grê jak w Engine.
-		! DODATKOWO !
-		Uruchamia silnik online w postaci nowego w¹tku.
-		Do silnika mo¿na odwo³ywaæ siê jak do zwyk³ego Engine.
-		Osobny w¹tek zajmuje siê komunikacj¹ z serwerem.
+	/** 
+	Inicjuje grê jak w Engine.
+	! DODATKOWO !
+	Uruchamia silnik online w postaci nowego w¹tku.
+	Do silnika mo¿na odwo³ywaæ siê jak do zwyk³ego Engine.
+	Osobny w¹tek zajmuje siê komunikacj¹ z serwerem.
 	*/
 	void start();
 	/**  Dzia³a jak z Engine ale z u¿yciem mutexa */
@@ -44,7 +45,7 @@ public:
 	* @param server - Adres serwera gry.
 	* @return true przy powodzeniu zestawienia i konfiguracji po³¹czenia lub false w ka¿dym innym przypadku.
 	*/
-	bool connect(std::string, std::string);
+	bool connect(std::string);
 
 	~OnlineEngine();
 };

@@ -152,6 +152,7 @@
     <ClCompile Include="Counter.cpp" />
     <ClCompile Include="Dice.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="EventMsg.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OnlineEngine.cpp" />
     <ClCompile Include="OnlineServer.cpp" />

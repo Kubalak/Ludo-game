@@ -105,9 +105,9 @@ bool PlayerContainer::moveOnLast(unsigned int fieldNo, unsigned int offset) {
 	v.pop_back();
 
 	if (fieldNo + offset > 5)
-		last[6 - (fieldNo + offset) % 5].push_back(p);
+		last[static_cast<std::array<std::vector<Counter *, std::allocator<Counter *>>, 6Ui64>::size_type>(6) - (fieldNo + offset) % 5].push_back(p); // Konwersja przez VS don't ask why ;)
 	else
-		last[fieldNo + offset].push_back(p);
+		last[static_cast<std::array<std::vector<Counter *, std::allocator<Counter *>>, 6Ui64>::size_type>(fieldNo) + offset].push_back(p); // Konwersja przez VS don't ask why ;);)
 
 	return true;
 }

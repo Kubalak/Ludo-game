@@ -1,5 +1,8 @@
 #include "OnlineServer.hpp"
+#include "EventMsg.hpp"
 #include <zmq_addon.hpp>
+#include <ctime>
+
 
 OnlineServer::OnlineServer() :
 	onlineShouldWork(true) {
@@ -25,16 +28,16 @@ void OnlineServer::start() {
 }
 
 // # IMPORTANT #
-//FIXME: Zaimplementowaæ metodê run.
+//TODO: Zaimplementowaæ metodê run.
 void OnlineServer::run() {
-	std::vector<zmq::message_t> messages;
+	char buf[80];
 	while (onlineShouldWork) {
 		zmq::message_t message;
-		zmq::recv_result_t result = zmq::recv_multipart(serverSocketSubscriber, std::back_inserter(messages));
+		zmq::recv_result_t result = serverSocketSubscriber.recv(message, zmq::recv_flags::none);
 		if (result.has_value())
-			std::cout << "Value: " << result.value() << '\n';
-
-		std::cout << messages[0].to_string() << '\n';
+			std::cout << "[" << currentTimestamp(buf,80) << "]:" << message.to_string() << '\n';
+			//std::cout << "Value: " << result.value() << '\n';
+		serverSocketPublisher.send(zmq::buffer("Reply message"), zmq::send_flags::none);
 	}
 }
 
@@ -48,12 +51,11 @@ unsigned int OnlineServer::rollDice() {
 	return Engine::rollDice();
 }
 
-bool OnlineServer::bind(std::string pubaddr, std::string subaddr) {
+bool OnlineServer::bind(std::string addr) {
 	try {
-		serverSocketPublisher.bind(pubaddr);
-		serverSocketSubscriber.bind(subaddr);
-		//serverSocketSubscriber.set(zmq::sockopt::subscribe, "");
-		std::cout << "Server is available at " << pubaddr << " (sub) " << subaddr << " (pub)\n";
+		serverSocketPublisher.bind("tcp://"+addr+":2000");
+		serverSocketSubscriber.bind("tcp://" + addr + ":2001");
+		std::cout << "Server is available under " << addr << '\n';
 		return true;
 	}
 	catch (std::exception& e) {
@@ -66,6 +68,7 @@ bool OnlineServer::bind(std::string pubaddr, std::string subaddr) {
 }
 
 OnlineServer::~OnlineServer() {
+	onlineShouldWork = false;
 	if (serverSocketPublisher)
 		serverSocketPublisher.close();
 	if (serverSocketSubscriber)

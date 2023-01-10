@@ -1,4 +1,7 @@
 #include "OnlineEngine.hpp"
+#include "EventMsg.hpp"
+#include <ctime>
+
 
 OnlineEngine::OnlineEngine() :
 	onlineShouldWork(true),
@@ -26,40 +29,48 @@ bool OnlineEngine::addPlayer(Player* player, unsigned int quarter, bool local) {
 void OnlineEngine::start() {
 	std::lock_guard<std::mutex> lock(method_lock); // <- Blokuje mutex dla bie¿¹cego kontekstu.
 	if (state == EngineStates::CREATED) {
-		Engine::start();
+		auto result = eventPublisher.send(zmq::buffer(constructMessage(EventType::GAME_START, *localP)), zmq::send_flags::none);
 		std::cout << "Thread id: " << std::this_thread::get_id() << '\n';
 		online = new std::thread([this] { run(); });
 	}
 }
 
 // # IMPORTANT #
-//FIXME: Zaimplementowaæ metodê run.
+//TODO: Zaimplementowaæ metodê run.
 void OnlineEngine::run() {
-	std::cout << "Thread id: " << std::this_thread::get_id() << '\n';
-	std::cout << "It runs" << '\n';
+	char buf[80];
+
+	std::cout << "["<< currentTimestamp(buf, 80) << "]: New thread with id "<< std::this_thread::get_id() << " created\n";
+	while (onlineShouldWork) {
+		zmq::message_t message;
+		zmq::recv_result_t result = serverSubscriber.recv(message, zmq::recv_flags::dontwait); // !!!!
+		if (result.has_value())
+			std::cout << "[" << currentTimestamp(buf, 80) << "]: Server message \"" << message.to_string() << "\"\n";
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Ograniczenie szybkoœci do 20 ticks/s.
+	}
 }
 
 bool OnlineEngine::step() {
-	std::lock_guard<std::mutex> lock(method_lock); // <- Blokuje mutex dla bie¿¹cego kontekstu.
+	std::lock_guard<std::mutex> lock(method_lock);
 	return Engine::step();
 }
 
 unsigned int OnlineEngine::rollDice() {
-	std::lock_guard<std::mutex> lock(method_lock); // <- Blokuje mutex dla bie¿¹cego kontekstu.
-	return Engine::rollDice();
+	// Wysy³a wiadomoœæ z DICE_ROLL
+	auto result = eventPublisher.send(zmq::buffer(constructMessage(EventType::DICE_ROLL, *localP)), zmq::send_flags::none);
+	if (result.has_value())
+		std::cout << result.value() << '\n';
+	return dice.getLast();
 }
 
-bool OnlineEngine::connect(std::string serverpub, std::string serversub) {
+bool OnlineEngine::connect(std::string addr) {
 	if (localP == nullptr)
 		return false;
 	try {
-		serverSubscriber.connect(serversub);
-		eventPublisher.connect(serverpub);
-		//		addr = server;
-				//serverSubscriber.set(zmq::sockopt::subscribe, "events");
-				//eventPublisher.send(zmq::str_buffer("NEW_PLAYERS"), zmq::send_flags::none);
-		auto t = eventPublisher.send(zmq::buffer(localP->json()));
-		std::cout << "Has value: " << t.has_value() << '\n';
+		serverSubscriber.connect("tcp://" + addr + ":2000");
+		eventPublisher.connect("tcp://" + addr + ":2001");
+		auto t = eventPublisher.send(zmq::buffer(constructMessage(EventType::PLAYER_JOINED,*localP)), zmq::send_flags::none);
 		if (t.has_value())
 			std::cout << "Value: " << t.value() << '\n';
 		return true;
@@ -75,6 +86,7 @@ bool OnlineEngine::connect(std::string serverpub, std::string serversub) {
 
 OnlineEngine::~OnlineEngine() {
 	if (online != nullptr) {
+		onlineShouldWork = false;
 		online->join();
 		delete online;
 	}

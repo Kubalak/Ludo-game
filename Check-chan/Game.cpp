@@ -155,7 +155,7 @@ Game::Game(Engine& engine):
 
     unsigned int index = 0;
     for (auto& tile : engine.getTiles())
-        tiles[index++] = new SfmlTile(tile, counterTexture, playerColors);
+        tiles[index++] = new SfmlTile(tile, index, counterTexture, playerColors);
     for (int i = 0; i < 4; ++i) {
        float deg = 90.0f * i * M_PI / 180.0f;
        for (int j = 0; j < 5; j++) {
