@@ -21,7 +21,7 @@ Plik wykorzystywany do testów silnika gry.
 #include "OnlineEngine.hpp"
 #include "OnlineServer.hpp"
 #include <Windows.h>
-// #define SERVER
+//#define SERVER
 
 
 int main(int argc, char** argv) {
@@ -152,10 +152,12 @@ int main(int argc, char** argv) {
 		system("color");
 		OnlineEngine engine;
 		engine.connect("127.0.0.1");
-		/*engine.addPlayer(new Player(std::string("Anne Marie"), 1), 1);
+		auto* p = new Player(std::string("Anne Marie"));
+		std::cout << "Trying to add " << p->getNick() << "(" << p->getId() << ")\n";
+		engine.addPlayer(p, 1);
 		engine.start();
 		engine.rollDice();
-		 engine.move(1); */
+		engine.move(1); 
 		system("pause");
 	}
 	catch (std::exception& e) {

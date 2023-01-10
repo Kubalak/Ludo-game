@@ -53,6 +53,8 @@ bool OnlineServer::handleNewPlayer(nlohmann::json& ev) {
 		std::stringstream ss;
 		ss << "{\"player\":" << *p << "," << "\"quarter\":" << q << "}"; // JSON z nowym graczem.
 		std::cout << "added player " << p->getNick() << " with id " << p->getId() << ' ';
+		if (p->getId() == owner)
+			std::cout << "this player is the game owner ";
 		return serverSocketPublisher.send(zmq::buffer(constructMessage(EventType::NEW_PLAYER, ss.str())), zmq::send_flags::none).has_value();
 	}
 	else {
