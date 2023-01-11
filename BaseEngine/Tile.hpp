@@ -4,8 +4,8 @@
 #include <vector>
 #include <map>
 
-/** Klasa do obs³ugi pola planszy. 
-* @author Jakub Jach &copy; 2022 
+/** Klasa do obs³ugi pola planszy.
+* @author Jakub Jach &copy; 2022
 */
 class Tile
 {
@@ -57,8 +57,14 @@ public:
 	*/
 	Tile& operator=(const Tile& t);
 
-#ifdef _DEBUG
 	friend std::ostream& operator<< (std::ostream& os, const Tile& t);
-#endif
+	/**
+	* Zwraca reprezentacjê obiektu w bardziej czytelnej postaci
+	*/
+	std::string str();
+	/**
+	* Zwraca obiekt w postaci tekstu JSON.
+	*/
+	std::string json();
 };
 

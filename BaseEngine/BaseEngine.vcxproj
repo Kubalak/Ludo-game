@@ -134,7 +134,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;ZMQ_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>..\ZeroMQ\include;..\JSON\include</AdditionalIncludeDirectories>
@@ -152,6 +152,7 @@
     <ClCompile Include="Counter.cpp" />
     <ClCompile Include="Dice.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="EventMsg.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OnlineEngine.cpp" />
     <ClCompile Include="OnlineServer.cpp" />
@@ -162,11 +163,14 @@
   <ItemGroup>
     <ClInclude Include="Counter.hpp" />
     <ClInclude Include="Dice.hpp" />
+    <ClInclude Include="endianness.h" />
     <ClInclude Include="Engine.hpp" />
+    <ClInclude Include="EventMsg.hpp" />
     <ClInclude Include="OnlineEngine.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="PlayerContainer.hpp" />
     <ClInclude Include="Tile.hpp" />
+    <ClInclude Include="uuid_v4.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="OnlineServer.hpp" />

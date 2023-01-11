@@ -1,13 +1,13 @@
 #include "Dice.hpp"
 #include <ctime>
 
-Dice::Dice():
+Dice::Dice() :
 	distribution(std::uniform_int_distribution<int>(1, 6)) {
 	generator.seed(static_cast<unsigned int>(time(NULL)));
-	lastRes = distribution(generator);	
+	lastRes = distribution(generator);
 }
 
-Dice::Dice(unsigned int seed):
+Dice::Dice(unsigned int seed) :
 	distribution(std::uniform_int_distribution<int>(1, 6)) {
 	generator.seed(seed);
 	lastRes = distribution(generator);
@@ -23,4 +23,9 @@ bool Dice::setLast(unsigned int value) {
 		return false;
 	lastRes = value;
 	return true;
+}
+
+std::ostream& operator<<(std::ostream& os, const Dice& dice) {
+	os << dice.lastRes;
+	return os;
 }

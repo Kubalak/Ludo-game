@@ -1,20 +1,19 @@
 #pragma once
-#ifdef _DEBUG
-	#include <iostream>
-	#include <iomanip>
-#endif
-
+#include <iostream>
+#include <iomanip>
 #include <string>
+#include <sstream>
 
-/** Klasa pionka. 
-* @author Jakub Jach &copy; 2022 
+/** Klasa pionka.
+* @author Jakub Jach &copy; 2022
 */
 class Counter
 {
 	/**
 	* W³aœciciel pionka (ID Gracza).
+	* Referencja zapewnia spójnoœæ na wypadek zmiany ID w³aœciciela.
 	*/
-	const unsigned int ownedBy;
+	unsigned int& ownedBy;
 	/**
 	* Identyfikator pionka (nr).
 	*/
@@ -25,27 +24,31 @@ public:
 	* @param ownedBy - W³aœciciel pionka.
 	* @param id - Identyfikator (nr) pionka.
 	*/
-	Counter(unsigned int ownedBy, unsigned int id) :
+	Counter(unsigned int& ownedBy, unsigned int id) :
 		ownedBy(ownedBy),
 		id(id) {
 	}
 	/**
-	* @return Identyfikator pionka. 
+	* @return Identyfikator pionka.
 	*/
-	const unsigned int getId() { return id; }
+	const unsigned int getId() noexcept { return id; }
 	/**
 	* @return W³aœciciel pionka.
 	*/
 	const unsigned int getOwner() { return ownedBy; }
 
-	std::string json();
-
-#ifdef _DEBUG
 	/**
 	* Umo¿liwia przekierowanie do strumienia.
 	*/
-	friend std::ostream& operator<< (std::ostream& os,const Counter& e);
-#endif
+	friend std::ostream& operator<< (std::ostream& os, const Counter& e);
+	/**
+		* Zwraca reprezentacjê obiektu w bardziej czytelnej postaci
+		*/
+	std::string str();
+	/**
+	* Zwraca obiekt w postaci tekstu JSON.
+	*/
+	std::string json();
 };
 
 

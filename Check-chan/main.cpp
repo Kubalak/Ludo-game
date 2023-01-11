@@ -25,13 +25,13 @@
 bool engineStop;
 
 void doEngine(Engine* engine) {
-	engine->addPlayer(new Player("Adam"), 1);
-	engine->addPlayer(new Player("Ewa"), 3);
+	engine->addPlayer(new Player(std::string("Adam")), 1);
+	engine->addPlayer(new Player(std::string("Ewa")), 3);
 	engine->start();
 	int field;
 	while (!engine->finished() && !engineStop) {
 		std::cout << "Dice roll: " << engine->rollDice() << '\n';
-		std::cout << "Current state: " << Engine::stateToStr(engine->getCurrentState()) << "\n";
+		std::cout << "Current state: " << Engine::stateStr.at(engine->getCurrentState()) << "\n";
 		std::cout << "Adam container\n[";
 		for (auto c : engine->getLast(1))
 			std::cout << c << ' ';

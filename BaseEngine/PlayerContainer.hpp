@@ -1,10 +1,11 @@
 #pragma once
-#include <vector>
 #include "Player.hpp"
+
 /**
 * Klasa przechowuj¹ca gracza wraz z pionkami w domku.
-* @author Jakub Jach &copy; 2022 
+* @author Jakub Jach &copy; 2022
 */
+
 class PlayerContainer
 {
 	/** WskaŸnik do gracza, który ma byæ przechowany. */
@@ -20,6 +21,11 @@ public:
 	* @param startPos - Pozycja pocz¹tkowa na planszy.
 	*/
 	PlayerContainer(Player* p, unsigned int startPos);
+	/**
+	* Umo¿liwia stworzenie obiektu na podstawie obiektu JSON.
+	* @param obj - Obiekt, na którego podstawie stworzyæ obiekt.
+	*/
+	PlayerContainer(nlohmann::json);
 	~PlayerContainer();
 	/** Usuwa jeden pionek z zasobnika na pionki.
 	* @return WskaŸnik na pionek lub nullptr jeœli pusty.
@@ -59,6 +65,20 @@ public:
 	*/
 	Player& getPlayer() { return *player; }
 	/**
+	* @return WskaŸnik do obiektu gracza.
+	*/
+	Player* getPlayerPtr() noexcept { return player; }
+	/**
+	* Zwraca referencjê do domku.
+	* @return Referencja do domku.
+	*/
+	std::vector<Counter*>& getHolder() { return holder; }
+	/**
+	* Zwraca ostatnie pola.
+	* @return Tablica z list¹ pionków na koñcowych polach.
+	*/
+	std::array<std::vector<Counter*>, 6>& getLast() { return last; }
+	/**
 	* @return Pozycja startowa na planszy.
 	*/
 	unsigned int getStartPos() { return startPos; }
@@ -71,9 +91,15 @@ public:
 	*/
 	bool canMove() { return holder.size() != 4 && last[5].size() != 4; }
 
-#ifdef _DEBUG
 	friend std::ostream& operator<< (std::ostream& os, const PlayerContainer& e);
-#endif
+	/**
+	* Zwraca reprezentacjê obiektu w bardziej czytelnej postaci
+	*/
+	std::string str();
+	/**
+	* Zwraca obiekt w postaci tekstu JSON.
+	*/
+	std::string json();
 
 };
 

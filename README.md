@@ -1,11 +1,24 @@
-# Projekt gra chiÅ„czyk.
+# Projekt gra chiñczyk.
 
-# CHANGELOG <i>(zmiany widoczne poniÅ¼ej)</i>
+# CHANGELOG <i>(zmiany widoczne poni¿ej)</i>
+
+# v0.5.3
+- Wersja beta silnika online i serwera online
+- Modyfikacja czêœci klas aby mo¿liwe by³o przesy³anie danych przez sieæ.
+- Poprawki b³êdów<br/>
+## <strong>Znany b³¹d:</strong><br/>
+Kiedy klient nie jest pod³¹czony do serwera a metoda connect zosta³a wywo³ana, wówczas próba usuniêcia silnika blokuje w¹tek.
+
+# v0.3.1
+- Dodanie obs³ugi eksportu obiektów do <a href='https://github.com/nlohmann/json'>`JSON`</a>
+- Obs³uga tworzenia silnika z obiektu <a href='https://github.com/nlohmann/json'>`JSON`</a>
+- Graficzna prezentacja stanu silnika
 
 # v0.0.1.0
-- Dodano bibliotekÄ™ <a href="https://zeromq.org/" target="blank">ZeroMQ.</a>
-- Uproszczono relacje projektÃ³w.
-- RozpoczÄ™to prace nad silnikiem w wersji online.
+- Dodano bibliotekê <a href="https://zeromq.org/" target="blank">ZeroMQ.</a>
+- Uproszczono relacje projektów.
+- Generowanie UUID z u¿yciem <a href="https://github.com/crashoz/uuid_v4" target="blank">uuid_v4</a>
+- Rozpoczêto prace nad silnikiem w wersji online.
 
 # v0.0.0.4
 - Fixed known Engine issues (index out of bounds and nullptr exception).

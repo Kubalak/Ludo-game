@@ -6,39 +6,33 @@
 #include <thread> // <- Uruchamiana bêdzie metoda run() z klasy.
 #include <nlohmann/json.hpp>
 
+//TODO: Sprawdziæ czy siê nie wysypie z byle powodu.
 
+/**
+Klasa obs³uguj¹ca serwer i brokera gry Chiñczyk.
+@author Jakub Jach &copy; 2023
+*/
 class OnlineServer : private Engine {
 	/** Zapewnia bezpieczeñstwo danych przy u¿yciu metod */
-	std::mutex method_lock;
-
 	bool onlineShouldWork;
-
+	const unsigned int owner;
 	void run();
 	std::string addr;
-	zmq::context_t context;
+	zmq::context_t context{ 1 };
 	zmq::socket_t serverSocketPublisher;
 	zmq::socket_t serverSocketSubscriber;
 
-	/** Dzia³a jak z Engine ale z u¿yciem mutexa */
-	bool move(int fieldNo);
-	/** Dodaje nowego gracza ze wskazaniem, czy jest to gracz lokalny. Uniemo¿liwia dodanie wiêcej jak jednego gracza lokalnego. */
-	bool addPlayer(Player* player, unsigned int quarter);
-	/** Inicjuje grê jak w Engine.
-		! DODATKOWO !
-		Uruchamia silnik online w postaci nowego w¹tku.
-		Do silnika mo¿na odwo³ywaæ siê jak do zwyk³ego Engine.
-		Osobny w¹tek zajmuje siê komunikacj¹ z serwerem.
-	*/
-	
-	/**  Dzia³a jak z Engine ale z u¿yciem mutexa */
-	bool step();
-	/**  Dzia³a jak z Engine ale z u¿yciem mutexa */
-	unsigned int rollDice();
+	const std::map < std::string, std::function<bool(nlohmann::json&)>> eventFuncs;
 
+	bool handlePlayerJoined(nlohmann::json& ev);
+	bool handleNewPlayer(nlohmann::json& ev);
+	bool handleGameStarted(nlohmann::json& ev);
+	bool handleDiceRoll(nlohmann::json& ev);
+	bool handlePlayerMove(nlohmann::json& ev);
 public:
-	OnlineServer();
+	OnlineServer(unsigned int);
 	void start();
-	bool bind(std::string pubaddr, std::string subaddr);
+	bool bind(std::string addr);
 
 	~OnlineServer();
 };

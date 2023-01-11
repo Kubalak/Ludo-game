@@ -30,7 +30,7 @@ Game::Game(Engine& engine):
     BoardBackground.setOrigin(375, 375);
     BoardBackground.setPosition(520, 375);
     diceRoll = 0;
-    //music.openFromFile("C:/Users/Patryk/source/repos/SFML_MENU/SFML_MENU/SUICIDEBOYS-MATTE-BLACK.ogg");
+    music.openFromFile("sounds/damage(e).flac");
     music.play();
     
     MainMenuText[0].setFont(font);
@@ -155,7 +155,7 @@ Game::Game(Engine& engine):
 
     unsigned int index = 0;
     for (auto& tile : engine.getTiles())
-        tiles[index++] = new SfmlTile(tile, counterTexture, playerColors);
+        tiles[index++] = new SfmlTile(tile, index, counterTexture, playerColors);
     for (int i = 0; i < 4; ++i) {
        float deg = 90.0f * i * M_PI / 180.0f;
        for (int j = 0; j < 5; j++) {
@@ -183,7 +183,7 @@ Game::~Game() { for (auto* tile : tiles) delete tile; }
 
     //G³ówna pêtla która chodzi zawsze
 int Game::run(){
-    if (!font.loadFromFile("font.ttf"))
+    if (!font.loadFromFile("fonts/font.ttf"))
         return-1;
     
 
