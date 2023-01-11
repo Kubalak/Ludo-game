@@ -65,32 +65,32 @@ Game::Game(Engine& engine):
     OptionsText[2].setPosition(sf::Vector2f(mWindow.getSize().x / 2.f, mWindow.getSize().y / (MAX_NUMBER_OF_ITEMS + 1) * 3.f));
 
     dice.setSize(sf::Vector2f(90, 90));
-    dice.setPosition(sf::Vector2f(860, 55));
+    dice.setPosition(sf::Vector2f(740, 55)); //dice.setPosition(sf::Vector2f(860, 55));
     dice.setFillColor(sf::Color::White);
 
     //1
     r_1.setRadius(10.f);
     r_1.setFillColor(sf::Color::Black);
-    r_1.setPosition(893, 92);
+    r_1.setPosition(773, 92);
 
     //2
     r_2_1.setRadius(10.f);
     r_2_2.setRadius(10.f);
     r_2_1.setFillColor(sf::Color::Black);
-    r_2_1.setPosition(870, 67);
+    r_2_1.setPosition(750, 67);
     r_2_2.setFillColor(sf::Color::Black);
-    r_2_2.setPosition(920, 113);
+    r_2_2.setPosition(800, 113);
 
     //3
     r_3_1.setRadius(10.f);
     r_3_2.setRadius(10.f);
     r_3_3.setRadius(10.f);
     r_3_1.setFillColor(sf::Color::Black);
-    r_3_1.setPosition(870, 67);
+    r_3_1.setPosition(750, 67);
     r_3_2.setFillColor(sf::Color::Black);
-    r_3_2.setPosition(895, 88);
+    r_3_2.setPosition(775, 88);
     r_3_3.setFillColor(sf::Color::Black);
-    r_3_3.setPosition(920, 113);
+    r_3_3.setPosition(800, 113);
 
     //4
     r_4_1.setRadius(10.f);
@@ -98,13 +98,13 @@ Game::Game(Engine& engine):
     r_4_3.setRadius(10.f);
     r_4_4.setRadius(10.f);
     r_4_1.setFillColor(sf::Color::Black);
-    r_4_1.setPosition(870, 112);
+    r_4_1.setPosition(750, 112);
     r_4_2.setFillColor(sf::Color::Black);
-    r_4_2.setPosition(920, 112);
+    r_4_2.setPosition(800, 112);
     r_4_3.setFillColor(sf::Color::Black);
-    r_4_3.setPosition(870, 72);
+    r_4_3.setPosition(750, 72);
     r_4_4.setFillColor(sf::Color::Black);
-    r_4_4.setPosition(920, 72);
+    r_4_4.setPosition(800, 72);
 
     //5
     r_5_1.setRadius(10.f);
@@ -113,15 +113,15 @@ Game::Game(Engine& engine):
     r_5_4.setRadius(10.f);
     r_5_5.setRadius(10.f);
     r_5_1.setFillColor(sf::Color::Black);
-    r_5_1.setPosition(875, 112);
+    r_5_1.setPosition(755, 112);
     r_5_2.setFillColor(sf::Color::Black);
-    r_5_2.setPosition(915, 112);
+    r_5_2.setPosition(795, 112);
     r_5_3.setFillColor(sf::Color::Black);
-    r_5_3.setPosition(875, 72);
+    r_5_3.setPosition(755, 72);
     r_5_4.setFillColor(sf::Color::Black);
-    r_5_4.setPosition(915, 72);
+    r_5_4.setPosition(795, 72);
     r_5_5.setFillColor(sf::Color::Black);
-    r_5_5.setPosition(895, 92);
+    r_5_5.setPosition(775, 92);
 
     //6
     r_6_1.setRadius(10.f);
@@ -131,17 +131,17 @@ Game::Game(Engine& engine):
     r_6_5.setRadius(10.f);
     r_6_6.setRadius(10.f);
     r_6_1.setFillColor(sf::Color::Black);
-    r_6_1.setPosition(875, 120);
+    r_6_1.setPosition(755, 120);
     r_6_2.setFillColor(sf::Color::Black);
-    r_6_2.setPosition(915, 120);
+    r_6_2.setPosition(795, 120);
     r_6_3.setFillColor(sf::Color::Black);
-    r_6_3.setPosition(915, 60);
+    r_6_3.setPosition(795, 60);
     r_6_4.setFillColor(sf::Color::Black);
-    r_6_4.setPosition(875, 60);
+    r_6_4.setPosition(755, 60);
     r_6_5.setFillColor(sf::Color::Black);
-    r_6_5.setPosition(915, 88);
+    r_6_5.setPosition(795, 88);
     r_6_6.setFillColor(sf::Color::Black);
-    r_6_6.setPosition(875, 88);
+    r_6_6.setPosition(755, 88);
 
     for (auto& player : engine.getQuarters()) {
         std::cout << "p.first " << player.first << " p.second " << player.second << '\n';
