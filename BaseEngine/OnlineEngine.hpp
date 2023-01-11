@@ -17,6 +17,7 @@ class OnlineEngine : public Engine {
 	std::thread* online;
 	/** Metoda uruchamiania przez w¹tek */
 	bool onlineShouldWork;
+	bool onlineIsWorking;
 	Player* localP;
 	void run();
 	std::string addr;

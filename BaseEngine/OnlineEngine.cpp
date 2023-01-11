@@ -7,6 +7,7 @@ OnlineEngine::OnlineEngine() :
 	onlineShouldWork(true),
 	online(nullptr),
 	localP(nullptr),
+	onlineIsWorking(false),
 	respFuncs({
 		{ "PLAYER_JOINED", [this](nlohmann::json& data) { std::cout << " not implemented "; return true; }},
 		{ "NEW_PLAYER", [this](nlohmann::json& data) { return handleNewPlayer(data);  }},
@@ -19,7 +20,7 @@ OnlineEngine::OnlineEngine() :
 		{ "GAME_FINISHED", [this](nlohmann::json& data) { std::cout << " Not implemented "; return false;  }}
 		}) {
 
-	serverSubscriber = zmq::socket_t(context, zmq::socket_type::pull);
+	serverSubscriber = zmq::socket_t(context, zmq::socket_type::sub);
 	eventPublisher = zmq::socket_t(context, zmq::socket_type::push);
 }
 
@@ -66,11 +67,20 @@ bool OnlineEngine::handleStart(nlohmann::json& ev) {
 }
 
 bool OnlineEngine::handleMove(nlohmann::json& ev) {
+	bool result = Engine::move(ev.get<int>());
+	if (result)
+		std::cout << " player has moved from field " << ev.get<int>() << ' ';
+	else
+		std::cout << " player move failed ";
+	bool stepval = Engine::step();
+	if (!stepval)
+		std::cout << " step has failed ";
 
-	return Engine::move(ev.get<int>());
+	return result && stepval;
 }
 
 bool OnlineEngine::handleRoll(nlohmann::json& ev) {
+	Engine::rollDice(); // Konieczne do zmiany stanu na DICE_ROLLED
 	return dice.setLast(ev.get<unsigned int>());
 }
 
@@ -82,11 +92,8 @@ bool OnlineEngine::move(int fieldNo) {
 		return false;
 	std::stringstream ss;
 	ss << "{\"player\":" << *localP << "," << "\"field\":" << fieldNo << "}"; //JSON z kto co robi.
-
-	// Wys³anie ¿¹dania akcji.
-	auto result = eventPublisher.send(zmq::buffer(constructMessage(EventType::PLAYER_MOVE, ss.str())), zmq::send_flags::dontwait);
-	// Flaga zmq::send_flags::dontwait nie oczekuje na odebranie by nie blokowaæ w¹tku.
-	return result.has_value(); // Czy wysy³anie zakoñczono powodzeniem.
+	// Wys³anie ¿¹dania ruchu bez oczekiwania.
+	return eventPublisher.send(zmq::buffer(constructMessage(EventType::PLAYER_MOVE, ss.str())), zmq::send_flags::dontwait).has_value(); // Czy wysy³anie zakoñczono powodzeniem.
 }
 
 bool OnlineEngine::addPlayer(Player* player, unsigned int quarter) {
@@ -104,10 +111,8 @@ bool OnlineEngine::addPlayer(Player* player, unsigned int quarter) {
 }
 
 bool OnlineEngine::start() {
-	if (state == EngineStates::CREATED) {
+	if (state == EngineStates::CREATED && localP != nullptr) {
 		auto result = eventPublisher.send(zmq::buffer(constructMessage(EventType::GAME_START, *localP)), zmq::send_flags::none);
-		std::cout << "Thread id: " << std::this_thread::get_id() << '\n';
-		online = new std::thread([this] { run(); });
 		return result.has_value();
 	}
 	return false;
@@ -121,6 +126,7 @@ void OnlineEngine::run() {
 	std::string type;
 	bool retval;
 	std::cout << "[" << currentTimestamp(buf, 80) << "]: New thread with id " << std::this_thread::get_id() << " created\n";
+	onlineIsWorking = true;
 	while (onlineShouldWork) {
 		try {
 			zmq::message_t message;
@@ -144,6 +150,7 @@ void OnlineEngine::run() {
 			std::cerr << "\n\033[0;33m[" << currentTimestamp(buf, 80) << "]: WARNING " << e.what() << "\033[0m\n";
 		}
 	}
+	onlineIsWorking = false;
 }
 
 bool OnlineEngine::step() {
@@ -152,14 +159,17 @@ bool OnlineEngine::step() {
 
 unsigned int OnlineEngine::rollDice() {
 	// Wysy³a wiadomoœæ z DICE_ROLL
-	eventPublisher.send(zmq::buffer(constructMessage(EventType::DICE_ROLL, *localP)), zmq::send_flags::dontwait);
+	if (localP != nullptr)
+		eventPublisher.send(zmq::buffer(constructMessage(EventType::DICE_ROLL, *localP)), zmq::send_flags::dontwait);
 	return dice.getLast();
 }
 
 bool OnlineEngine::connect(std::string addr) {
 	try {
 		serverSubscriber.connect("tcp://" + addr + ":2000");
+		serverSubscriber.set(zmq::sockopt::subscribe, "");
 		eventPublisher.connect("tcp://" + addr + ":2001");
+		online = new std::thread([this] { run(); });
 		eventPublisher.send(zmq::buffer(constructMessage(EventType::PLAYER_JOINED, "null")), zmq::send_flags::none);
 		return true;
 	}

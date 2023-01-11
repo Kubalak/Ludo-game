@@ -21,8 +21,7 @@ OnlineServer::OnlineServer(unsigned int owner) :
 	})	{
 
 	serverSocketSubscriber = zmq::socket_t(context, zmq::socket_type::pull);
-	serverSocketPublisher = zmq::socket_t(context, zmq::socket_type::push);
-
+	serverSocketPublisher = zmq::socket_t(context, zmq::socket_type::pub);
 }
 
 
@@ -105,6 +104,13 @@ bool OnlineServer::handlePlayerMove(nlohmann::json& ev) {
 				std::cout << "step has failed! ";
 			return serverSocketPublisher.send(zmq::buffer(constructMessage(EventType::PLAYER_MOVE, ev["field"].get<int>())), zmq::send_flags::none).has_value();
 		}
+		else if (!getCurrentPlayerContainer().canMove()) {
+			std::cout << "player " << getCurrentPlayer().getNick() << "(" << getCurrentPlayer().getId() << ") has no available counter to move ";
+			if (!Engine::step())
+				std::cout << "step has failed! ";
+			return serverSocketPublisher.send(zmq::buffer(constructMessage(EventType::PLAYER_MOVE, ev["field"].get<int>())), zmq::send_flags::none).has_value();
+		}
+
 		std::cout << "player " << getCurrentPlayer().getNick() << "(" << getCurrentPlayer().getId() << ") couldn't move from field " << ev["field"].get<int>() << ' ';
 		return false;
 	}
