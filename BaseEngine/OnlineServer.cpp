@@ -86,7 +86,10 @@ bool OnlineServer::handleDiceRoll(nlohmann::json& ev) {
 
 	if (ev["id"].get<unsigned int>() == getCurrentPlayer().getId()) {
 		std::cout << "dice roll value " << rollDice() << ' ';
-		return serverSocketPublisher.send(zmq::buffer(constructMessage(EventType::DICE_ROLL, dice.getLast())), zmq::send_flags::none).has_value();
+		auto result = serverSocketPublisher.send(zmq::buffer(constructMessage(EventType::DICE_ROLL, dice.getLast())), zmq::send_flags::none).has_value();
+		if (!getCurrentPlayerContainer().canMove() && move(54))
+			result &= serverSocketPublisher.send(zmq::buffer(constructMessage(EventType::PLAYER_MOVE, 54)), zmq::send_flags::none).has_value();
+		return result;
 	}
 	return false;
 }
@@ -100,15 +103,11 @@ bool OnlineServer::handlePlayerMove(nlohmann::json& ev) {
 	if (ev["player"]["id"].get<unsigned int>() == getCurrentPlayer().getId()) {
 		if (move(ev["field"].get<int>())) {
 			std::cout << "player " << getCurrentPlayer().getNick() << "(" << getCurrentPlayer().getId() << ") moved from field " << ev["field"].get<int>() << ' ';
-			if (!Engine::step())
-				std::cout << "step has failed! ";
 			return serverSocketPublisher.send(zmq::buffer(constructMessage(EventType::PLAYER_MOVE, ev["field"].get<int>())), zmq::send_flags::none).has_value();
 		}
 		else if (!getCurrentPlayerContainer().canMove()) {
 			std::cout << "player " << getCurrentPlayer().getNick() << "(" << getCurrentPlayer().getId() << ") has no available counter to move ";
-			if (!Engine::step())
-				std::cout << "step has failed! ";
-			return serverSocketPublisher.send(zmq::buffer(constructMessage(EventType::PLAYER_MOVE, ev["field"].get<int>())), zmq::send_flags::none).has_value();
+			return false;
 		}
 
 		std::cout << "player " << getCurrentPlayer().getNick() << "(" << getCurrentPlayer().getId() << ") couldn't move from field " << ev["field"].get<int>() << ' ';

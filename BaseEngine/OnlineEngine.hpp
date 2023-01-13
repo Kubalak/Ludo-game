@@ -52,13 +52,14 @@ public:
 	Osobny w¹tek zajmuje siê pobieraniem zmian z serwera.
 	*/
 	bool start();
-	/**  Nic nie robi. Zwraca zawsze true. U¿yte by przes³oniæ metodê z Engine i nie pospuæ gry desynchronizacj¹ klientów z serwerem. */
-	bool step();
+	// # DELETED #
+	// Nic nie robi. Zwraca zawsze true. U¿yte by przes³oniæ metodê z Engine i nie pospuæ gry desynchronizacj¹ klientów z serwerem. */
+	// bool step();
 	/**  Wysy³a do serwera ¿¹danie rzutu kostk¹. Zwraca aktualn¹ wartoœæ kostki. */
 	unsigned int rollDice();
 
 	/** Pod³¹cza klienta do serwera gry.
-	* @param server - Adres serwera gry.
+	* @param addr - Adres serwera gry.
 	* @return true przy powodzeniu zestawienia i konfiguracji po³¹czenia lub false w ka¿dym innym przypadku.
 	*/
 	bool connect(std::string);

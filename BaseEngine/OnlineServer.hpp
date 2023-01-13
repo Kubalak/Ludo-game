@@ -30,8 +30,11 @@ class OnlineServer : private Engine {
 	bool handleDiceRoll(nlohmann::json& ev);
 	bool handlePlayerMove(nlohmann::json& ev);
 public:
+	/** Konstruktor z wybraniem id gracza w³aœciciela gry */
 	OnlineServer(unsigned int);
+	/** Rozpoczyna grê. Blokuje bie¿¹cy w¹tek a¿ do zakoñczenia gry.*/
 	void start();
+	/** Przypisanie ADRESU dla serwera. Nr portów to<br/>2000 dla socket nas³uchuj¹cego 2001 dla wysy³ania zdarzeñ.*/
 	bool bind(std::string addr);
 
 	~OnlineServer();

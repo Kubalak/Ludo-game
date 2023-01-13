@@ -49,7 +49,6 @@ void doEngine(Engine* engine) {
 			std::cin.ignore();
 		}
 		std::cout << "Move: " << engine->move(field) << ' ';
-		std::cout << "Step: " << engine->step() << "\n\n";
 		int index = 0;
 		for (auto& p : engine->getTiles())
 			std::cout << '[' << index++ << "]: " << p << '\n';

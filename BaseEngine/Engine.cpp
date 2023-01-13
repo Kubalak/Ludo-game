@@ -292,7 +292,7 @@ bool Engine::move(int fieldNo) {
 	if (state != EngineStates::DICE_ROLLED) return false;
 	if (!getCurrentPlayerContainer().canMove() && dice.getLast() != 6) {
 		state = EngineStates::MOVE_MADE;
-		return false;
+		return step();
 	}
 	if (dice.getLast() == 6 && fieldNo < 0) {
 		PlayerContainer& pc = getCurrentPlayerContainer();
@@ -302,11 +302,12 @@ bool Engine::move(int fieldNo) {
 #ifdef _DEBUG
 			std::cout << "Popping from holder " << *c << '\n';
 #endif
-			bool result = tiles[pc.getStartPos()].addToTile(c);// Z za³o¿enia wiele pionków mo¿e na nim staæ.
-			if (result)
+			if (tiles[pc.getStartPos()].addToTile(c)) { // Z za³o¿enia wiele pionków mo¿e staæ na polu startowym dodanie jest zawsze bezpieczne.
 				state = EngineStates::MOVE_MADE;
+				return step();
+			}
 			else pc.addToHolder(c);
-			return result;
+			return false;
 		}
 	}
 	else if (fieldNo < 52 && fieldNo >= 0) {
@@ -319,7 +320,9 @@ bool Engine::move(int fieldNo) {
 #ifdef _DEBUG
 			std::cout << "Moving on board to " << fieldNo + dice.getLast() << '\n';
 #endif
-			return moveCounterOnBoard(fieldNo);
+			if (moveCounterOnBoard(fieldNo))
+				return step();
+			return false;
 		}
 		else {
 			unsigned int dest = 0;
@@ -329,14 +332,18 @@ bool Engine::move(int fieldNo) {
 #ifdef _DEBUG
 			std::cout << "Moving to last on " << dest << '\n';
 #endif
-			return moveCounterToLast(fieldNo, dest);
+			if (moveCounterToLast(fieldNo, dest))
+				return step();
+			return false;
 		}
 	}
 	else if (fieldNo > 100) {
 #ifdef _DEBUG
 		std::cout << "Moving on last " << fieldNo << '\n';
 #endif
-		return moveCounterOnLast(fieldNo);
+		if (moveCounterOnLast(fieldNo))
+			return step();
+		return false;
 	}
 	return false;
 }

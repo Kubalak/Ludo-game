@@ -28,12 +28,12 @@ class Engine
 
 protected:
 	/**
-	* Nr aktualnego gracza od 0 do liczby graczy.
+	Nr aktualnego gracza od 0 do liczby graczy.
 	*/
 	int currentPlayer;
-
+	/** Obecny stan silnika */
 	EngineStates state;
-	//Zbiór, który przechowuje graczy w postaci <æwiartka,gracz>
+	/** Zbiór, który przechowuje graczy w postaci <æwiartka, gracz> */
 	std::map<int, PlayerContainer*> players;
 	/** Tablica wyników */
 	std::vector<Player*> top;
@@ -53,6 +53,10 @@ protected:
 	bool moveCounterOnLast(unsigned int fieldNo);
 	bool moveCounterToLast(unsigned int from, unsigned int offset);
 	bool beatCountersToHolder(Tile& t);
+	/** 
+	Kolejny krok w grze. Aktualizuje informacje o wykonaiu ruchu czy rzucie kostk¹ oraz zmienia aktywnego gracza.
+	*/
+	bool step();
 
 public:
 	/// Wersja silnika 
@@ -87,9 +91,7 @@ public:
 	*/
 	bool start();
 
-	/** Kolejny krok w grze. Aktualizuje informacje o wykonaiu ruchu czy rzucie kostk¹ oraz zmienia aktywnego gracza.
-	*/
-	bool step();
+	
 
 	/** S³u¿y do rzucania kostk¹.
 	* @return Liczba oczek wyrzucona na kostce.

@@ -36,11 +36,11 @@ bool OnlineEngine::handlePlayers(nlohmann::json& ev) {
 		if (std::count_if(players.begin(), players.end(), [&id](std::pair<unsigned int, PlayerContainer*> c) {return c.second->getPlayer().getId() == id; }) == 0) {
 			player = new Player(p["player"]);
 			if (!Engine::addPlayer(player, q)) {
-				std::cout << " error while adding player ";
+				std::cout << "error while adding player ";
 				delete player;
 				return false;
 			}
-			std::cout << " online player " << player->getNick() << "(" << player->getId() << ") ";
+			std::cout << "online player " << player->getNick() << "(" << player->getId() << ") ";
 		}
 	}
 	return true;
@@ -53,12 +53,14 @@ bool OnlineEngine::handleNewPlayer(nlohmann::json& ev) {
 	if (std::count_if(players.begin(), players.end(), [&id](std::pair<unsigned int, PlayerContainer*> c) {return c.second->getPlayer().getId() == id; }) == 0) {
 		auto* player = new Player(ev["player"]);
 		if (!Engine::addPlayer(player, q)) {
-			std::cout << " error while adding player ";
+			std::cout << "error while adding player ";
 			delete player;
 			return false;
 		}
+		else 
+			std::cout << "added online player " << player->getNick() << " (" << player->getId() << ") ";
 	}
-	std::cout << " player exists ";
+	else std::cout << "player exists ";
 	return true;
 }
 
@@ -69,19 +71,22 @@ bool OnlineEngine::handleStart(nlohmann::json& ev) {
 bool OnlineEngine::handleMove(nlohmann::json& ev) {
 	bool result = Engine::move(ev.get<int>());
 	if (result)
-		std::cout << " player has moved from field " << ev.get<int>() << ' ';
+		std::cout << "player has moved from field " << ev.get<int>() << ' ';
 	else
-		std::cout << " player move failed ";
-	bool stepval = Engine::step();
-	if (!stepval)
-		std::cout << " step has failed ";
+		std::cout << "player move failed ";
 
-	return result && stepval;
+	return result;
 }
 
 bool OnlineEngine::handleRoll(nlohmann::json& ev) {
-	Engine::rollDice(); // Konieczne do zmiany stanu na DICE_ROLLED
-	return dice.setLast(ev.get<unsigned int>());
+	if (state == EngineStates::DICE_ROLLED || state == EngineStates::MOVE_MADE) // Jak nie 
+		return dice.getLast();
+	if (dice.setLast(ev.get<unsigned int>())) {
+		state = EngineStates::DICE_ROLLED;
+		return true;
+	}
+	std::cout << "synchronize dice failed ";
+	return false;
 }
 
 
@@ -151,10 +156,6 @@ void OnlineEngine::run() {
 		}
 	}
 	onlineIsWorking = false;
-}
-
-bool OnlineEngine::step() {
-	return true;
 }
 
 unsigned int OnlineEngine::rollDice() {
