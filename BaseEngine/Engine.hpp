@@ -144,6 +144,10 @@ public:
 
 	/**
 	* Umo¿liwia przekierowanie do strumienia.
+	* Wyjœcie w postaci takiej jak metoda json() (bez jej wywo³ywania)
+	* @param os Strumieñ wyjœciowy
+	* @param e Obiekt silnika, który ma zostaæ wyœwietlony.
+	* @return Strumieñ os.
 	*/
 	friend std::ostream& operator<< (std::ostream& os, const Engine& e);
 	/**
@@ -155,6 +159,7 @@ public:
 	*/
 	std::string json();
 
+	/** Domyœlny destruktor usuwa wszystkich graczy*/
 	~Engine();
 };
 

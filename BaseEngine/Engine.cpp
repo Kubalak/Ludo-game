@@ -3,7 +3,7 @@
 #include <algorithm>
 constexpr auto ESRC = "BaseEngine/Engine.cpp";
 
-const std::string Engine::_VERSION = "0.5.3";
+const std::string Engine::_VERSION = "0.6.2";
 
 const std::map<EngineStates, std::string> Engine::stateStr{
 	{ EngineStates::CREATED, "CREATED"},
@@ -43,8 +43,8 @@ Engine::Engine() :
 	*/
 	Tile a(true);
 	for (int i = 0; i < 4; ++i) {
-		tiles[static_cast<std::array<Tile, 52Ui64>::size_type>(i) * 13] = a; // Pola startowe graczy (static_cast przez VS)
-		tiles[8 + static_cast<std::array<Tile, 52Ui64>::size_type>(i) * 13] = a; // Pola dodatkowe (static_cast przez VS)
+		tiles[i * 13] = a; // Pola startowe graczy (static_cast przez VS)
+		tiles[8 + i * 13] = a; // Pola dodatkowe (static_cast przez VS)
 	}
 }
 

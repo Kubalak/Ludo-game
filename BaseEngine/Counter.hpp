@@ -42,8 +42,8 @@ public:
 	*/
 	friend std::ostream& operator<< (std::ostream& os, const Counter& e);
 	/**
-		* Zwraca reprezentacjê obiektu w bardziej czytelnej postaci
-		*/
+	* Zwraca reprezentacjê obiektu w bardziej czytelnej postaci
+	*/
 	std::string str();
 	/**
 	* Zwraca obiekt w postaci tekstu JSON.

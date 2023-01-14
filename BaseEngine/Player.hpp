@@ -51,6 +51,8 @@ public:
 	/**
 	* Umo¿liwia przekierowanie do strumienia.
 	* Wyjœcie w postaci takiej jak metoda json()
+	* @param os Strumieñ wyjœciowy
+	* @param e Gracz, który ma zostaæ przekierowany do strumienia.
 	* @return Strumieñ os.
 	*/
 	friend std::ostream& operator<< (std::ostream& os, const Player& e);

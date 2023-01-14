@@ -1,6 +1,15 @@
 # Projekt gra chiñczyk.
 
-# CHANGELOG <i>(zmiany widoczne poni¿ej)</i>
+# CHANGELOG
+
+# v0.6.2
+- Przeniesienie metody `Engine::step()` (wybranie nastêpnego gracza) do czêœci prywatnej (wywo³anie automatyczne po udanym ruchu).
+- Usuniêcie metody `step()` z klas dziedzicz¹cych z `Engine` i sprawdzenie poprawnoœci dzia³ania silnika po zmianach.
+- Silnik online automatycznie wysy³a komunikat o wykonaniu ruchu w przypadku braku mo¿liwoœci ruchu gracza tj. po rzucie kostk¹.
+- Dodanie skryptu do przygotowania bibliotek (<a href='https://github.com/nlohmann/json'>`JSON`</a>, <a href="https://github.com/zeromq/cppzmq" target="blank">ZeroMQ</a>) dla systemu Linux.
+- Dodanie pliku makefile umo¿liwiaj¹cego kompilacjê serwera dla systemu Linux.
+- Poprawki w dokumentacji.
+- Poprawki zgodnoœci i spójnoœci komunikatów klientów i serwera (<strong style="color:green;">OK</strong> / <strong style="color:red;">--</strong> ).
 
 # v0.5.3
 - Wersja beta silnika online i serwera online

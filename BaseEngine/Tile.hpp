@@ -56,7 +56,13 @@ public:
 	* @return Referencja bo *this.
 	*/
 	Tile& operator=(const Tile& t);
-
+	/**
+	* Umo¿liwia przekierowanie do strumienia.
+	* Wyjœcie w postaci takiej jak metoda json() (bez jej wywo³ania)
+	* @param os Strumieñ wyjœciowy
+	* @param t Pole, które chcemy wyœwietliæ.
+	* @return Strumieñ os.
+	*/
 	friend std::ostream& operator<< (std::ostream& os, const Tile& t);
 	/**
 	* Zwraca reprezentacjê obiektu w bardziej czytelnej postaci

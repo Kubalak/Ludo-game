@@ -32,6 +32,11 @@ public:
 	* @return true w przypadku powodzenia lub false w przypadku podania b³êdnej wartoœci.
 	*/
 	bool setLast(unsigned int);
-
+	/**
+	* Umo¿liwia przekierowanie do strumienia.
+	* @param os Strumieñ wyjœciowy
+	* @param dice Kostka, której wartoœæ ma zostac przekierowana do strumienia.
+	* @return Strumieñ os.
+	*/
 	friend std::ostream& operator<<(std::ostream& os, const Dice& dice);
 };
