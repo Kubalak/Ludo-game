@@ -119,14 +119,15 @@ bool OnlineServer::handlePlayerMove(nlohmann::json& ev) {
 }
 
 
-void OnlineServer::start() {
+bool OnlineServer::start() {
 	if (state == EngineStates::CREATED) {
 		run();
+		return true;
 	}
+	return false;
 }
 
-// # IMPORTANT #
-//TODO: Zaimplementowaæ metodê run.
+
 void OnlineServer::run() {
 	char buf[80];
 	nlohmann::json jmessage;

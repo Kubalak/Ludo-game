@@ -78,7 +78,7 @@ public:
 	* @param player - Gracz, który ma zostaæ dodany UWAGA: przekazaæ new Player(), poniewa¿ gracze s¹ usuwani przy destrukcji obiektu (aby nie mo¿na ich by³o u¿yæ przy nowej grze).
 	* @param quarter - Æwiartka, w której gracz mo¿e rozpocz¹æ grê od 1 do 4.
 	*/
-	bool addPlayer(Player* player, unsigned int quarter);
+	virtual bool addPlayer(Player* player, unsigned int quarter);
 
 	/** Pobiera aktualnego gracza.
 	* @return Gracz aktualnie posiadaj¹cy ruch.
@@ -89,14 +89,14 @@ public:
 	* Powoduje to zablokowanie mo¿liwoœci dodawnia graczy i ustawia stan rozgrywki.
 	* @return true jeœli mo¿liwe jest uruchomienie gry lub false w przeciwnym wypadku.
 	*/
-	bool start();
+	virtual bool start();
 
 	
 
 	/** S³u¿y do rzucania kostk¹.
 	* @return Liczba oczek wyrzucona na kostce.
 	*/
-	unsigned int rollDice();
+	virtual unsigned int rollDice();
 
 	/** S³u¿y do pobrania liczby oczek wyrzuconych w ostatnim rzucie.
 	* @return Liczba oczek wyrzucona na kostce.
@@ -107,7 +107,7 @@ public:
 	* @param fieldNo - Pole, z którego ma ruszyæ siê pionek. Dla wystawienia pionka gracza nale¿y u¿yæ wartoœci < 0. Aby ruszyæ pionek na ostatnich szeœciu polach nale¿y wybraæ wartoœci 101-105 201-205 301-305 401-405
 	* @return true jeœli ruch siê powiedzie lub false w przeciwnym razie np. pionek nie stoi na danym polu.
 	*/
-	bool move(int fieldNo);
+	virtual bool move(int fieldNo);
 
 	/** Informuje, czy wszyscy gracze zakoñczyli grê tj. czy wszystkie ich pionki dotar³y do ostatniego pola.
 	* @return Czy nale¿y zakoñczyæ rozgrywkê.
