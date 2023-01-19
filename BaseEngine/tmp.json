@@ -52,16 +52,8 @@
                     {
                         "id": 0,
                         "ownedBy": 579864488
-                    },
-                    {
-                        "id": 1,
-                        "ownedBy": 579864488
-                    },
-                    {
-                        "id": 2,
-                        "ownedBy": 579864488
                     }
-                ],
+				],
                 "last": [
                     [],
                     [],
@@ -78,7 +70,16 @@
         {
             "manyCanStand": true,
             "lastBeat": [],
-            "counters": []
+            "counters": [
+                    {
+                        "id": 1,
+                        "ownedBy": 579864488
+                    },
+                    {
+                        "id": 2,
+                        "ownedBy": 579864488
+                    }
+                ]
         },
         {
             "manyCanStand": false,

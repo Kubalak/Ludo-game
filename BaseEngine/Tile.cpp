@@ -94,10 +94,11 @@ std::string Tile::str() {
 	std::stringstream ss;
 	ss << "<Tile object 0x" << std::hex << std::uppercase << this << ">:\n" << std::resetiosflags(std::ios_base::basefield);
 	ss << "Allow many players: " << std::boolalpha << manyCanStand << std::resetiosflags(std::ios_base::basefield) << '\n';
-	ss << "Total number of counters: " << counters.size() << '\n';
+	ss << "Total number of counters: " << counters.size() << "\nCounters:\n";
+	if (!counters.empty())
+		ss << "\n ";
 	for (auto* p : counters)
-		ss << (*p).str() << " ";
-
+		ss << (*p).str() << "\n ";
 	return ss.str();
 }
 

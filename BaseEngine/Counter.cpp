@@ -7,7 +7,7 @@ std::ostream& operator<< (std::ostream& os, const Counter& e) {
 
 std::string Counter::str() {
 	std::stringstream ss;
-	ss << "<Counter object " << std::hex << std::uppercase << this << std::resetiosflags(std::ios_base::basefield) << ">: Id: " << id << " Owned by: " << ownedBy;
+	ss << "<Counter object 0x" << std::hex << std::uppercase << this << std::resetiosflags(std::ios_base::basefield) << ">: Id: " << id << " Owned by: " << ownedBy;
 	return ss.str();
 }
 

@@ -164,14 +164,14 @@ std::ostream& operator<< (std::ostream& os, const PlayerContainer& e) {
 
 std::string PlayerContainer::str() {
 	std::stringstream ss;
-	ss << "<PlayerContainer object 0x" << std::hex << std::uppercase << this << ">:\n{\n" << std::resetiosflags(std::ios_base::basefield);
+	ss << "<PlayerContainer object 0x" << std::hex << std::uppercase << this << ">:\n" << std::resetiosflags(std::ios_base::basefield);
 	ss << (*player).str() << '\n';
 	ss << "Holder size : " << holder.size() << '\n';
 	ss << "Start position: " << startPos << '\n';
 	ss << "Counters in last count: [ ";
 	for (auto& c : last)
 		ss << c.size() << ' ';
-	ss << "]\n}\n";
+	ss << "]\n";
 	return ss.str();
 }
 

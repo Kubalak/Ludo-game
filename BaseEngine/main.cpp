@@ -2,48 +2,76 @@
 
 Plik wykorzystywany do testów silnika gry.
 
-@author Jakub Jach &copy; 2022
+@author Jakub Jach &copy; 2023
 */
 
 #include <iostream>
-#include <chrono>
-#include <fstream>
-#include "Engine.hpp"
-#include "OnlineEngine.hpp"
 #include "OnlineServer.hpp"
 #ifndef __UNIX__
 	#include <Windows.h>
 #endif
-#define SERVER
+
 
 
 int main(int argc, char** argv) {
 
-#ifdef SERVER
-	unsigned int owner;
+	unsigned int owner = 1;
+	bool ownerSet = false;
 	std::string address;
-	try {
+	if (argc == 2 && std::strcmp(argv[1], "-help") == 0) {
+		std::cout << "Argumenty:\n-help\t\tWyswietla ten tekst.\n-owner [id]\tUstala wlasciciela gry przy uruchamianiu.\n-address [ip]\tAdres pod ktorym ma byc dostepny serwer.\nNacisnij enter aby zakonczyc\n";
+		std::cin.get();
+		return 0;
+	}
 #ifndef __UNIX__
-		system("color");
-		if (!SetConsoleTitle(L"OnlineServer"))
-			std::cout << "Failed to set console title\n";
+	system("color");
+	if (!SetConsoleTitle(L"Ludo Game Server"))
+		std::cout << "Failed to set console title\n";
+	HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);
+	DWORD prev_mode;
+	GetConsoleMode(hInput, &prev_mode);
+	SetConsoleMode(hInput, prev_mode & ~ENABLE_QUICK_EDIT_MODE);
 #endif
-		std::cout << "Wprowadz id wlasciciela gry: ";
-		do {
-			if (std::cin.fail()) {
-				std::cout << "Wprowadzono bledny typ danych\n";
-				std::cin.clear();
-				std::cin.ignore();
+	try {
+		for (int i{ 0 }; i < argc - 1; ++i) {
+			if (std::strcmp(argv[i], "-owner") == 0) {
+				try {
+					owner = std::stoul(argv[i + 1]);
+					ownerSet = true;
+				}
+				catch (std::exception& e) {
+					std::cerr << "Argument parsing error " << e.what() << '\n';
+				}
 			}
-			std::cin >> owner;
-		} while (std::cin.fail());
-
+			else if (std::strcmp(argv[i], "-address") == 0)
+				address = std::string(argv[i + 1]);
+		}
+		if (!ownerSet) {
+			std::cout << "Wprowadz id wlasciciela gry: ";
+			do {
+				if (std::cin.fail()) {
+					std::cout << "Wprowadzono bledny typ danych\n";
+					std::cin.clear();
+					std::cin.ignore();
+				}
+				std::cin >> owner;
+			} while (std::cin.fail());
+		}
 		OnlineServer server(owner);
-		do {
-			std::cout << "Podaj adres serwera: ";
-			std::cin >> address;
-		} while (!server.bind(address));
-		server.start();
+		if (address == "")
+		{
+			do {
+				std::cout << "Podaj adres serwera: ";
+				std::cin >> address;
+			} while (!server.bind(address));
+			std::thread serverThread([&server] {server.start(); });
+			serverThread.join();
+		}
+		else if (server.bind(address)) {
+			std::thread serverThread([&server] {server.start(); });
+			serverThread.join();
+		}
+		else std::cerr << "Couldn't start server!\n";
 	}
 	catch (std::exception& e) {
 		std::cerr << e.what() << '\n';
@@ -51,6 +79,17 @@ int main(int argc, char** argv) {
 	catch (...) {
 		std::cerr << "Unknown exception!\n";
 	}
+#ifndef __UNIX__
+	SetConsoleMode(hInput, prev_mode);
+#endif 
+#if !defined(__UNIX__) && defined(_DEBUG)
+	system("pause");
+#endif
+
+	return 0;
+}
+
+/*
 #else
 	try {
 
@@ -65,7 +104,7 @@ int main(int argc, char** argv) {
 		std::cin >> nick;
 		OnlineEngine engine;
 		engine.connect("192.168.1.25");
-		
+
 		auto* p = new Player(std::string(nick));
 		std::cout << "Twoje id " << p->getId() << "\nSkopiuj je do serwera jesli jestes wlascicielem\n";
 		while (!engine.finished())
@@ -110,9 +149,4 @@ int main(int argc, char** argv) {
 		std::cerr << "Unknown exception!\n";
 	}
 #endif
-#if !defined(__UNIX__) && defined(_DEBUG)
-	system("pause");
-#endif
-
-	return 0;
-}
+*/

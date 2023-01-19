@@ -3,7 +3,7 @@
 #include <algorithm>
 constexpr auto ESRC = "BaseEngine/Engine.cpp";
 
-const std::string Engine::_VERSION = "0.6.2";
+const std::string Engine::_VERSION = "0.6.3";
 
 const std::map<EngineStates, std::string> Engine::stateStr{
 	{ EngineStates::CREATED, "CREATED"},
@@ -144,10 +144,8 @@ Engine::Engine(nlohmann::json& obj) :
 
 
 Engine::~Engine() {
-	std::cout << "Engine destructor\n";
 	for (auto& p : players)
 		delete players[p.first];
-	
 }
 
 bool Engine::addPlayer(Player* player, unsigned int quarter) {
@@ -403,15 +401,17 @@ std::string Engine::str() {
 	std::stringstream ss;
 	ss << "<Engine object 0x" << std::hex << std::uppercase << this << std::resetiosflags(std::ios_base::basefield) << " (v" << Engine::_VERSION << ")>:\n";
 	ss << "Current state: " << std::boolalpha << stateStr.at(state) << std::resetiosflags(std::ios_base::basefield) << '\n';
-	ss << "PlayerContainers:\n[";
+	ss << "PlayerContainers:\n\n";
 	for (auto& p : players)
-		ss << p.second->str() << ", \n";
-	ss << "]\n";
-	ss << "Tiles: [\n";
+		ss << p.second->str() << "\n";
+	ss << "\n";
+	ss << "Top players:\n";
+	for (auto* p : top)
+		ss << p->getNick() << " (" << p->getId() << ")\n";
+	ss << "\nTiles:\n";
 	unsigned int index = 0;
 	for (auto& i : tiles)
 		ss << '[' << index++ << "]: " << i.str() << '\n';
-	ss << "]\n";
 	return ss.str();
 }
 
