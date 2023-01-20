@@ -275,7 +275,7 @@ bool Engine::moveCounterToLast(unsigned int from, unsigned int offset) {
 std::map<unsigned int, unsigned int> Engine::getQuarters() {
 	std::map<unsigned int, unsigned int> m;
 	for (auto& pc : players)
-		m[pc.first] = pc.second->getPlayer().getId();
+		m[pc.first + 1] = pc.second->getPlayer().getId();
 
 	return m;
 }
