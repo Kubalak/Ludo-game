@@ -30,7 +30,7 @@ bool OnlineEngine::handlePlayers(nlohmann::json& ev) {
 	unsigned int q, id;
 	for (auto& p : ev["players"])
 	{
-		
+
 		id = p["player"]["id"].get<unsigned int>();
 		q = p["quarter"].get<unsigned int>();
 		if (std::count_if(players.begin(), players.end(), [&id](std::pair<unsigned int, PlayerContainer*> c) {return c.second->getPlayer().getId() == id; }) == 0) {
@@ -57,7 +57,7 @@ bool OnlineEngine::handleNewPlayer(nlohmann::json& ev) {
 			delete player;
 			return false;
 		}
-		else 
+		else
 			std::cout << "added online player " << player->getNick() << " (" << player->getId() << ") ";
 	}
 	else std::cout << "player exists ";
@@ -93,7 +93,9 @@ bool OnlineEngine::handleRoll(nlohmann::json& ev) {
 bool OnlineEngine::move(int fieldNo) {
 	if (currentPlayer < 0)
 		return false;
-	if (getCurrentPlayer().getId() != localP->getId())
+	Player* p = getCurrentPlayer();
+	if (p == nullptr)return false;
+	if (p->getId() != localP->getId())
 		return false;
 	std::stringstream ss;
 	ss << "{\"player\":" << *localP << "," << "\"field\":" << fieldNo << "}"; //JSON z kto co robi.
@@ -143,10 +145,10 @@ void OnlineEngine::run() {
 					std::cout << "[" << currentTimestamp(buf, 80) << "]: Unknown event type \"" << type << "\"\n";
 					continue;
 				}
-				std::cout << "[" << currentTimestamp(buf, 80) << "]: "<< type << ' ';
+				std::cout << "[" << currentTimestamp(buf, 80) << "]: " << type << ' ';
 				retval = respFuncs.at(type)(response["payload"]);
 				std::cout << "[" << (retval ? "\033[0;32mOK\033[0m" : "\033[0;31m--\033[0m") << "]\n";
-				
+
 			}
 
 			std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Ograniczenie szybkoœci do 20 ticks/s.
@@ -186,15 +188,15 @@ bool OnlineEngine::connect(std::string addr) {
 OnlineEngine::~OnlineEngine() {
 	onlineShouldWork = false;
 	if (online != nullptr) {
-		if(serverSubscriber)
+		if (serverSubscriber)
 			online->join();
 		delete online;
 	}
-	if (eventPublisher.handle() != nullptr) 
+	if (eventPublisher.handle() != nullptr)
 		eventPublisher.close();
 	if (serverSubscriber.handle() != nullptr)
 		serverSubscriber.close();
-	
+
 	context.shutdown();
 	if (localP != nullptr)
 		delete localP;

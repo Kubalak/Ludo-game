@@ -18,7 +18,7 @@ OnlineServer::OnlineServer(unsigned int owner) :
 		{ "PLAYER_MOVE", [this](nlohmann::json& data) { return handlePlayerMove(data);  } },
 		{ "DELETE_PLAYER", [this](nlohmann::json& data) { std::cout << "Not implemented "; return false;  } },
 		{ "GAME_FINISHED", [this](nlohmann::json& data) { std::cout << "Not implemented "; return false;  } }
-	})	{
+		}) {
 
 	serverSocketSubscriber = zmq::socket_t(context, zmq::socket_type::pull);
 	serverSocketPublisher = zmq::socket_t(context, zmq::socket_type::pub);
@@ -84,7 +84,7 @@ bool OnlineServer::handleDiceRoll(nlohmann::json& ev) {
 		return false;
 	}
 
-	if (ev["id"].get<unsigned int>() == getCurrentPlayer().getId()) {
+	if (ev["id"].get<unsigned int>() == getCurrentPlayer()->getId()) {
 		std::cout << "dice roll value " << rollDice() << ' ';
 		auto result = serverSocketPublisher.send(zmq::buffer(constructMessage(EventType::DICE_ROLL, dice.getLast())), zmq::send_flags::none).has_value();
 		if (!getCurrentPlayerContainer().canMove() && move(54))
@@ -99,18 +99,19 @@ bool OnlineServer::handlePlayerMove(nlohmann::json& ev) {
 		std::cout << "game has not started yet ";
 		return false;
 	}
-
-	if (ev["player"]["id"].get<unsigned int>() == getCurrentPlayer().getId()) {
+	Player* p = getCurrentPlayer();
+	if (p == nullptr)return false;
+	if (ev["player"]["id"].get<unsigned int>() == p->getId()) {
 		if (move(ev["field"].get<int>())) {
-			std::cout << "player " << getCurrentPlayer().getNick() << "(" << getCurrentPlayer().getId() << ") moved from field " << ev["field"].get<int>() << ' ';
+			std::cout << "player " << p->getNick() << "(" << p->getId() << ") moved from field " << ev["field"].get<int>() << ' ';
 			return serverSocketPublisher.send(zmq::buffer(constructMessage(EventType::PLAYER_MOVE, ev["field"].get<int>())), zmq::send_flags::none).has_value();
 		}
 		else if (!getCurrentPlayerContainer().canMove()) {
-			std::cout << "player " << getCurrentPlayer().getNick() << "(" << getCurrentPlayer().getId() << ") has no available counter to move ";
+			std::cout << "player " << p->getNick() << "(" << p->getId() << ") has no available counter to move ";
 			return false;
 		}
 
-		std::cout << "player " << getCurrentPlayer().getNick() << "(" << getCurrentPlayer().getId() << ") couldn't move from field " << ev["field"].get<int>() << ' ';
+		std::cout << "player " << p->getNick() << "(" << p->getId() << ") couldn't move from field " << ev["field"].get<int>() << ' ';
 		return false;
 	}
 	std::cout << "this player can't move now ";
@@ -139,7 +140,7 @@ void OnlineServer::run() {
 			zmq::recv_result_t result = serverSocketSubscriber.recv(message, zmq::recv_flags::dontwait);
 			if (result.has_value())
 			{
-				
+
 				std::cout << std::resetiosflags(std::cout.flags());
 				jmessage = nlohmann::json::parse(message.to_string());
 				eventType = jmessage["event"].get<std::string>();
@@ -151,7 +152,7 @@ void OnlineServer::run() {
 				std::cout << "[" << currentTimestamp(buf, 80) << "]: " << eventType << ' ';
 				retval = eventFuncs.at(eventType)(jmessage["payload"]);
 				std::cout << "[" << (retval ? "\033[0;32mOK\033[0m" : "\033[0;31m--\033[0m") << "]\n";
-			}			
+			}
 		}
 		catch (std::exception& e) {
 			std::cerr << "\n\033[0;33m[" << currentTimestamp(buf, 80) << "]:  WARNING: " << e.what() << "\033[0m\n";
@@ -162,7 +163,7 @@ void OnlineServer::run() {
 
 bool OnlineServer::bind(std::string addr) {
 	try {
-		serverSocketPublisher.bind("tcp://"+addr+":2000");
+		serverSocketPublisher.bind("tcp://" + addr + ":2000");
 		serverSocketSubscriber.bind("tcp://" + addr + ":2001");
 		std::cout << "Server is available under " << addr << '\n';
 		return true;
