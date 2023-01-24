@@ -32,6 +32,7 @@ Game::Game(Engine& engine):
     diceRoll = 0;
     music.openFromFile("sounds/damage(e).flac");
     music.play();
+  
     
     MainMenuText[0].setFont(font);
     MainMenuText[0].setFillColor(sf::Color::Red);
@@ -59,14 +60,24 @@ Game::Game(Engine& engine):
     OptionsText[1].setPosition(sf::Vector2f(mWindow.getSize().x / 2.f, mWindow.getSize().y / (MAX_NUMBER_OF_ITEMS + 1) * 2.f));
 
     OptionsText[2].setFont(font);
-
     OptionsText[2].setFillColor(sf::Color::White);
     OptionsText[2].setString("Back");
     OptionsText[2].setPosition(sf::Vector2f(mWindow.getSize().x / 2.f, mWindow.getSize().y / (MAX_NUMBER_OF_ITEMS + 1) * 3.f));
 
-    dice.setSize(sf::Vector2f(90, 90));
-    dice.setPosition(sf::Vector2f(740, 55)); //dice.setPosition(sf::Vector2f(860, 55));
-    dice.setFillColor(sf::Color::White);
+
+    CurrentPlayerText.setFont(font);
+    CurrentPlayerText.setCharacterSize(18);
+    CurrentPlayerText.setPosition(sf::Vector2f(915, 50));
+    CurrentPlayerText.setString("CURRENT PLAYER");
+    CurrentPlayerText.setFillColor(sf::Color::White);
+
+    diceShape.setSize(sf::Vector2f(90, 90));
+    diceShape.setPosition(sf::Vector2f(740, 55)); //dice.setPosition(sf::Vector2f(860, 55));
+    diceShape.setFillColor(sf::Color::White);
+
+    text.setString("Testowe");
+    text.setFont(font);
+    text.setFillColor(sf::Color::Yellow);
 
     //1
     r_1.setRadius(10.f);
@@ -218,6 +229,11 @@ int Game::handleEvents(){
                 case sf::Keyboard::F11:
                     break;
 
+                case sf::Keyboard::BackSpace:
+                    if (!input_text.empty())
+                        input_text.pop_back();
+                    break;
+
                 case sf::Keyboard::Return:
                     switch (Game::GetPressedItem())
                     {
@@ -271,6 +287,20 @@ int Game::handleEvents(){
             case sf::Event::MouseMoved:
                 break;
 
+            case sf::Event::MouseButtonPressed:
+                if (diceShape.getGlobalBounds().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)))
+                    diceRoll = engine.rollDice();
+                for (auto* tile : tiles)
+                {
+                    if (tile->shape().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)))
+                        engine.move(tile->id);
+                }
+                break;
+
+            case sf::Event::TextEntered:
+                if(std::isprint(Event.text.unicode))
+                  input_text += Event.text.unicode;
+                break;
 
             case sf::Event::Resized:
                 mWindow.setSize(sf::Vector2u(Event.size.width, Event.size.height));
@@ -295,10 +325,10 @@ int Game::drawMenuContent()
     mWindow.draw(Background);
     for (int i = 0; i < MAX_NUMBER_OF_ITEMS; i++)
     {
-        
         mWindow.draw(MainMenuText[i]);
     }
-
+    text.setString(input_text);
+    mWindow.draw(text);
     return 0;
 }
 
@@ -306,7 +336,10 @@ int Game::drawGameContent()
 {
  
     mWindow.draw(BoardBackground);
-    mWindow.draw(dice);
+    mWindow.draw(diceShape);
+    PlayerText = engine.getCurrentPlayer().getNick();
+    CurrentPlayerText.setString(PlayerText);
+    mWindow.draw(CurrentPlayerText);
     // Przeniesc do konstruktora
     //Dice
     //sf::CircleShape s(2.0f);
@@ -323,8 +356,7 @@ int Game::drawGameContent()
         s.setPosition(rotate(sf::Vector2f(560.f, 116.f), BoardBackground.getPosition(), i * M_PI / 180.f));
         mWindow.draw(s);
     }*/
-    diceRoll = engine.getDice();
-    
+     
     if (diceRoll == 1)
     {
         mWindow.draw(r_1);

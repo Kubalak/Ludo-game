@@ -5,23 +5,29 @@
 #include <iostream>
 #include "../BaseEngine/Engine.hpp"
 #include "SfmlTile.hpp"
+#include "locale"
 
 #define MAX_NUMBER_OF_ITEMS 3
 #define MAX_NUMBER_OF_ITEMS 3
 
 class Game {
 private:
+    sf::Clock clock;
     sf::RenderWindow mWindow;
     int selectedItemIndexMenu;
     int selectedItemIndexOptions;
     int diceRoll;
     std::string currentText;
+    std::string PlayerText;
+    std::string input_text;
     sf::Font font;
+    sf::Text CurrentPlayerText;
     sf::Text MainMenuText[MAX_NUMBER_OF_ITEMS];
     sf::Text OptionsText[MAX_NUMBER_OF_ITEMS];
+    sf::Text text;
     sf::RectangleShape Background;
     sf::RectangleShape BoardBackground;
-    sf::RectangleShape dice;
+    sf::RectangleShape diceShape;
     sf::CircleShape r_1;
     sf::CircleShape r_2_1;
     sf::CircleShape r_2_2;
