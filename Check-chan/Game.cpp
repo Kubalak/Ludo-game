@@ -157,10 +157,10 @@ Game::Game(Engine& engine):
     for (auto& player : engine.getQuarters()) {
         std::cout << "p.first " << player.first << " p.second " << player.second << '\n';
         switch (player.first) {
-        case 0: playerColors[player.second] = sf::Color::Yellow; break;
-        case 1: playerColors[player.second] = sf::Color::Blue; break;
-        case 2: playerColors[player.second] = sf::Color::Red; break;
-        case 3: playerColors[player.second] = sf::Color::Green; break;
+        case 1: playerColors[player.second] = sf::Color::Yellow; break;
+        case 2: playerColors[player.second] = sf::Color::Blue; break;
+        case 3: playerColors[player.second] = sf::Color::Red; break;
+        case 4: playerColors[player.second] = sf::Color::Green; break;
         }
     }
 
@@ -295,6 +295,14 @@ int Game::handleEvents(){
                     if (tile->shape().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)))
                         engine.move(tile->id);
                 }
+                
+                for (auto& playHold : playerHolders)
+                {
+                    if (playHold.second->shape().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)))
+                        engine.move(-1);
+                }
+
+                
                 break;
 
             case sf::Event::TextEntered:
@@ -316,6 +324,15 @@ int Game::handleEvents(){
  }
 
 int Game::updateGame(){
+    auto quarters = engine.getQuarters();
+    for (auto& q : quarters) {
+        if (playerHolders.find(q.first) == playerHolders.end()) {
+            playerHolders[q.first] = new Holder(q.second, counterTexture, playerColors);
+            float deg = 90.0f * (q.first - 1) * M_PI / 180.0f;
+            playerHolders[q.first]->setPosition(rotate(playerHolders[q.first]->getPosition(), BoardBackground.getPosition(), deg));
+        } //konstruktor dla holdera z id jako q.second //
+        playerHolders[q.first]->counters = engine.getHolderCount(q.first);
+    }
         return 0;
  }
 
@@ -336,26 +353,22 @@ int Game::drawGameContent()
 {
  
     mWindow.draw(BoardBackground);
-    mWindow.draw(diceShape);
     PlayerText = engine.getCurrentPlayer().getNick();
     CurrentPlayerText.setString(PlayerText);
+    CurrentPlayerText.setFillColor(playerColors[engine.getCurrentPlayer().getId()]);
     mWindow.draw(CurrentPlayerText);
-    // Przeniesc do konstruktora
-    //Dice
-    //sf::CircleShape s(2.0f);
-    //s.setOrigin(1.f, 1.f);
-    for (auto* tile : tiles) //{
-        //s.setFillColor(sf::Color::Blue);
-        //s.setPosition((*tile)().getPosition());
-        mWindow.draw((*tile));
-        //mWindow.draw(s);
-    //}
+    mWindow.draw(diceShape);
     
-    /*for (int i = 0; i < 360; ++i) {
-        s.setFillColor(sf::Color::Cyan);
-        s.setPosition(rotate(sf::Vector2f(560.f, 116.f), BoardBackground.getPosition(), i * M_PI / 180.f));
-        mWindow.draw(s);
-    }*/
+    for (auto* tile : tiles)
+        mWindow.draw((*tile));
+
+    Holder holder(engine.getCurrentPlayer().getId(), counterTexture, playerColors);
+    //holder.setPosition(rotate(holder.getPosition(), BoardBackground.getPosition(), 1.570796326795));
+    //holder.setPosition(rotate(holder.getPosition(), BoardBackground.getPosition(), 3.14159265359));
+    //holder.setPosition(rotate(holder.getPosition(), BoardBackground.getPosition(), 4.712388980385));
+    for(auto& c : playerHolders)
+        mWindow.draw(*c.second);
+
      
     if (diceRoll == 1)
     {

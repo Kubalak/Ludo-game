@@ -187,11 +187,13 @@ copy /y "$(ProjectDir)openal32.dll" "$(OutDir)\openal32.dll"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Holder.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SfmlTile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Holder.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SfmlTile.hpp" />
   </ItemGroup>

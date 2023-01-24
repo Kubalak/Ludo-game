@@ -5,6 +5,7 @@
 #include <iostream>
 #include "../BaseEngine/Engine.hpp"
 #include "SfmlTile.hpp"
+#include "Holder.hpp"
 #include "locale"
 
 #define MAX_NUMBER_OF_ITEMS 3
@@ -59,6 +60,7 @@ private:
     Engine& engine;
 
     std::array<SfmlTile*, 52> tiles;
+    std::map<unsigned int, Holder*> playerHolders;
 
     enum class GameState {
         MainMenu,
