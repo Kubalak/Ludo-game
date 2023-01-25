@@ -4,10 +4,14 @@
 #include "../BaseEngine/Player.hpp"
 #include "../BaseEngine/Dice.hpp"
 #include "../BaseEngine/PlayerContainer.hpp"
+#include "../BaseEngine/Engine.hpp"
+#include <nlohmann/json.hpp>
+#include <fstream>
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace ComponentsTest
-{	Player first("First"), second("second");
+{	Player first(std::string("First")), second(std::string("second"));
 	std::array<Counter*, 4> firstc = first.getCounters(), secondc = second.getCounters();
 	
 
@@ -220,6 +224,17 @@ namespace ComponentsTest
 			PC1.addToLast(PC1.holderPop());
 			Assert::IsTrue(PC1.canMove());
 		}
+		TEST_METHOD(CanMoveCounterOnFinalTest) {
+			PlayerContainer PC1(new Player(), 0);
+			PC1.addToLast(PC1.holderPop(), 5);
+			Assert::IsFalse(PC1.canMove());
+		}
+		TEST_METHOD(CanMoveCounterOnBoardAndFinalTest) {
+			PlayerContainer PC1(new Player(), 0);
+			PC1.addToLast(PC1.holderPop(), 5);
+			PC1.holderPop();
+			Assert::IsTrue(PC1.canMove());
+		}
 		TEST_METHOD(CanMoveAllOnLastTest) {
 			PlayerContainer PC1(new Player(), 0);
 			Counter* c;
@@ -228,5 +243,59 @@ namespace ComponentsTest
 			Assert::IsFalse(PC1.canMove());
 		}
 	};
-	//TODO: Sprawdziæ pozosta³e metody i czy gettery do wszystkiego co konieczne istniej¹.
+	TEST_CLASS(EngineTest) {
+		TEST_METHOD(StartWithoutPlayersTest) {
+			Engine engine;
+			Assert::IsFalse(engine.start());
+		}
+		TEST_METHOD(StartWithOnePlayersTest) {
+			Engine engine;
+			engine.addPlayer(new Player(std::string("Alan")), 1);
+			Assert::IsFalse(engine.start());
+		}
+		TEST_METHOD(StartWithPlayersTest) {
+			Engine engine;
+			engine.addPlayer(new Player(std::string("Alan")), 1);
+			engine.addPlayer(new Player(std::string("Alan")), 2);
+			Assert::IsTrue(engine.start());
+		}
+		TEST_METHOD(GetEmptyQuartersTest) {
+			Engine engine;
+			
+			Assert::AreEqual(0, static_cast<int>(engine.getQuarters().size()));
+		}
+		TEST_METHOD(GetCurrentPlayerEmptyTest) {
+			Engine engine;
+			Player* p = engine.getCurrentPlayer();
+			Assert::IsTrue(p == nullptr);
+		}
+		TEST_METHOD(GetCurrentPlayerNotStarterTest) {
+			Engine engine;
+			engine.addPlayer(new Player(), 1);
+			Player* p = engine.getCurrentPlayer();
+			Assert::IsTrue(p == nullptr);
+		}
+		TEST_METHOD(AddToLastFirstTest) {
+			std::ifstream plik("AddToLastFirstTest.json", std::ios_base::in);
+			auto js = nlohmann::json::parse(plik);
+			plik.close();
+			Engine engine(js);
+			engine.move(48); 
+			Assert::AreEqual(1, static_cast<int>(engine.getPlayerContainer(1).getLast()[2].size()));
+		}
+		TEST_METHOD(AddToLastFirstTestNoDefault) {
+			std::ifstream plik("AddToLastFirstTestNoDefault.json", std::ios_base::in);
+			auto js = nlohmann::json::parse(plik);
+			plik.close();
+			Engine engine(js);
+			engine.move(22); 
+			std::ofstream tmp("EngineVal.json", std::ios_base::out | std::ios_base::trunc);
+			if (tmp.good()) {
+				tmp << engine;
+				tmp.close(); 
+			}
+			Assert::AreEqual(1, static_cast<int>(engine.getPlayerContainer(3).getLast()[1].size()));
+		}
+	};
+	
 }

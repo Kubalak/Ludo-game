@@ -6,6 +6,7 @@
 #include "../BaseEngine/Engine.hpp"
 #include "SfmlTile.hpp"
 #include "Holder.hpp"
+#include "Last.hpp"
 #include "locale"
 
 #define MAX_NUMBER_OF_ITEMS 3
@@ -201,6 +202,7 @@ private:
     Mapa <id_gracza, jego domek z pionkami>.
     */
     std::map<unsigned int, Holder*> playerHolders;
+    std::map<unsigned int, Last*> playerLast;
 
     /**
     klasa Enum stanu gry (G³ówne menu, opcje, Gra, Koniec gry).

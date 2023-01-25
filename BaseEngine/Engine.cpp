@@ -3,7 +3,7 @@
 #include <algorithm>
 constexpr auto ESRC = "BaseEngine/Engine.cpp";
 
-const std::string Engine::_VERSION = "0.6.3";
+const std::string Engine::_VERSION = "0.7.0";
 
 const std::map<EngineStates, std::string> Engine::stateStr{
 	{ EngineStates::CREATED, "CREATED"},
@@ -82,7 +82,7 @@ Engine::Engine(nlohmann::json& obj) :
 	for (auto& t : obj["tiles"]) {
 		tiles[index] = Tile(t["manyCanStand"].get<bool>());
 		for (auto& lb : t["lastBeat"]) {
-			
+
 			unsigned int id = lb["id"].get<unsigned int>();
 			if (id > 3)
 				throw std::string("Invalid counterId encountered! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
@@ -123,18 +123,18 @@ Engine::Engine(nlohmann::json& obj) :
 	// Testowanie liczby pionków na planszy, gracza oraz stanu silnika do obecnego gracza.
 	if (fcounters.size() != 4 * players.size())
 		throw std::string("Counters missing! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
-	if(currentPlayer > static_cast<int>(players.size()))
+	if (currentPlayer > static_cast<int>(players.size()))
 		throw std::string("Invalid current player value! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
-	if((currentPlayer < 0 && state != EngineStates::CREATED) || (currentPlayer >= 0 && state == EngineStates::CREATED))
+	if ((currentPlayer < 0 && state != EngineStates::CREATED) || (currentPlayer >= 0 && state == EngineStates::CREATED))
 		throw std::string("Current player doesn't match game state! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
 	unsigned int p;
 	// Budowanie tablicy wyników z JSON.
 	for (auto& tp : obj["topPlayers"]) {
 		p = tp.get<unsigned int>();
-		if(std::count_if(pmap.begin(),pmap.end(),[&p](std::pair<unsigned int, Player*> player){return player.second->getId() == p; }) == 0)
+		if (std::count_if(pmap.begin(), pmap.end(), [&p](std::pair<unsigned int, Player*> player) {return player.second->getId() == p; }) == 0)
 			throw std::string("Top player with given id doesn't exist! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
 		std::pair<unsigned int, PlayerContainer*> pc = *(std::find_if(players.begin(), players.end(), [&p](std::pair<unsigned int, PlayerContainer*> c) {return p == c.second->getPlayer().getId(); }));
-		if(!pc.second->allIn())
+		if (!pc.second->allIn())
 			throw std::string("This player hasn't finished yet! " + std::string(ESRC) + ":" + std::to_string(__LINE__));
 		top.push_back(pmap[p]);
 
@@ -221,11 +221,12 @@ bool Engine::beatCountersToHolder(Tile& t) {
 
 //~FIXME~: Naprawiæ b³¹d podczas przechodzeia na pocz¹tek planszy.
 bool Engine::moveCounterOnBoard(unsigned int fieldNo) {
-	Player& p = getCurrentPlayer();
-	if (!tiles[fieldNo].hasCounter(p))
+	Player* p = getCurrentPlayer();
+	if (p == nullptr)return false;
+	if (!tiles[fieldNo].hasCounter(*p))
 		return false;
 	unsigned int offset = dice.getLast();
-	bool result = tiles[fieldNo].movePlayerCounter(tiles[(fieldNo + offset) % 52], p);
+	bool result = tiles[fieldNo].movePlayerCounter(tiles[(fieldNo + offset) % 52], *p);
 	if (result)
 		result |= beatCountersToHolder(tiles[(fieldNo + offset) % 52]);
 	state = EngineStates::MOVE_MADE;
@@ -239,7 +240,9 @@ bool Engine::moveCounterOnLast(unsigned int fieldNo) {
 	if (players.find(Q) == players.end())
 		return false;
 	PlayerContainer& c = *players[Q];
-	if (c.getPlayer().getId() != getCurrentPlayer().getId())
+	Player* p = getCurrentPlayer();
+	if (p == nullptr)return false;
+	if (c.getPlayer().getId() != p->getId())
 		return false;
 	unsigned int field = (fieldNo % 100) - 1;
 	bool result = c.moveOnLast(field, dice.getLast());
@@ -248,7 +251,7 @@ bool Engine::moveCounterOnLast(unsigned int fieldNo) {
 			top.push_back(c.getPlayerPtr());
 		state = EngineStates::MOVE_MADE;
 	}
-	return  result;
+	return result;
 }
 
 bool Engine::moveCounterToLast(unsigned int from, unsigned int offset) {

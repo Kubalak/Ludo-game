@@ -12,9 +12,10 @@ class PlayerContainer
 	Player* player;
 	/** Pozycja pocz¹tkowa na planszy */
 	unsigned int startPos;
+	
+	std::vector<Counter*> holder;
 	/** Lista z pionkami na koñcowych polach */
 	std::array<std::vector<Counter*>, 6>last;
-	std::vector<Counter*> holder;
 public:
 	/**
 	* @param p - WskaŸnik na gracza, dla którego tworzony jest obiekt.
@@ -77,7 +78,7 @@ public:
 	* Zwraca ostatnie pola.
 	* @return Tablica z list¹ pionków na koñcowych polach.
 	*/
-	std::array<std::vector<Counter*>, 6>& getLast() { return last; }
+	const std::array<std::vector<Counter*>, 6>& getLast() const { return last; }
 	/**
 	* @return Pozycja startowa na planszy.
 	*/
@@ -89,7 +90,7 @@ public:
 	/** Zwraca informacjê czy gracz mo¿e siê poruszaæ po planszy.
 	* @return Informacja czy pionek znajduje siê na planszy i nie na koñcu.
 	*/
-	bool canMove() { return holder.size() != 4 && last[5].size() != 4; }
+	bool canMove() { return holder.size() + last[5].size() != 4; }
 
 	/**
 	* Umo¿liwia przekierowanie do strumienia.

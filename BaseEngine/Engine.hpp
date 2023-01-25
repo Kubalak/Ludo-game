@@ -22,7 +22,6 @@ enum class EngineStates
 /** Klasa silnika gry w wersji offline.
 * @author Jakub Jach &copy; 2022
 */
-
 class Engine
 {
 
@@ -37,9 +36,13 @@ protected:
 	std::map<int, PlayerContainer*> players;
 	/** Tablica wyników */
 	std::vector<Player*> top;
-	// Podstawowa plansza do Chiñczyka.
+	/**
+	Podstawowa plansza do Chiñczyka.
+	*/
 	std::array<Tile, 52> tiles;
-	// Kostka do gry.
+	/**
+	Kostka do gry.
+	*/
 	Dice dice;
 	/** Zwraca dystans jaki pokona gracz jeœli chce przesun¹æ pionek na wybrane pole.
 	* @param c - Kontener z danymi gracza.
@@ -47,25 +50,61 @@ protected:
 	* @return Odleg³oœæ od punktu pocz¹tkowego gracza.
 	*/
 	unsigned int getDistance(PlayerContainer& c, unsigned int dest);
+	/**
+	* Zwraca aktualny obiekt PlayerContainer.
+	* @return Obecny PlayerContainer.
+	*/
 	PlayerContainer& getCurrentPlayerContainer() { return *std::next(players.begin(), currentPlayer)->second; }
-
+	/**
+	* Przesuwa gracza na planszy.
+	* @param fieldNo Numer pola na planszy.
+	* @return true przy powodzeniu lub false w przeciwnym wypadku.
+	*/
 	bool moveCounterOnBoard(unsigned int fieldNo);
+	/**
+	* Przesuwa gracza na ostatnich polach.
+	* @param fieldNo Numer pola.
+	* @return true przy powodzeniu lub false w przeciwnym wypadku.
+	*/
 	bool moveCounterOnLast(unsigned int fieldNo);
+	/**
+	* Dodaje pionek na koñcowe pola na pozycjê wskazan¹ przez offset.
+	* @param from Numer pola na planszy.
+	* @param offset O ile przesun¹æ pionek na koñcowych polach.
+	* @return true przy powodzeniu lub false w przeciwnym wypadku.
+	*/
 	bool moveCounterToLast(unsigned int from, unsigned int offset);
+	/**
+	* Przenosi pionki z kafelka z powrotem do domków.
+	* @param t Referencja do kafelka, z którego pobrane maj¹ zostaæ zbite pionki.
+	* @return true przy powodzeniu lub false w przeciwnym wypadku.
+	*/
 	bool beatCountersToHolder(Tile& t);
-	/** 
+	/**
 	Kolejny krok w grze. Aktualizuje informacje o wykonaiu ruchu czy rzucie kostk¹ oraz zmienia aktywnego gracza.
+	@return true przy powodzeniu lub false w przeciwnym wypadku.
 	*/
 	bool step();
 
 public:
-	/// Wersja silnika 
+	/**
+	Wersja silnika
+	*/
 	static const std::string _VERSION;
+	/**
+	Mapa stanów silnika na ci¹g znaków.
+	*/
 	static const std::map<EngineStates, std::string> stateStr;
+	/**
+	Mapa stanów silnika na wartoœæ liczbow¹.
+	*/
 	static const std::map<EngineStates, int> stateInt;
+	/**
+	Mapa wartoœci liczbowej na stan silnika.
+	*/
 	static const std::map<int, EngineStates> intState;
 
-	/***
+	/**
 	* Domyœlny konstruktor klasy Engine
 	*/
 	Engine();
@@ -81,17 +120,15 @@ public:
 	virtual bool addPlayer(Player* player, unsigned int quarter);
 
 	/** Pobiera aktualnego gracza.
-	* @return Gracz aktualnie posiadaj¹cy ruch.
+	* @return WskaŸnik na gracza aktualnie posiadaj¹cego ruch lub nullptr jeœli pobranie go jest niemo¿liwe.
 	*/
-	Player& getCurrentPlayer() { return std::next(players.begin(), currentPlayer)->second->getPlayer(); }
+	Player* getCurrentPlayer() { if (currentPlayer < 0 || players.size() == 0)return nullptr; return std::next(players.begin(), currentPlayer)->second->getPlayerPtr(); }
 
 	/** Inicjuje grê.
 	* Powoduje to zablokowanie mo¿liwoœci dodawnia graczy i ustawia stan rozgrywki.
 	* @return true jeœli mo¿liwe jest uruchomienie gry lub false w przeciwnym wypadku.
 	*/
 	virtual bool start();
-
-	
 
 	/** S³u¿y do rzucania kostk¹.
 	* @return Liczba oczek wyrzucona na kostce.
@@ -133,6 +170,13 @@ public:
 	* @return Mapa okreœlaj¹ca powi¹zania æwiartki z graczem.
 	*/
 	std::map<unsigned int, unsigned int> getQuarters();
+
+	/**
+	* Zwraca referencjê do obiektu PlayerContainer.
+	* @param quarter Æwiartka, z której ma zostaæ pobrany PlayerContainer.
+	* @return Referencja na PlayerContainer z danej æwiartki lub wyj¹tek przy podaniu z³ej wartoœci æwiartki.
+	*/
+	PlayerContainer& getPlayerContainer(unsigned int quarter) { return *players[quarter - 1]; }
 
 	/**
 	* Zwraca aktualny stan silnika.

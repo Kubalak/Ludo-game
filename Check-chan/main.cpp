@@ -42,7 +42,7 @@ void doEngine(Engine* engine) {
 			std::cout << c << ' ';
 		std::cout << "]\n";
 
-		std::cout << "Current player: " << engine->getCurrentPlayer().getNick() << "\nPole: ";
+		std::cout << "Current player: " << engine->getCurrentPlayer()->getNick() << "\nPole: ";
 		std::cin >> field;
 		if (std::cin.fail()) {
 			std::cin.clear();
