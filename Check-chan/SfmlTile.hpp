@@ -1,7 +1,9 @@
 #pragma once
 #include "../BaseEngine/Tile.hpp"
 #include "SFML/Graphics.hpp"
-
+/// <summary>
+///  Klasa SfmlTile jest odpowiedzialna za mapowanie poszczególnych pól do poruszania pionkami. Ma mo¿liwoœæ rysowania ustalania pozycji oraz rysowania pionków
+/// </summary>
 class SfmlTile : public sf::Drawable{
 private:
 	Tile& tile;
