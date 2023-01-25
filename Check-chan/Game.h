@@ -9,9 +9,8 @@
 #include "Last.hpp"
 #include "locale"
 
-#define MAX_NUMBER_OF_ITEMS 3
-#define MAX_NUMBER_OF_ITEMS 3
-
+#define MAIN_NUMBER_OF_ITEMS 4
+#define OPTIONS_NUMBER_OF_ITEMS 3
 /// <summary>
 /// Klasa Game odpowiedzialna jest za wszystkie elementy graficzne oraz poszczególne stany projektu
 /// </summary>
@@ -36,7 +35,15 @@ private:
     /**
     String aktualnego tekstu w opcjach
     */
+    /**
+    Quater pobrane z tekstu do usigned int
+    */
+    unsigned int playerId;
     std::string currentText;
+    /**
+    String przechowujacy quater gracza.
+    */
+    std::string playerIdString;
     /**
     String do zmiany nazwy gracza w turze.
     */
@@ -54,13 +61,29 @@ private:
     */
     sf::Text CurrentPlayerText;
     /**
+    Text buttona dodawania gracza.
+    */
+    sf::Text ButtonText[2];
+    /**
     Text SFML z iloœcia mo¿liwoœci w g³ównym menu gry.
     */
-    sf::Text MainMenuText[MAX_NUMBER_OF_ITEMS];
+    sf::Text MainMenuText[MAIN_NUMBER_OF_ITEMS];
     /**
     Text SFML z iloœcia mo¿liwoœci w opcjach menu gry.
     */
-    sf::Text OptionsText[MAX_NUMBER_OF_ITEMS];
+    sf::Text OptionsText[OPTIONS_NUMBER_OF_ITEMS];
+    /**
+    Text do offline menu gry.
+    */
+    sf::Text OfflineText[3];
+    /**
+    Znak plusa i minusa liczby w quater.
+    */
+    sf::Text PlusMinusNumber[3];
+    /**
+    Text przechowuj¹cy graczy.
+    */
+    sf::Text Players[4];
     /**
     Text SFML obrazuj¹cy znaki wpisane przez gracza.
     */
@@ -70,7 +93,23 @@ private:
     */
     sf::RectangleShape Background;
     /**
-    SFML Rectangle planszy gry.
+    SFML Button dodawania graczy.
+    */
+    sf::RectangleShape ButtonAdd;
+    /**
+    SFML Button zwiêkszania numeru quater na planszy.
+    */
+    sf::RectangleShape ButtonPlus;
+    /**
+    SFML Button zmniejszania numeru quater na planszy.
+    */
+    sf::RectangleShape ButtonMinus;
+    /**
+    SFML Button startu gry.
+    */
+    sf::RectangleShape ButtonStart;
+    /**
+    SFML Button dodawania graczy.
     */
     sf::RectangleShape BoardBackground;
     /**
@@ -209,6 +248,8 @@ private:
     */
     enum class GameState {
         MainMenu,
+        Offline,
+        Online,
         Options,
         MainGame,
         GameOver
@@ -227,6 +268,7 @@ public:
     int updateGame();
     int draw();
     int drawMenuContent();
+    int drawOfflineContent();
     int drawOptionsContent();
     int drawGameContent();
     void MoveUp();

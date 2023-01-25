@@ -27,9 +27,9 @@ bool engineStop;
 void doEngine(Engine* engine) {
 	engine->addPlayer(new Player(std::string("Adam")), 1);
 	engine->addPlayer(new Player(std::string("Ewa")), 3);
-	engine->start();
+	//engine->start();
 	int field;
-	while (!engine->finished() && !engineStop) {
+	/*while (!engine->finished() && !engineStop) {
 		std::cout << "Dice roll: " << engine->rollDice() << '\n';
 		std::cout << "Current state: " << Engine::stateStr.at(engine->getCurrentState()) << "\n";
 		std::cout << "Adam container\n[";
@@ -52,7 +52,7 @@ void doEngine(Engine* engine) {
 		int index = 0;
 		for (auto& p : engine->getTiles())
 			std::cout << '[' << index++ << "]: " << p << '\n';
-	}
+	}*/
 }
 
 int main()
