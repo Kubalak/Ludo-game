@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Check-chan: Plik źródłowy BaseEngine/Engine.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="icon.ico"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Check-chan
+   &#160;<span id="projectnumber">0.9</span>
+   </div>
+   <div id="projectbrief">Projekt gra chińczyk.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano przez Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Szukaj');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Szukaj');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_72673b5d240d0a0daefdc2e698e3c269.html">BaseEngine</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">Engine.hpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;Dice.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;Tile.hpp&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;PlayerContainer.hpp&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//TODO: Obsługa Ctr-C itp. (zabezpieczenie przed niekontrolowanym zamknięciem)</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">//TODO: (WIN) Brak blokowania konsoli po kliknięciu</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">enum class</span> EngineStates</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;{</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    CREATED = 0,</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    STARTED = 1,</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    DICE_ROLLED = 2,</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    MOVE_MADE = 3,</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    STEP_MADE = 4</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;};</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="class_engine.html">   25</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_engine.html">Engine</a></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="class_engine.html#a20f098c492d5a292b37fc84b998b1d94">   32</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_engine.html#a20f098c492d5a292b37fc84b998b1d94">currentPlayer</a>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="class_engine.html#a796b43a241d71b865e7b94a6f7a93be3">   34</a></span>&#160;    EngineStates <a class="code" href="class_engine.html#a796b43a241d71b865e7b94a6f7a93be3">state</a>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_engine.html#a310b2b17890ce436b314dc5f8170c10a">   36</a></span>&#160;    std::map&lt;int, PlayerContainer*&gt; <a class="code" href="class_engine.html#a310b2b17890ce436b314dc5f8170c10a">players</a>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="class_engine.html#ab1b70f7a53b61656ca0a206360168457">   38</a></span>&#160;    std::vector&lt;Player*&gt; <a class="code" href="class_engine.html#ab1b70f7a53b61656ca0a206360168457">top</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="class_engine.html#afe9177dc83bd35115000526e5c580a14">   42</a></span>&#160;    std::array&lt;Tile, 52&gt; <a class="code" href="class_engine.html#afe9177dc83bd35115000526e5c580a14">tiles</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="class_engine.html#ae99305b8c10983a9184b575d7dc285dc">   46</a></span>&#160;    <a class="code" href="class_dice.html">Dice</a> <a class="code" href="class_engine.html#ae99305b8c10983a9184b575d7dc285dc">dice</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_engine.html#a0db59fb50f1269866be4502ce9d180d9">getDistance</a>(<a class="code" href="class_player_container.html">PlayerContainer</a>&amp; c, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> dest);</div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="class_engine.html#a7c1cb0935c3ac89ed39b714896ba9a5a">   57</a></span>&#160;    <a class="code" href="class_player_container.html">PlayerContainer</a>&amp; <a class="code" href="class_engine.html#a7c1cb0935c3ac89ed39b714896ba9a5a">getCurrentPlayerContainer</a>() { <span class="keywordflow">return</span> *std::next(<a class="code" href="class_engine.html#a310b2b17890ce436b314dc5f8170c10a">players</a>.begin(), <a class="code" href="class_engine.html#a20f098c492d5a292b37fc84b998b1d94">currentPlayer</a>)-&gt;second; }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_engine.html#ac9263d1a8ade674b77695909605a553d">moveCounterOnBoard</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> fieldNo);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_engine.html#ac0e67dafc582bb4100cfac588317cbba">moveCounterOnLast</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> fieldNo);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_engine.html#a444ec889844b6b387f9bff45872cd655">moveCounterToLast</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> from, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> offset);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_engine.html#a71a377f9b1ab3dab07621a5a9511f94e">beatCountersToHolder</a>(<a class="code" href="class_tile.html">Tile</a>&amp; t);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_engine.html#a20056c024201e323e3e846f62de32835">step</a>();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="class_engine.html#a25c07c203748fb4be2f3c4eb21be1b2b">   93</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> std::string <a class="code" href="class_engine.html#a25c07c203748fb4be2f3c4eb21be1b2b">_VERSION</a>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="class_engine.html#ad7fe00d9c8498fc6059c6343af7a23d0">   97</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> std::map&lt;EngineStates, std::string&gt; <a class="code" href="class_engine.html#ad7fe00d9c8498fc6059c6343af7a23d0">stateStr</a>;</div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="class_engine.html#aac3f5d7f9fd75e82658e10a0bf4d488d">  101</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> std::map&lt;EngineStates, int&gt; <a class="code" href="class_engine.html#aac3f5d7f9fd75e82658e10a0bf4d488d">stateInt</a>;</div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="class_engine.html#a43f007ba6bc926a3e1b26c4d8948519e">  105</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> std::map&lt;int, EngineStates&gt; <a class="code" href="class_engine.html#a43f007ba6bc926a3e1b26c4d8948519e">intState</a>;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <a class="code" href="class_engine.html#a8c98683b0a3aa28d8ab72a8bcd0d52f2">Engine</a>();</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <a class="code" href="class_engine.html#a8c98683b0a3aa28d8ab72a8bcd0d52f2">Engine</a>(nlohmann::json&amp;);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_engine.html#ab0b40d2ade542f7b7d08fb119f40da88">addPlayer</a>(<a class="code" href="class_player.html">Player</a>* player, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> quarter);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="class_engine.html#a30d6592f2cc7db891c85ef8d6bdc5a5d">  126</a></span>&#160;    <a class="code" href="class_player.html">Player</a>* <a class="code" href="class_engine.html#a30d6592f2cc7db891c85ef8d6bdc5a5d">getCurrentPlayer</a>() { <span class="keywordflow">if</span> (<a class="code" href="class_engine.html#a20f098c492d5a292b37fc84b998b1d94">currentPlayer</a> &lt; 0 || <a class="code" href="class_engine.html#a310b2b17890ce436b314dc5f8170c10a">players</a>.size() == 0)<span class="keywordflow">return</span> <span class="keyword">nullptr</span>; <span class="keywordflow">return</span> std::next(<a class="code" href="class_engine.html#a310b2b17890ce436b314dc5f8170c10a">players</a>.begin(), <a class="code" href="class_engine.html#a20f098c492d5a292b37fc84b998b1d94">currentPlayer</a>)-&gt;second-&gt;getPlayerPtr(); }</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_engine.html#a4817e587b6d856df4b343b490b220bb8">start</a>();</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_engine.html#adaf69d9a6b43ac75f3cea9f2c9732403">rollDice</a>();</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
+<div class="line"><a name="l00142"></a><span class="lineno"><a class="line" href="class_engine.html#a0e798a3c5db1e714f08852792abd58e0">  142</a></span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_engine.html#a0e798a3c5db1e714f08852792abd58e0">getDice</a>() { <span class="keywordflow">return</span> <a class="code" href="class_engine.html#ae99305b8c10983a9184b575d7dc285dc">dice</a>.<a class="code" href="class_dice.html#adbd9f197ab973f34ef46f220ea65e336">getLast</a>(); }</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_engine.html#a1ccae016fe7549b4abb49c42c4031823">move</a>(<span class="keywordtype">int</span> fieldNo);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_engine.html#a59781a75ae8e4bbe539e07448970bf95">finished</a>();</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
+<div class="line"><a name="l00158"></a><span class="lineno"><a class="line" href="class_engine.html#abac2d094a7c5cb3ee7b2f337482e6306">  158</a></span>&#160;    std::array&lt;Tile, 52&gt;&amp; <a class="code" href="class_engine.html#abac2d094a7c5cb3ee7b2f337482e6306">getTiles</a>() { <span class="keywordflow">return</span> <a class="code" href="class_engine.html#afe9177dc83bd35115000526e5c580a14">tiles</a>; }</div>
+<div class="line"><a name="l00162"></a><span class="lineno"><a class="line" href="class_engine.html#ad8928eda68617cee6e3a8c7b589e26db">  162</a></span>&#160;    std::array&lt;unsigned int, 6&gt; <a class="code" href="class_engine.html#ad8928eda68617cee6e3a8c7b589e26db">getLast</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> quarter) { <span class="keywordflow">return</span> <a class="code" href="class_engine.html#a310b2b17890ce436b314dc5f8170c10a">players</a>[quarter - 1]-&gt;getLastCount(); }</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
+<div class="line"><a name="l00168"></a><span class="lineno"><a class="line" href="class_engine.html#a2ac512941ed820e7ab3b7610e3ae55ae">  168</a></span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_engine.html#a2ac512941ed820e7ab3b7610e3ae55ae">getHolderCount</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> quarter) { <span class="keywordflow">return</span> <a class="code" href="class_engine.html#a310b2b17890ce436b314dc5f8170c10a">players</a>[quarter - 1]-&gt;holderCount(); }</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    std::map&lt;unsigned int, unsigned int&gt; <a class="code" href="class_engine.html#ab954f0e0ec221e1521f70be02b5a0a47">getQuarters</a>();</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
+<div class="line"><a name="l00180"></a><span class="lineno"><a class="line" href="class_engine.html#a094496aaf97c83b2483849e4c9b25c78">  180</a></span>&#160;    <a class="code" href="class_player_container.html">PlayerContainer</a>&amp; <a class="code" href="class_engine.html#a094496aaf97c83b2483849e4c9b25c78">getPlayerContainer</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> quarter) { <span class="keywordflow">return</span> *<a class="code" href="class_engine.html#a310b2b17890ce436b314dc5f8170c10a">players</a>[quarter - 1]; }</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
+<div class="line"><a name="l00186"></a><span class="lineno"><a class="line" href="class_engine.html#ae93c4953334776c05cb394e3f3fcf3b3">  186</a></span>&#160;    EngineStates <a class="code" href="class_engine.html#ae93c4953334776c05cb394e3f3fcf3b3">getCurrentState</a>() { <span class="keywordflow">return</span> <a class="code" href="class_engine.html#a796b43a241d71b865e7b94a6f7a93be3">state</a>; }</div>
+<div class="line"><a name="l00188"></a><span class="lineno"><a class="line" href="class_engine.html#a148aaab207692b8aa9d83e58a885f4a9">  188</a></span>&#160;    std::vector&lt;Player*&gt;&amp; <a class="code" href="class_engine.html#a148aaab207692b8aa9d83e58a885f4a9">getTop</a>() { <span class="keywordflow">return</span> <a class="code" href="class_engine.html#ab1b70f7a53b61656ca0a206360168457">top</a>; }</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="keyword">friend</span> std::ostream&amp; <a class="code" href="class_engine.html#ab37fd24aeeaf4df8ccfc14a2c3e385c0">operator&lt;&lt; </a>(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="class_engine.html">Engine</a>&amp; e);</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    std::string <a class="code" href="class_engine.html#a4d0b79624cef42c22ff1f7f24ba22e55">str</a>();</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    std::string <a class="code" href="class_engine.html#a29f19cfeb71bea2e37a51bc7f5d33553">json</a>();</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160; </div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    <a class="code" href="class_engine.html#a8ef7030a089ecb30bbfcb9e43094717a">~Engine</a>();</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;};</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
+</div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aclass_engine_html_aac3f5d7f9fd75e82658e10a0bf4d488d"><div class="ttname"><a href="class_engine.html#aac3f5d7f9fd75e82658e10a0bf4d488d">Engine::stateInt</a></div><div class="ttdeci">static const std::map&lt; EngineStates, int &gt; stateInt</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00101">Engine.hpp:101</a></div></div>
+<div class="ttc" id="aclass_engine_html_a2ac512941ed820e7ab3b7610e3ae55ae"><div class="ttname"><a href="class_engine.html#a2ac512941ed820e7ab3b7610e3ae55ae">Engine::getHolderCount</a></div><div class="ttdeci">unsigned int getHolderCount(unsigned int quarter)</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00168">Engine.hpp:168</a></div></div>
+<div class="ttc" id="aclass_engine_html"><div class="ttname"><a href="class_engine.html">Engine</a></div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00025">Engine.hpp:25</a></div></div>
+<div class="ttc" id="aclass_engine_html_ab37fd24aeeaf4df8ccfc14a2c3e385c0"><div class="ttname"><a href="class_engine.html#ab37fd24aeeaf4df8ccfc14a2c3e385c0">Engine::operator&lt;&lt;</a></div><div class="ttdeci">friend std::ostream &amp; operator&lt;&lt;(std::ostream &amp;os, const Engine &amp;e)</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8cpp_source.html#l00369">Engine.cpp:369</a></div></div>
+<div class="ttc" id="aclass_engine_html_a4817e587b6d856df4b343b490b220bb8"><div class="ttname"><a href="class_engine.html#a4817e587b6d856df4b343b490b220bb8">Engine::start</a></div><div class="ttdeci">virtual bool start()</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8cpp_source.html#l00164">Engine.cpp:164</a></div></div>
+<div class="ttc" id="aclass_engine_html_ad8928eda68617cee6e3a8c7b589e26db"><div class="ttname"><a href="class_engine.html#ad8928eda68617cee6e3a8c7b589e26db">Engine::getLast</a></div><div class="ttdeci">std::array&lt; unsigned int, 6 &gt; getLast(unsigned int quarter)</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00162">Engine.hpp:162</a></div></div>
+<div class="ttc" id="aclass_engine_html_ab1b70f7a53b61656ca0a206360168457"><div class="ttname"><a href="class_engine.html#ab1b70f7a53b61656ca0a206360168457">Engine::top</a></div><div class="ttdeci">std::vector&lt; Player * &gt; top</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00038">Engine.hpp:38</a></div></div>
+<div class="ttc" id="aclass_engine_html_a20f098c492d5a292b37fc84b998b1d94"><div class="ttname"><a href="class_engine.html#a20f098c492d5a292b37fc84b998b1d94">Engine::currentPlayer</a></div><div class="ttdeci">int currentPlayer</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00032">Engine.hpp:32</a></div></div>
+<div class="ttc" id="aclass_engine_html_a1ccae016fe7549b4abb49c42c4031823"><div class="ttname"><a href="class_engine.html#a1ccae016fe7549b4abb49c42c4031823">Engine::move</a></div><div class="ttdeci">virtual bool move(int fieldNo)</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8cpp_source.html#l00292">Engine.cpp:292</a></div></div>
+<div class="ttc" id="aclass_engine_html_afe9177dc83bd35115000526e5c580a14"><div class="ttname"><a href="class_engine.html#afe9177dc83bd35115000526e5c580a14">Engine::tiles</a></div><div class="ttdeci">std::array&lt; Tile, 52 &gt; tiles</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00042">Engine.hpp:42</a></div></div>
+<div class="ttc" id="aclass_engine_html_a8c98683b0a3aa28d8ab72a8bcd0d52f2"><div class="ttname"><a href="class_engine.html#a8c98683b0a3aa28d8ab72a8bcd0d52f2">Engine::Engine</a></div><div class="ttdeci">Engine()</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8cpp_source.html#l00032">Engine.cpp:32</a></div></div>
+<div class="ttc" id="aclass_engine_html_a7c1cb0935c3ac89ed39b714896ba9a5a"><div class="ttname"><a href="class_engine.html#a7c1cb0935c3ac89ed39b714896ba9a5a">Engine::getCurrentPlayerContainer</a></div><div class="ttdeci">PlayerContainer &amp; getCurrentPlayerContainer()</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00057">Engine.hpp:57</a></div></div>
+<div class="ttc" id="aclass_engine_html_a094496aaf97c83b2483849e4c9b25c78"><div class="ttname"><a href="class_engine.html#a094496aaf97c83b2483849e4c9b25c78">Engine::getPlayerContainer</a></div><div class="ttdeci">PlayerContainer &amp; getPlayerContainer(unsigned int quarter)</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00180">Engine.hpp:180</a></div></div>
+<div class="ttc" id="aclass_engine_html_ac0e67dafc582bb4100cfac588317cbba"><div class="ttname"><a href="class_engine.html#ac0e67dafc582bb4100cfac588317cbba">Engine::moveCounterOnLast</a></div><div class="ttdeci">bool moveCounterOnLast(unsigned int fieldNo)</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8cpp_source.html#l00237">Engine.cpp:237</a></div></div>
+<div class="ttc" id="aclass_engine_html_a148aaab207692b8aa9d83e58a885f4a9"><div class="ttname"><a href="class_engine.html#a148aaab207692b8aa9d83e58a885f4a9">Engine::getTop</a></div><div class="ttdeci">std::vector&lt; Player * &gt; &amp; getTop()</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00188">Engine.hpp:188</a></div></div>
+<div class="ttc" id="aclass_engine_html_a43f007ba6bc926a3e1b26c4d8948519e"><div class="ttname"><a href="class_engine.html#a43f007ba6bc926a3e1b26c4d8948519e">Engine::intState</a></div><div class="ttdeci">static const std::map&lt; int, EngineStates &gt; intState</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00105">Engine.hpp:105</a></div></div>
+<div class="ttc" id="aclass_engine_html_a71a377f9b1ab3dab07621a5a9511f94e"><div class="ttname"><a href="class_engine.html#a71a377f9b1ab3dab07621a5a9511f94e">Engine::beatCountersToHolder</a></div><div class="ttdeci">bool beatCountersToHolder(Tile &amp;t)</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8cpp_source.html#l00209">Engine.cpp:209</a></div></div>
+<div class="ttc" id="aclass_engine_html_ac9263d1a8ade674b77695909605a553d"><div class="ttname"><a href="class_engine.html#ac9263d1a8ade674b77695909605a553d">Engine::moveCounterOnBoard</a></div><div class="ttdeci">bool moveCounterOnBoard(unsigned int fieldNo)</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8cpp_source.html#l00223">Engine.cpp:223</a></div></div>
+<div class="ttc" id="aclass_engine_html_a0e798a3c5db1e714f08852792abd58e0"><div class="ttname"><a href="class_engine.html#a0e798a3c5db1e714f08852792abd58e0">Engine::getDice</a></div><div class="ttdeci">unsigned int getDice()</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00142">Engine.hpp:142</a></div></div>
+<div class="ttc" id="aclass_dice_html"><div class="ttname"><a href="class_dice.html">Dice</a></div><div class="ttdef"><b>Definition:</b> <a href="_dice_8hpp_source.html#l00008">Dice.hpp:8</a></div></div>
+<div class="ttc" id="aclass_engine_html_a59781a75ae8e4bbe539e07448970bf95"><div class="ttname"><a href="class_engine.html#a59781a75ae8e4bbe539e07448970bf95">Engine::finished</a></div><div class="ttdeci">bool finished()</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8cpp_source.html#l00352">Engine.cpp:352</a></div></div>
+<div class="ttc" id="aclass_engine_html_a25c07c203748fb4be2f3c4eb21be1b2b"><div class="ttname"><a href="class_engine.html#a25c07c203748fb4be2f3c4eb21be1b2b">Engine::_VERSION</a></div><div class="ttdeci">static const std::string _VERSION</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00093">Engine.hpp:93</a></div></div>
+<div class="ttc" id="aclass_engine_html_a444ec889844b6b387f9bff45872cd655"><div class="ttname"><a href="class_engine.html#a444ec889844b6b387f9bff45872cd655">Engine::moveCounterToLast</a></div><div class="ttdeci">bool moveCounterToLast(unsigned int from, unsigned int offset)</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8cpp_source.html#l00257">Engine.cpp:257</a></div></div>
+<div class="ttc" id="aclass_player_container_html"><div class="ttname"><a href="class_player_container.html">PlayerContainer</a></div><div class="ttdef"><b>Definition:</b> <a href="_player_container_8hpp_source.html#l00009">PlayerContainer.hpp:9</a></div></div>
+<div class="ttc" id="aclass_engine_html_ae93c4953334776c05cb394e3f3fcf3b3"><div class="ttname"><a href="class_engine.html#ae93c4953334776c05cb394e3f3fcf3b3">Engine::getCurrentState</a></div><div class="ttdeci">EngineStates getCurrentState()</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00186">Engine.hpp:186</a></div></div>
+<div class="ttc" id="aclass_dice_html_adbd9f197ab973f34ef46f220ea65e336"><div class="ttname"><a href="class_dice.html#adbd9f197ab973f34ef46f220ea65e336">Dice::getLast</a></div><div class="ttdeci">const unsigned int getLast()</div><div class="ttdef"><b>Definition:</b> <a href="_dice_8hpp_source.html#l00028">Dice.hpp:28</a></div></div>
+<div class="ttc" id="aclass_engine_html_ae99305b8c10983a9184b575d7dc285dc"><div class="ttname"><a href="class_engine.html#ae99305b8c10983a9184b575d7dc285dc">Engine::dice</a></div><div class="ttdeci">Dice dice</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00046">Engine.hpp:46</a></div></div>
+<div class="ttc" id="aclass_engine_html_a20056c024201e323e3e846f62de32835"><div class="ttname"><a href="class_engine.html#a20056c024201e323e3e846f62de32835">Engine::step</a></div><div class="ttdeci">bool step()</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8cpp_source.html#l00175">Engine.cpp:175</a></div></div>
+<div class="ttc" id="aclass_engine_html_ab0b40d2ade542f7b7d08fb119f40da88"><div class="ttname"><a href="class_engine.html#ab0b40d2ade542f7b7d08fb119f40da88">Engine::addPlayer</a></div><div class="ttdeci">virtual bool addPlayer(Player *player, unsigned int quarter)</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8cpp_source.html#l00151">Engine.cpp:151</a></div></div>
+<div class="ttc" id="aclass_engine_html_ab954f0e0ec221e1521f70be02b5a0a47"><div class="ttname"><a href="class_engine.html#ab954f0e0ec221e1521f70be02b5a0a47">Engine::getQuarters</a></div><div class="ttdeci">std::map&lt; unsigned int, unsigned int &gt; getQuarters()</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8cpp_source.html#l00278">Engine.cpp:278</a></div></div>
+<div class="ttc" id="aclass_tile_html"><div class="ttname"><a href="class_tile.html">Tile</a></div><div class="ttdef"><b>Definition:</b> <a href="_tile_8hpp_source.html#l00010">Tile.hpp:10</a></div></div>
+<div class="ttc" id="aclass_engine_html_a8ef7030a089ecb30bbfcb9e43094717a"><div class="ttname"><a href="class_engine.html#a8ef7030a089ecb30bbfcb9e43094717a">Engine::~Engine</a></div><div class="ttdeci">~Engine()</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8cpp_source.html#l00146">Engine.cpp:146</a></div></div>
+<div class="ttc" id="aclass_engine_html_abac2d094a7c5cb3ee7b2f337482e6306"><div class="ttname"><a href="class_engine.html#abac2d094a7c5cb3ee7b2f337482e6306">Engine::getTiles</a></div><div class="ttdeci">std::array&lt; Tile, 52 &gt; &amp; getTiles()</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00158">Engine.hpp:158</a></div></div>
+<div class="ttc" id="aclass_engine_html_a4d0b79624cef42c22ff1f7f24ba22e55"><div class="ttname"><a href="class_engine.html#a4d0b79624cef42c22ff1f7f24ba22e55">Engine::str</a></div><div class="ttdeci">std::string str()</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8cpp_source.html#l00403">Engine.cpp:403</a></div></div>
+<div class="ttc" id="aclass_engine_html_a30d6592f2cc7db891c85ef8d6bdc5a5d"><div class="ttname"><a href="class_engine.html#a30d6592f2cc7db891c85ef8d6bdc5a5d">Engine::getCurrentPlayer</a></div><div class="ttdeci">Player * getCurrentPlayer()</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00126">Engine.hpp:126</a></div></div>
+<div class="ttc" id="aclass_engine_html_a0db59fb50f1269866be4502ce9d180d9"><div class="ttname"><a href="class_engine.html#a0db59fb50f1269866be4502ce9d180d9">Engine::getDistance</a></div><div class="ttdeci">unsigned int getDistance(PlayerContainer &amp;c, unsigned int dest)</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8cpp_source.html#l00362">Engine.cpp:362</a></div></div>
+<div class="ttc" id="aclass_engine_html_a796b43a241d71b865e7b94a6f7a93be3"><div class="ttname"><a href="class_engine.html#a796b43a241d71b865e7b94a6f7a93be3">Engine::state</a></div><div class="ttdeci">EngineStates state</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00034">Engine.hpp:34</a></div></div>
+<div class="ttc" id="aclass_engine_html_ad7fe00d9c8498fc6059c6343af7a23d0"><div class="ttname"><a href="class_engine.html#ad7fe00d9c8498fc6059c6343af7a23d0">Engine::stateStr</a></div><div class="ttdeci">static const std::map&lt; EngineStates, std::string &gt; stateStr</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00097">Engine.hpp:97</a></div></div>
+<div class="ttc" id="aclass_engine_html_a310b2b17890ce436b314dc5f8170c10a"><div class="ttname"><a href="class_engine.html#a310b2b17890ce436b314dc5f8170c10a">Engine::players</a></div><div class="ttdeci">std::map&lt; int, PlayerContainer * &gt; players</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00036">Engine.hpp:36</a></div></div>
+<div class="ttc" id="aclass_engine_html_adaf69d9a6b43ac75f3cea9f2c9732403"><div class="ttname"><a href="class_engine.html#adaf69d9a6b43ac75f3cea9f2c9732403">Engine::rollDice</a></div><div class="ttdeci">virtual unsigned int rollDice()</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8cpp_source.html#l00199">Engine.cpp:199</a></div></div>
+<div class="ttc" id="aclass_engine_html_a29f19cfeb71bea2e37a51bc7f5d33553"><div class="ttname"><a href="class_engine.html#a29f19cfeb71bea2e37a51bc7f5d33553">Engine::json</a></div><div class="ttdeci">std::string json()</div><div class="ttdef"><b>Definition:</b> <a href="_engine_8cpp_source.html#l00421">Engine.cpp:421</a></div></div>
+<div class="ttc" id="aclass_player_html"><div class="ttname"><a href="class_player.html">Player</a></div><div class="ttdef"><b>Definition:</b> <a href="_player_8hpp_source.html#l00010">Player.hpp:10</a></div></div>
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Wygenerowano przez &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Check-chan: Plik źródłowy BaseEngine/OnlineEngine.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="icon.ico"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Check-chan
+   &#160;<span id="projectnumber">0.9</span>
+   </div>
+   <div id="projectbrief">Projekt gra chińczyk.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano przez Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Szukaj');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Szukaj');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_72673b5d240d0a0daefdc2e698e3c269.html">BaseEngine</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">OnlineEngine.hpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;Engine.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;zmq.hpp&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;thread&gt;</span> <span class="comment">// &lt;- Uruchamiana będzie metoda run() z klasy.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;nlohmann/json.hpp&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="class_online_engine.html">   14</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_online_engine.html">OnlineEngine</a> : <span class="keyword">public</span> <a class="code" href="class_engine.html">Engine</a> {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    std::thread* online;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordtype">bool</span> onlineShouldWork;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">bool</span> onlineIsWorking;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="class_player.html">Player</a>* localP;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">void</span> run();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    std::string addr;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    zmq::context_t context{ 1 };</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    zmq::socket_t serverSubscriber;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    zmq::socket_t eventPublisher;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">const</span> std::map&lt;std::string, std::function&lt;bool(nlohmann::json&amp;)&gt;&gt; respFuncs;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">bool</span> handlePlayers(nlohmann::json&amp;);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">bool</span> handleNewPlayer(nlohmann::json&amp;);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">bool</span> handleStart(nlohmann::json&amp;);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">bool</span> handleMove(nlohmann::json&amp;);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">bool</span> handleRoll(nlohmann::json&amp;);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="class_online_engine.html">OnlineEngine</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_online_engine.html#a35b205ce1ae712b36a25520e7c07bba6">move</a>(<span class="keywordtype">int</span> fieldNo);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_online_engine.html#ada2575758d8a0638cf15492053afa54b">addPlayer</a>(<a class="code" href="class_player.html">Player</a>* player, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> quarter);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_online_engine.html#aee6b340cefbb4a53fe16a66b1a9ad81f">start</a>();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_online_engine.html#a6bf861ab2cbaf7215f237fabc6329b4b">rollDice</a>();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_online_engine.html#a5064d02679530d626673d984a4d63192">connect</a>(std::string);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="class_online_engine.html#a80be361fdf569ed179d5a46f102a1538">   70</a></span>&#160;    <a class="code" href="class_player.html">Player</a>* <a class="code" href="class_online_engine.html#a80be361fdf569ed179d5a46f102a1538">getLocalPlayer</a>()noexcept { <span class="keywordflow">return</span> localP; }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    ~<a class="code" href="class_online_engine.html">OnlineEngine</a>();</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;};</div>
+</div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aclass_engine_html"><div class="ttname"><a href="class_engine.html">Engine</a></div><div class="ttdef"><b>Definition:</b> <a href="_engine_8hpp_source.html#l00025">Engine.hpp:25</a></div></div>
+<div class="ttc" id="aclass_online_engine_html_ada2575758d8a0638cf15492053afa54b"><div class="ttname"><a href="class_online_engine.html#ada2575758d8a0638cf15492053afa54b">OnlineEngine::addPlayer</a></div><div class="ttdeci">bool addPlayer(Player *player, unsigned int quarter)</div><div class="ttdef"><b>Definition:</b> <a href="_online_engine_8cpp_source.html#l00106">OnlineEngine.cpp:106</a></div></div>
+<div class="ttc" id="aclass_online_engine_html_a80be361fdf569ed179d5a46f102a1538"><div class="ttname"><a href="class_online_engine.html#a80be361fdf569ed179d5a46f102a1538">OnlineEngine::getLocalPlayer</a></div><div class="ttdeci">Player * getLocalPlayer() noexcept</div><div class="ttdef"><b>Definition:</b> <a href="_online_engine_8hpp_source.html#l00070">OnlineEngine.hpp:70</a></div></div>
+<div class="ttc" id="aclass_online_engine_html_a5064d02679530d626673d984a4d63192"><div class="ttname"><a href="class_online_engine.html#a5064d02679530d626673d984a4d63192">OnlineEngine::connect</a></div><div class="ttdeci">bool connect(std::string)</div><div class="ttdef"><b>Definition:</b> <a href="_online_engine_8cpp_source.html#l00170">OnlineEngine.cpp:170</a></div></div>
+<div class="ttc" id="aclass_online_engine_html_a6bf861ab2cbaf7215f237fabc6329b4b"><div class="ttname"><a href="class_online_engine.html#a6bf861ab2cbaf7215f237fabc6329b4b">OnlineEngine::rollDice</a></div><div class="ttdeci">unsigned int rollDice()</div><div class="ttdef"><b>Definition:</b> <a href="_online_engine_8cpp_source.html#l00163">OnlineEngine.cpp:163</a></div></div>
+<div class="ttc" id="aclass_online_engine_html"><div class="ttname"><a href="class_online_engine.html">OnlineEngine</a></div><div class="ttdef"><b>Definition:</b> <a href="_online_engine_8hpp_source.html#l00014">OnlineEngine.hpp:14</a></div></div>
+<div class="ttc" id="aclass_online_engine_html_a35b205ce1ae712b36a25520e7c07bba6"><div class="ttname"><a href="class_online_engine.html#a35b205ce1ae712b36a25520e7c07bba6">OnlineEngine::move</a></div><div class="ttdeci">bool move(int fieldNo)</div><div class="ttdef"><b>Definition:</b> <a href="_online_engine_8cpp_source.html#l00093">OnlineEngine.cpp:93</a></div></div>
+<div class="ttc" id="aclass_online_engine_html_aee6b340cefbb4a53fe16a66b1a9ad81f"><div class="ttname"><a href="class_online_engine.html#aee6b340cefbb4a53fe16a66b1a9ad81f">OnlineEngine::start</a></div><div class="ttdeci">bool start()</div><div class="ttdef"><b>Definition:</b> <a href="_online_engine_8cpp_source.html#l00120">OnlineEngine.cpp:120</a></div></div>
+<div class="ttc" id="aclass_player_html"><div class="ttname"><a href="class_player.html">Player</a></div><div class="ttdef"><b>Definition:</b> <a href="_player_8hpp_source.html#l00010">Player.hpp:10</a></div></div>
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Wygenerowano przez &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>

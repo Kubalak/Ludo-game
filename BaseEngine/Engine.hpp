@@ -20,7 +20,7 @@ enum class EngineStates
 };
 
 /** Klasa silnika gry w wersji offline.
-* @author Jakub Jach &copy; 2022
+* @author Jakub Jach &copy; 2023
 */
 class Engine
 {
@@ -45,8 +45,8 @@ protected:
 	*/
 	Dice dice;
 	/** Zwraca dystans jaki pokona gracz jeœli chce przesun¹æ pionek na wybrane pole.
-	* @param c - Kontener z danymi gracza.
-	* @param dest - Docelowy kafelek na planszy.
+	* @param c Kontener z danymi gracza.
+	* @param dest Docelowy kafelek na planszy.
 	* @return Odleg³oœæ od punktu pocz¹tkowego gracza.
 	*/
 	unsigned int getDistance(PlayerContainer& c, unsigned int dest);
@@ -114,8 +114,9 @@ public:
 	Engine(nlohmann::json&);
 
 	/** Pozwala dodaæ gracza do wybranej æwiartki planszy.
-	* @param player - Gracz, który ma zostaæ dodany UWAGA: przekazaæ new Player(), poniewa¿ gracze s¹ usuwani przy destrukcji obiektu (aby nie mo¿na ich by³o u¿yæ przy nowej grze).
-	* @param quarter - Æwiartka, w której gracz mo¿e rozpocz¹æ grê od 1 do 4.
+	* @param player Gracz, który ma zostaæ dodany UWAGA: przekazaæ new Player(), poniewa¿ gracze s¹ usuwani przy destrukcji obiektu (aby nie mo¿na ich by³o u¿yæ przy nowej grze).
+	* @param quarter Æwiartka, w której gracz mo¿e rozpocz¹æ grê od 1 do 4.
+	* @return true w przypadku powodzenia lub false w przeciwnym wypadku.
 	*/
 	virtual bool addPlayer(Player* player, unsigned int quarter);
 
@@ -141,7 +142,7 @@ public:
 	unsigned int getDice() { return dice.getLast(); }
 
 	/** S³u¿y do poruszania pionkiem gracza. Jako gracz poruszaj¹cy wybierany jest aktualny gracz.
-	* @param fieldNo - Pole, z którego ma ruszyæ siê pionek. Dla wystawienia pionka gracza nale¿y u¿yæ wartoœci < 0. Aby ruszyæ pionek na ostatnich szeœciu polach nale¿y wybraæ wartoœci 101-105 201-205 301-305 401-405
+	* @param fieldNo Pole, z którego ma ruszyæ siê pionek. Dla wystawienia pionka gracza nale¿y u¿yæ wartoœci < 0. Aby ruszyæ pionek na ostatnich szeœciu polach nale¿y wybraæ wartoœci 101-105 201-205 301-305 401-405
 	* @return true jeœli ruch siê powiedzie lub false w przeciwnym razie np. pionek nie stoi na danym polu.
 	*/
 	virtual bool move(int fieldNo);
@@ -161,7 +162,7 @@ public:
 	std::array<unsigned int, 6> getLast(unsigned int quarter) { return players[quarter - 1]->getLastCount(); }
 
 	/** Zwraca liczbê pionków w domku dla gracza z danej æwiartki.
-	* @param quarter - Numer æwiartki, z której ma zostaæ pobrana iloœæ pionków w domku.
+	* @param quarter Numer æwiartki, z której ma zostaæ pobrana iloœæ pionków w domku.
 	* @return Liczba pionków w domku dla danejæwiartki.
 	*/
 	unsigned int getHolderCount(unsigned int quarter) { return players[quarter - 1]->holderCount(); }
@@ -203,7 +204,7 @@ public:
 	*/
 	std::string json();
 
-	/** Domyœlny destruktor usuwa wszystkich graczy*/
+	/** Domyœlny destruktor usuwa wszystkich graczy */
 	~Engine();
 };
 

@@ -32,8 +32,8 @@ const static std::map<EventType, std::string> eventStr{
 
 /**
 * Zwraca wiadomoœæ mo¿liw¹ do wys³ania przez zmq::socket
-* @param type - Rodzaj wydarzenia, które mia³o miejsce.
-* @param obj - Obiekt do przekazania jako wiadomoœæ w formacie JSON (musi byæ mo¿liwy do przekazania do strumienia).
+* @param type Rodzaj wydarzenia, które mia³o miejsce.
+* @param obj Obiekt do przekazania jako wiadomoœæ w formacie JSON (musi byæ mo¿liwy do przekazania do strumienia).
 * @return Ci¹g znaków konwertowalny do nlohmann::json.
 */
 template <typename T> std::string constructMessage(EventType type, const T& obj) {
@@ -44,4 +44,10 @@ template <typename T> std::string constructMessage(EventType type, const T& obj)
 	return ss.str();
 }
 
+/**
+* Zwraca aktualn¹ datê i godzinê w postaci ci¹gu znaków.
+* @param buf[] Bufor znaków do którego ma zostaæ wpisana data i godzina.
+* @param bufflen Rozmiar bufora.
+* @return Parametr buf[].
+*/
 const char* currentTimestamp(char buf[], int bufflen);

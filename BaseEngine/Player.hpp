@@ -5,7 +5,7 @@
 #include "Counter.hpp"
 
 /** Klasa do obs³ugi gracza
-* @author Jakub Jach &copy; 2022
+* @author Jakub Jach &copy; 2023
 */
 class Player {
 	//static int currId;
@@ -18,16 +18,16 @@ public:
 	*/
 	Player();
 	/** Tworzy obiekt gracza z wybranym nickiem.
-	* @param nick - Nick gracza.
+	* @param nick Nick gracza.
 	*/
 	Player(std::string nick);
 	/** Tworzy obiekt gracza z wybranym nickiem i identyfikatorem (zalecane u¿ycie w wersji online).
-	* @param nick - Nick gracza.
-	* @param id - Identyfikator gracza.
+	* @param nick Nick gracza.
+	* @param id Identyfikator gracza.
 	*/
 	Player(std::string nick, unsigned int id);
 	/** Tworzy gracza z obiektu JSON
-	* @param obj - Obiekt JSON, na podstawie, którego ma zostaæ stworzony obiekt gracza.
+	* @param obj Obiekt JSON, na podstawie, którego ma zostaæ stworzony obiekt gracza.
 	*/
 	Player(nlohmann::json);
 	/** Metoda do pobrania id gracza.
@@ -42,12 +42,6 @@ public:
 	* @return Referencja do zasobnika z pionkami.
 	*/
 	std::array<Counter*, 4>& getCounters();
-	/* Pozwala na wykonanie ruchu przez gracza.
-	* @return Czy ruch zakoñczono powodzeniem.
-	*
-	bool move(unsigned int countNo);*/
-
-
 	/**
 	* Umo¿liwia przekierowanie do strumienia.
 	* Wyjœcie w postaci takiej jak metoda json()

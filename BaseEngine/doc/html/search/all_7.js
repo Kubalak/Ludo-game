@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['getcounters_16',['getCounters',['../class_player.html#a63570cdadee2b7f57fe991cf4ca3870c',1,'Player::getCounters()'],['../class_tile.html#a2bd93a2bf1fa27d095c5d36d45016b6e',1,'Tile::getCounters()']]],
+  ['getcurrentplayer_17',['getCurrentPlayer',['../class_engine.html#a30d6592f2cc7db891c85ef8d6bdc5a5d',1,'Engine']]],
+  ['getcurrentplayercontainer_18',['getCurrentPlayerContainer',['../class_engine.html#a7c1cb0935c3ac89ed39b714896ba9a5a',1,'Engine']]],
+  ['getcurrentstate_19',['getCurrentState',['../class_engine.html#ae93c4953334776c05cb394e3f3fcf3b3',1,'Engine']]],
+  ['getdice_20',['getDice',['../class_engine.html#a0e798a3c5db1e714f08852792abd58e0',1,'Engine']]],
+  ['getdistance_21',['getDistance',['../class_engine.html#a0db59fb50f1269866be4502ce9d180d9',1,'Engine']]],
+  ['getholder_22',['getHolder',['../class_player_container.html#a52ef379dc60c07c5703b38566cfa18f1',1,'PlayerContainer']]],
+  ['getholdercount_23',['getHolderCount',['../class_engine.html#a2ac512941ed820e7ab3b7610e3ae55ae',1,'Engine']]],
+  ['getid_24',['getId',['../class_counter.html#a5c3478764544f586f67de8eeda054baf',1,'Counter::getId()'],['../class_player.html#a6f2f9b9d0dd4e6daf175e85e49922b3c',1,'Player::getId()']]],
+  ['getlast_25',['getLast',['../class_dice.html#adbd9f197ab973f34ef46f220ea65e336',1,'Dice::getLast()'],['../class_engine.html#ad8928eda68617cee6e3a8c7b589e26db',1,'Engine::getLast()'],['../class_player_container.html#a9fba9578cac3dc1692c68b66b6ae5282',1,'PlayerContainer::getLast()']]],
+  ['getlastcount_26',['getLastCount',['../class_player_container.html#a5c58ba23061d07f8b0c7a5632fe28d5b',1,'PlayerContainer']]],
+  ['getlocalplayer_27',['getLocalPlayer',['../class_online_engine.html#a80be361fdf569ed179d5a46f102a1538',1,'OnlineEngine']]],
+  ['getnick_28',['getNick',['../class_player.html#ad8cafabd074011472721cfdd98aaa122',1,'Player']]],
+  ['getowner_29',['getOwner',['../class_counter.html#a178eed86f0d4340ad27ed60f3c2750a5',1,'Counter']]],
+  ['getplayer_30',['getPlayer',['../class_player_container.html#a7fdf072acc554f3858cb56893f361375',1,'PlayerContainer']]],
+  ['getplayercontainer_31',['getPlayerContainer',['../class_engine.html#a094496aaf97c83b2483849e4c9b25c78',1,'Engine']]],
+  ['getplayerptr_32',['getPlayerPtr',['../class_player_container.html#a1503e12244b5a488c66875757c4d8fd6',1,'PlayerContainer']]],
+  ['getplayerscount_33',['getPlayersCount',['../class_tile.html#ad1b00714f040b9687d4c5ff1fd5590bf',1,'Tile']]],
+  ['getquarters_34',['getQuarters',['../class_engine.html#ab954f0e0ec221e1521f70be02b5a0a47',1,'Engine']]],
+  ['getstartpos_35',['getStartPos',['../class_player_container.html#acda4f998cfc132fcd0bb293ebda9f580',1,'PlayerContainer']]],
+  ['gettiles_36',['getTiles',['../class_engine.html#abac2d094a7c5cb3ee7b2f337482e6306',1,'Engine']]],
+  ['gettop_37',['getTop',['../class_engine.html#a148aaab207692b8aa9d83e58a885f4a9',1,'Engine']]]
+];

@@ -22,14 +22,15 @@
 //#endif
 //	return 0;
 //}
-bool engineStop;
+
+/*bool engineStop;
 
 void doEngine(Engine* engine) {
 	engine->addPlayer(new Player(std::string("Adam")), 1);
 	engine->addPlayer(new Player(std::string("Ewa")), 3);
 	//engine->start();
 	int field;
-	/*while (!engine->finished() && !engineStop) {
+	while (!engine->finished() && !engineStop) {
 		std::cout << "Dice roll: " << engine->rollDice() << '\n';
 		std::cout << "Current state: " << Engine::stateStr.at(engine->getCurrentState()) << "\n";
 		std::cout << "Adam container\n[";
@@ -52,8 +53,8 @@ void doEngine(Engine* engine) {
 		int index = 0;
 		for (auto& p : engine->getTiles())
 			std::cout << '[' << index++ << "]: " << p << '\n';
-	}*/
-}
+	}
+}*/
 
 int main()
 {
@@ -66,11 +67,14 @@ int main()
 	//	std::cerr << e.what() << '\n';
 	//	return 1;
 	//}
-	Engine engine;
-	std::thread a(doEngine, &engine);
-	Game* myGame = new Game(engine);	
+	//Engine engine;
+	//std::thread a(doEngine, &engine);
+#ifndef __UNIX__
+	system("color");
+#endif
+	Game* myGame = new Game();	
 	myGame->run();
-	a.join();
+	//a.join();
 	delete myGame;
 	return 0;
 }

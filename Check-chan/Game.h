@@ -3,7 +3,8 @@
 #include <SFML/Audio.hpp>
 #include <string>
 #include <iostream>
-#include "../BaseEngine/Engine.hpp"
+#include "Engine.hpp"
+#include "OnlineEngine.hpp"
 #include "SfmlTile.hpp"
 #include "Holder.hpp"
 #include "Last.hpp"
@@ -61,6 +62,14 @@ private:
     */
     sf::Text CurrentPlayerText;
     /**
+    Tekst CURRENT PLAYER
+    */
+    sf::Text currentPlayerHelp;
+    /**
+    Tekst YOUR TURN
+    */
+    sf::Text yourTurnText;
+    /**
     Text buttona dodawania gracza.
     */
     sf::Text ButtonText[2];
@@ -88,6 +97,30 @@ private:
     Text SFML obrazuj¹cy znaki wpisane przez gracza.
     */
     sf::Text text;
+    /**
+    Adres serwera gry u¿ywany w OnlineEngine.
+    */
+    sf::Text address;
+    /**
+    Napis przy przycisku connect.
+    */
+    sf::Text connect;
+    /**
+    Napis dla pomocy przy æwiartce.
+    */
+    sf::Text quarterText;
+    /**
+    T³o dla przycisku connect.
+    */
+    sf::RectangleShape connectBg;
+    /**
+    Pomocniczy tekst dla adresu serwera.
+    */
+    sf::Text addressHelp;
+    /**
+    Lokalny gracz (u¿ywane w wersji online).
+    */
+    sf::Text localP;
     /**
     SFML Rectangle t³a.
     */
@@ -229,9 +262,13 @@ private:
     */
     sf::Vector2f mousePosView;
     /**
-    Referencja na obiekt silnika gry.
+    WskaŸnik na obiekt silnika gry (zarówno zwyk³y jak i OnlineEngine)
     */
-    Engine& engine;
+    Engine* engine;
+    /**
+    WskaŸnik na obiekt OnlineEngine potrzebny przy konfiguracji silnika.
+    */
+    OnlineEngine* online;
 
     /**
     array z kafelkami pól do poruszania na planszy (pocz¹tkowe 52).
@@ -261,12 +298,7 @@ private:
     GameState mCurrentState;
    
 public:
-    /// <summary>
-    /// Konstruktor klasy
-    /// </summary>
-    /// <param name="engine">Referencja na silnik</param>
-    Game(Engine& engine);
-    
+    Game();
     ~Game();
     /// <summary>
     /// Funkcja z g³ówna pêtla gry ( w œrodku obs³uga eventów, aktualizacja stanu gry, aktualizacja pozycji myszki, rysowanie )
@@ -302,9 +334,6 @@ public:
     /// </summary>
     /// <returns></returns>
     int drawGameContent();
-    /// <summary>
-    /// Funkcja inkrementuj¹ca(poruszanie w góre menu) numer indexu oraz kolor tekstu aktualnego wyboru w g³ównym menu, opcjach itd.
-    /// </summary>
     void MoveUp();
     /// <summary>
     /// Funkcja dekrementuj¹ca(poruszanie w góre menu) numer indexu oraz kolor tekstu aktualnego wyboru w g³ównym menu, opcjach itd.

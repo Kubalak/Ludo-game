@@ -3,7 +3,7 @@
 
 /**
 * Klasa przechowuj¹ca gracza wraz z pionkami w domku.
-* @author Jakub Jach &copy; 2022
+* @author Jakub Jach &copy; 2023
 */
 
 class PlayerContainer
@@ -18,13 +18,13 @@ class PlayerContainer
 	std::array<std::vector<Counter*>, 6>last;
 public:
 	/**
-	* @param p - WskaŸnik na gracza, dla którego tworzony jest obiekt.
-	* @param startPos - Pozycja pocz¹tkowa na planszy.
+	* @param p WskaŸnik na gracza, dla którego tworzony jest obiekt.
+	* @param startPos Pozycja pocz¹tkowa na planszy.
 	*/
 	PlayerContainer(Player* p, unsigned int startPos);
 	/**
 	* Umo¿liwia stworzenie obiektu na podstawie obiektu JSON.
-	* @param obj - Obiekt, na którego podstawie stworzyæ obiekt.
+	* @param obj Obiekt, na którego podstawie stworzyæ obiekt.
 	*/
 	PlayerContainer(nlohmann::json);
 	~PlayerContainer();
@@ -33,19 +33,19 @@ public:
 	*/
 	Counter* holderPop();
 	/** Pozwala na dodanie pionka do zasobnika na pionki.
-	* @param c - WskaŸnik na pionek do dodania.
+	* @param c WskaŸnik na pionek do dodania.
 	* @return true jeœli dodanie zakoñczy siê powodzeniem lub false jeœli pionek znajduje siê w zasobniku.
 	*/
 	bool addToHolder(Counter* c);
 	/** Pozwala na dodanie pionka do 6 ostatnich pól na planszy.
-	* @param c - WskaŸnik na pionek do dodania.
-	* @param offset - Przesuniêcie wzglêdem pocz¹tku (domyœlnie 0).
+	* @param c WskaŸnik na pionek do dodania.
+	* @param offset Przesuniêcie wzglêdem pocz¹tku (domyœlnie 0).
 	* @return true jeœli dodanie siê powiedzie lub false jeœli pionek znajduje siê ju¿ na wybranym polu.
 	*/
 	bool addToLast(Counter* c, unsigned int offset = 0);
 	/** Przesuwa pionek na wybranym polu o wskazan¹ liczbê pól.
-	* @param fieldNo - Nr pola, z którego nale¿y przenieœæ pionek.
-	* @param offset - Liczba pól, o któr¹ przenoszony jest pionek.
+	* @param fieldNo Nr pola, z którego nale¿y przenieœæ pionek.
+	* @param offset Liczba pól, o któr¹ przenoszony jest pionek.
 	*/
 	bool moveOnLast(unsigned int fieldNo, unsigned int offset);
 	/**
@@ -53,7 +53,7 @@ public:
 	*/
 	unsigned int holderCount() { return static_cast<unsigned int>(holder.size()); }
 	/**
-	* @param fieldNo - Nr pola, z którego ma pobraæ iloœæ pionków.
+	* @param fieldNo Nr pola, z którego ma pobraæ iloœæ pionków.
 	* @return Liczba pionków na polu podanym w parametrze.
 	*/
 	unsigned int lastCount(unsigned int fieldNo);
@@ -96,16 +96,18 @@ public:
 	* Umo¿liwia przekierowanie do strumienia.
 	* Wyjœcie w postaci takiej jak metoda json()
 	* @param os Strumieñ wyjœciowy
-	* @param e - Obiekt PlayerContainer, który ma zostaæ przekierowany do strumienia.
+	* @param e Obiekt PlayerContainer, który ma zostaæ przekierowany do strumienia.
 	* @return Strumieñ os.
 	*/
 	friend std::ostream& operator<< (std::ostream& os, const PlayerContainer& e);
 	/**
-	* Zwraca reprezentacjê obiektu w bardziej czytelnej postaci
+	* Zwraca reprezentacjê obiektu w bardziej czytelnej postaci.
+	* @return Reprezentacja obiektu jako std::string.
 	*/
 	std::string str();
 	/**
 	* Zwraca obiekt w postaci tekstu JSON.
+	* @return Reprezentacja w postaci JSON.
 	*/
 	std::string json();
 
