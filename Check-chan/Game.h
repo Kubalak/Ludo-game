@@ -298,6 +298,9 @@ private:
     GameState mCurrentState;
    
 public:
+    /// <summary>
+    /// Konstruktor klasy
+    /// </summary>
     Game();
     ~Game();
     /// <summary>
@@ -334,6 +337,12 @@ public:
     /// </summary>
     /// <returns></returns>
     int drawGameContent();
+    /** Rysuje panel poprzedzaj¹cy wprowadzanie graczy */
+    void drawOnlineContent();
+    void prepareEngine();
+    /// <summary>
+    /// Funkcja inkrementuj¹ca(poruszanie w góre menu) numer indexu oraz kolor tekstu aktualnego wyboru w g³ównym menu, opcjach itd.
+    /// </summary>
     void MoveUp();
     /// <summary>
     /// Funkcja dekrementuj¹ca(poruszanie w góre menu) numer indexu oraz kolor tekstu aktualnego wyboru w g³ównym menu, opcjach itd.
