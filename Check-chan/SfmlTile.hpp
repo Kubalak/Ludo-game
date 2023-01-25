@@ -19,8 +19,20 @@ public:
 	~SfmlTile();
 	/** Pozwala ustawiæ obiekt w odpowiednim miejscu */
 	void setPosition(sf::Vector2f pos);
+	/// <summary>
+	/// Pozwala przesun¹c obiekt na dane miejsce
+	/// </summary>
+	/// <param name="offset">Wartoœæ offsetu</param>
 	void move(sf::Vector2f offset);
+	/// <summary>
+	/// Pobieranie pozycji obiektu
+	/// </summary>
+	/// <returns></returns>
 	sf::Vector2f getPosition();
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
 	sf::FloatRect shape() { return PawnRect.getGlobalBounds(); }
 	//sf::RectangleShape& operator()();
 

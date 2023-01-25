@@ -261,22 +261,81 @@ private:
     GameState mCurrentState;
    
 public:
+    /// <summary>
+    /// Konstruktor klasy
+    /// </summary>
+    /// <param name="engine">Referencja na silnik</param>
     Game(Engine& engine);
+    
     ~Game();
+    /// <summary>
+    /// Funkcja z g³ówna pêtla gry ( w œrodku obs³uga eventów, aktualizacja stanu gry, aktualizacja pozycji myszki, rysowanie )
+    /// </summary>
+    /// <returns></returns>
     int run();
+    /// <summary>
+    /// Funkcja odpowiedzialna za obs³ugê wszystkich typów zdarzeñ
+    /// </summary>
+    /// <returns></returns>
     int handleEvents();
+    /// <summary>
+    /// Funkcja do aktualizacji liczby pionków w domkach graczy
+    /// </summary>
+    /// <returns></returns>
     int updateGame();
+    /// <summary>
+    /// Funkcja wywo³uj¹ca odpowiednie metody rysuj¹ce w zale¿noœci od stanu (Menu g³ówne, Gra, Opcje, Koniec gry)
+    /// </summary>
     int draw();
+    /// <summary>
+    /// Do rysowania zawartoœci Menu g³ównego
+    /// </summary>
     int drawMenuContent();
     int drawOfflineContent();
+    /// <summary>
+    /// Funkcja do rysowania zawartoœci opcji gry
+    /// </summary>
+    /// <returns></returns>
     int drawOptionsContent();
+    /// <summary>
+    /// Funkcja do rysowania zawartoœci g³ównej gry
+    /// </summary>
+    /// <returns></returns>
     int drawGameContent();
+    /// <summary>
+    /// Funkcja inkrementuj¹ca(poruszanie w góre menu) numer indexu oraz kolor tekstu aktualnego wyboru w g³ównym menu, opcjach itd.
+    /// </summary>
     void MoveUp();
+    /// <summary>
+    /// Funkcja dekrementuj¹ca(poruszanie w góre menu) numer indexu oraz kolor tekstu aktualnego wyboru w g³ównym menu, opcjach itd.
+    /// </summary>
     void MoveDown();
+    /// <summary>
+    /// Funkcja aktualizuj¹ca pozycje myszki na ekranie
+    /// </summary>
     void UpdateMousePos();
-    void drawDice(int val);
+    /// <summary>
+    /// Rotacja wzglêdem œrodka
+    /// </summary>
+    /// <param name="position"> Wzglêdem jakiej pozycji</param>
+    /// <param name="around"> </param>
+    /// <param name="rad"> Radiany</param>
+    /// <returns></returns>
     sf::Vector2f rotate(sf::Vector2f position, sf::Vector2f around, float rad);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="x"> Wspó³rzêdne x</param>
+    /// <param name="y"> Wspó³rzêdne y</param>
+    /// <param name="ox"></param>
+    /// <param name="oy"></param>
+    /// <param name="rad">Radiany</param>
+    /// <returns></returns>
     sf::Vector2f rotate(float x, float y, float ox, float oy, float rad);
+    /// <summary>
+    /// Funkcja aktualizuj¹ca aktualny stan  (Pobiera stan: Menu, Opcje, Gra)
+    /// </summary>
+    /// <returns></returns>
     Game::GameState GetPressedItem();
 };
 

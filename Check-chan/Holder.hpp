@@ -31,6 +31,12 @@ public:
 	const unsigned int id;
 	/** licznik liczby pionków graczy*/
 	unsigned int counters;
+	/// <summary>
+	/// Konstruktor klasy Holder
+	/// </summary>
+	/// <param name="">Id gracza</param>
+	/// <param name="counterText">Tekstura</param>
+	/// <param name="">mapa <id, kolor></param>
 	Holder(unsigned int, sf::Texture& counterText, std::map<unsigned int, sf::Color>&);
 	~Holder();
 	/** Pozwala ustawiæ obiekt w odpowiednim miejscu */
@@ -40,7 +46,6 @@ public:
 	/** Pozwala pobraæ pozycje obiektu*/
 	sf::Vector2f getPosition();
 	sf::FloatRect shape() { return HolderShape.getGlobalBounds(); }
-	//sf::HolderShape& operator()();
 
 };
 

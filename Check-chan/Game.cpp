@@ -7,10 +7,6 @@
 #include<cmath>
 #define M_PI 3.14159265359f
 
-/// <summary>
-/// Konstruktor klasy Game
-/// </summary>
-/// <param name="engine">Referencja do silnika gry (pozwala korzystaæ z mo¿liwoœci silnika)</param>
 Game::Game(Engine& engine):
     engine(engine) {
     mWindow.create(sf::VideoMode(1060,750), "Chinczyk");
@@ -282,10 +278,7 @@ Game::~Game() {
 		delete c.second;
 }
 
-/// <summary>
-/// Funkcja z g³ówna pêtla gry ( w œrodku obs³uga eventów, aktualizacja stanu gry, aktualizacja pozycji myszki, rysowanie )
-/// </summary>
-/// <returns></returns>
+
 int Game::run(){
     if (!font.loadFromFile("fonts/font.ttf"))
         return-1;
@@ -299,10 +292,7 @@ int Game::run(){
         return 0;
 }
 
-/// <summary>
-/// Funkcja odpowiedzialna za obs³ugê wszystkich typów zdarzeñ
-/// </summary>
-/// <returns></returns>
+
 int Game::handleEvents(){
         sf::Event Event;
         while (mWindow.pollEvent(Event)) {
@@ -451,10 +441,7 @@ int Game::handleEvents(){
 	return 0;
 }
 
-/// <summary>
-/// Funkcja do aktualizacji liczby pionków w domkach graczy
-/// </summary>
-/// <returns></returns>
+
 int Game::updateGame() {
 	auto quarters = engine.getQuarters();
 	for (auto& q : quarters) {
@@ -479,9 +466,7 @@ int Game::updateGame() {
 	return 0;
 }
 
-/// <summary>
-/// Do rysowania zawartoœci Menu g³ównego
-/// </summary>
+
 int Game::drawMenuContent()
 {
 
@@ -493,10 +478,7 @@ int Game::drawMenuContent()
 	return 0;
 }
 
-/// <summary>
-/// Funkcja do rysowania zawartoœci g³ównej gry
-/// </summary>
-/// <returns></returns>
+
 int Game::drawGameContent()
 {
 
@@ -566,10 +548,7 @@ int Game::drawGameContent()
     return 0;
 }
 
-/// <summary>
-/// Funkcja do rysowania zawartoœci opcji gry
-/// </summary>
-/// <returns></returns>
+
 int Game::drawOptionsContent()
 {
 	mWindow.draw(Background);
@@ -611,9 +590,7 @@ int Game::drawOfflineContent()
 	return 0;
 }
 
-/// <summary>
-/// Funkcja wywo³uj¹ca odpowiednie metody rysuj¹ce w zale¿noœci od stanu (Menu g³ówne, Gra, Opcje, Koniec gry)
-/// </summary>
+
 int Game::draw(){
     switch (mCurrentState){
         case GameState::MainMenu:
@@ -647,9 +624,7 @@ int Game::draw(){
 	return 0;
 }
 
-/// <summary>
-/// Funkcja inkrementuj¹ca(poruszanie w góre menu) numer indexu oraz kolor tekstu aktualnego wyboru w g³ównym menu, opcjach itd.
-/// </summary>
+
 void Game::MoveUp()
 {
 	switch (mCurrentState) {
@@ -674,9 +649,7 @@ void Game::MoveUp()
 	}
 }
 
-/// <summary>
-/// Funkcja dekrementuj¹ca(poruszanie w góre menu) numer indexu oraz kolor tekstu aktualnego wyboru w g³ównym menu, opcjach itd.
-/// </summary>
+
 void Game::MoveDown()
 {
 	switch (mCurrentState) {
@@ -703,9 +676,7 @@ void Game::MoveDown()
 
 }
 
-/// <summary>
-/// Funkcja aktualizuj¹ca pozycje myszki na ekranie
-/// </summary>
+
 void Game::UpdateMousePos()
 {
 	mousePosScreen = sf::Mouse::getPosition();
@@ -713,10 +684,7 @@ void Game::UpdateMousePos()
 	mousePosView = mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow));
 }
 
-/// <summary>
-/// Funkcja aktualizuj¹ca aktualny stan (Menu, Opcje, Gra)
-/// </summary>
-/// <returns></returns>
+
 Game::GameState Game::GetPressedItem()
 {
 	return mCurrentState;
