@@ -366,5 +366,13 @@ public:
     /// </summary>
     /// <returns></returns>
     Game::GameState GetPressedItem();
+    /// <summary>
+    /// Funkcja przygotowuj¹ca silnik (³¹czy go z obiektem Engine)
+    /// </summary>
+    void prepareEngine();
+    /// <summary>
+    /// Funkcja rysuj¹ca elementy przy wybraniu opcji gry online.
+    /// </summary>
+    void drawOnlineContent();
 };
 
