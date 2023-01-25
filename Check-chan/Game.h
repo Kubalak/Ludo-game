@@ -339,7 +339,6 @@ public:
     int drawGameContent();
     /** Rysuje panel poprzedzaj¹cy wprowadzanie graczy */
     void drawOnlineContent();
-    void prepareEngine();
     /// <summary>
     /// Funkcja inkrementuj¹ca(poruszanie w góre menu) numer indexu oraz kolor tekstu aktualnego wyboru w g³ównym menu, opcjach itd.
     /// </summary>

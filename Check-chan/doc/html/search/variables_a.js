@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['offlinetext_0',['OfflineText',['../class_game.html#a608432ab51f2fd27144462bfc4567d2f',1,'Game']]],
-  ['optionstext_1',['OptionsText',['../class_game.html#aa37991fd3305f4a0fc88c7f6c2143ed8',1,'Game']]]
+  ['num_0',['num',['../class_last.html#a1feeb7be8189bb2673e445a6c9f9c3f8',1,'Last']]]
 ];

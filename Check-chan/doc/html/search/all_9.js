@@ -1,19 +1,13 @@
 var searchData=
 [
-  ['m_5fpi_0',['M_PI',['../_game_8cpp.html#ae71449b1cc6e6250b91f539153a7a0d3',1,'Game.cpp']]],
-  ['main_1',['main',['../main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main.cpp']]],
-  ['main_2ecpp_2',['main.cpp',['../main_8cpp.html',1,'']]],
-  ['main_5fnumber_5fof_5fitems_3',['MAIN_NUMBER_OF_ITEMS',['../_game_8h.html#a358122d4b0bb45ce816cd9fe0ad8e4a7',1,'Game.h']]],
-  ['maingame_4',['MainGame',['../class_game.html#a7f57a7a8408e554d0a72882c287e1d04a0190e914c6bf14dc20de6561897609c7',1,'Game']]],
-  ['mainmenu_5',['MainMenu',['../class_game.html#a7f57a7a8408e554d0a72882c287e1d04aad1111b48f98329333237912fc3b371b',1,'Game']]],
-  ['mainmenutext_6',['MainMenuText',['../class_game.html#a412d52cf2312a86fd03b601caea6c06b',1,'Game']]],
-  ['mcurrentstate_7',['mCurrentState',['../class_game.html#a1b8d5dc48bb71a5fc3229899c5a026d3',1,'Game']]],
-  ['mouseposscreen_8',['mousePosScreen',['../class_game.html#a9ce745fa9b85c1a970b28d0c6c28a3eb',1,'Game']]],
-  ['mouseposview_9',['mousePosView',['../class_game.html#a29e8570bcdc28dcc7ade33fd388bb313',1,'Game']]],
-  ['mouseposwindow_10',['mousePosWindow',['../class_game.html#ac375edce1ef244a1b4a0f9cceff950d3',1,'Game']]],
-  ['move_11',['move',['../class_holder.html#adaf273bc74df536db333f1b5d74a0020',1,'Holder::move()'],['../class_sfml_tile.html#ad62afe4efabd6da964d409529c21d7b9',1,'SfmlTile::move()']]],
-  ['movedown_12',['MoveDown',['../class_game.html#a3350a7eecdf02f8bd0fbd0fbda8c3a0c',1,'Game']]],
-  ['moveup_13',['MoveUp',['../class_game.html#a9b40baa987036062ca539ce4ab04ee9d',1,'Game']]],
-  ['music_14',['music',['../class_game.html#a01f031862741d01bf1a7649d4a0627a1',1,'Game']]],
-  ['mwindow_15',['mWindow',['../class_game.html#a596120b8f2792f5d980e0c0045d3d16a',1,'Game']]]
+  ['last_0',['Last',['../class_last.html',1,'']]],
+  ['last_1',['last',['../class_last.html#ad9317f15f0fb81d5e2d414f46c749647',1,'Last']]],
+  ['last_2',['Last',['../class_last.html#a22f7e3fa3cc01bcab1acf3b765fa0729',1,'Last']]],
+  ['last_2ecpp_3',['Last.cpp',['../_last_8cpp.html',1,'']]],
+  ['last_2ehpp_4',['Last.hpp',['../_last_8hpp.html',1,'']]],
+  ['lastshape_5',['lastShape',['../class_last.html#a61654e18f503e847bba334d85aaf94b1',1,'Last']]],
+  ['lasttile_6',['LastTile',['../class_last_tile.html',1,'LastTile'],['../class_last_tile.html#a9f644242fa8e0968b70f985d9c055339',1,'LastTile::LastTile()']]],
+  ['lasttile_2ecpp_7',['LastTile.cpp',['../_last_tile_8cpp.html',1,'']]],
+  ['lasttile_2ehpp_8',['LastTile.hpp',['../_last_tile_8hpp.html',1,'']]],
+  ['localp_9',['localP',['../class_game.html#a50faaf0fae167532c054c2d05956e78f',1,'Game']]]
 ];

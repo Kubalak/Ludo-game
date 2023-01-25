@@ -1,12 +1,11 @@
 var searchData=
 [
-  ['handleevents_0',['handleEvents',['../class_game.html#aa936eee3e64fd3a7a7f8d165297a16ee',1,'Game']]],
-  ['holder_1',['Holder',['../class_holder.html',1,'Holder'],['../class_holder.html#a2b24538496797e26065e01af282db9cc',1,'Holder::Holder()']]],
-  ['holder_2ecpp_2',['Holder.cpp',['../_holder_8cpp.html',1,'']]],
-  ['holder_2ehpp_3',['Holder.hpp',['../_holder_8hpp.html',1,'']]],
-  ['holder1_4',['Holder1',['../class_holder.html#a1f435164717c690342743aa1e6c88f61',1,'Holder']]],
-  ['holder2_5',['Holder2',['../class_holder.html#ab593a9ad76f0a19317f2ad42f79261ba',1,'Holder']]],
-  ['holder3_6',['Holder3',['../class_holder.html#a455c0602c09e7092f270c734f27f5c34',1,'Holder']]],
-  ['holder4_7',['Holder4',['../class_holder.html#ab4aabfe19c77ad79dfe664008b7163bd',1,'Holder']]],
-  ['holdershape_8',['HolderShape',['../class_holder.html#aee6c72492d70c4a2467c55f04e3229fb',1,'Holder']]]
+  ['game_0',['Game',['../class_game.html',1,'Game'],['../class_game.html#ad59df6562a58a614fda24622d3715b65',1,'Game::Game()']]],
+  ['game_2ecpp_1',['Game.cpp',['../_game_8cpp.html',1,'']]],
+  ['game_2eh_2',['Game.h',['../_game_8h.html',1,'']]],
+  ['gameover_3',['GameOver',['../class_game.html#a7f57a7a8408e554d0a72882c287e1d04a8f347bc7cebca9fa6d97e70c6bc29eb3',1,'Game']]],
+  ['gamestate_4',['GameState',['../class_game.html#a7f57a7a8408e554d0a72882c287e1d04',1,'Game']]],
+  ['getposition_5',['getPosition',['../class_holder.html#a3d831aa25cec29b3db5937b507a6970e',1,'Holder::getPosition()'],['../class_last_tile.html#aa0babce27bddbe69ea55e65009e98261',1,'LastTile::getPosition()'],['../class_sfml_tile.html#ab65df40dd7b9b31a529cfac2e4936f1d',1,'SfmlTile::getPosition()']]],
+  ['getpresseditem_6',['GetPressedItem',['../class_game.html#ad8194812cf61648969ca6937da1fec73',1,'Game']]],
+  ['gettiles_7',['getTiles',['../class_last.html#a4487f7b0819adc95d4e50faccf711ffa',1,'Last']]]
 ];

@@ -39,9 +39,15 @@ public:
 	/// <param name="">mapa <id, kolor></param>
 	Holder(unsigned int, sf::Texture& counterText, std::map<unsigned int, sf::Color>&);
 	~Holder();
-	/** Pozwala ustawiæ obiekt w odpowiednim miejscu */
+	/// <summary>
+	/// Funkcja ustawia obiekt w pozycji
+	/// </summary>
+	/// <param name="pos"></param>
 	void setPosition(sf::Vector2f pos);
-	/** Pozwala przestawiæ obiekt na odpowiednie miejsce */
+	/// <summary>
+	/// Pozwala przestwaic obiekt w odpowiednie miejsce
+	/// </summary>
+	/// <param name="offset"></param>
 	void move(sf::Vector2f offset);
 	/** Pozwala pobraæ pozycje obiektu*/
 	sf::Vector2f getPosition();
