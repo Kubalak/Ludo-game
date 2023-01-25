@@ -86,8 +86,14 @@ Dodatkowo w ramach projektu utworzono klasy:</h2>
 Funkcje dodatkowe</h2>
 <ul>
 <li>Pliki <a class="el" href="_event_msg_8hpp_source.html">EventMsg.hpp</a> i <a class="el" href="_event_msg_8cpp_source.html">EventMsg.cpp</a> udostępniają funkcje pozwalające na stworzenie komunikatów dla obslugi sieci oraz pobranie aktualnej daty i godziny w postaci ciągu znaków.</li>
-<li>Plik <a href="../../../linux_prepare_libs.sh">linux_prepare_libs.sh</a> w głównym katalogu pozwala na zbudowanie zewnętrznych bibliotek dla Linuxa (wymaga narzędzia git oraz cmake).</li>
-<li>Plik <a href="../../Makefile">Makefile</a> umożliwia zbudowanie serwera w systemie Linux (wymaga narzędzia make). </li>
+<li>Plik <a href="../../../linux_prepare_libs.sh">linux_prepare_libs.sh</a> w głównym katalogu pozwala na zbudowanie zewnętrznych bibliotek dla Linuxa (wymaga narzędzia <a href="https://git-scm.com/">git</a> oraz <a href="https://cmake.org/">cmake</a>).</li>
+<li>Plik <a href="../../Makefile">Makefile</a> umożliwia zbudowanie serwera w systemie Linux (z użyciem <a href="https://man7.org/linux/man-pages/man1/make.1.html">make</a>). <br  />
+ Opcje pliku makefile (polecenia terminala):<ul>
+<li><code>make</code> - Buduje zwykły plik wykonywalny w systemie Linux zlokalizowany w folderze <code>LudoGameServer_0.9-1/bin</code></li>
+<li><code>make &lt;nazwa_klasy&gt;</code> - Buduje obiekt klasy z opcją <code>-c</code>.</li>
+<li><code>make deb</code> - Buduje projekt i tworzy plik <code>LudoGameServer_0.9-1.deb</code> gotowy do instalacji w systemie (używając <a href="https://man7.org/linux/man-pages/man1/dpkg.1.html">dpkg</a>). </li>
+</ul>
+</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md2"></a>
 Użytke biblioteki oprócz standardowych bibliotek C++:</h2>

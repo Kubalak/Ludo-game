@@ -3,7 +3,7 @@
 #include <algorithm>
 constexpr auto ESRC = "BaseEngine/Engine.cpp";
 
-const std::string Engine::_VERSION = "0.7.0";
+const std::string Engine::_VERSION = "0.9.0";
 
 const std::map<EngineStates, std::string> Engine::stateStr{
 	{ EngineStates::CREATED, "CREATED"},

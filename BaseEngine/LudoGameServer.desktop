@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=0.9
+Type=Application
+Categories=Game
+Name=Ludo Game Server
+Comment=Dedicated server for Ludo Game
+Terminal=True
+Exec=/bin/LudoGameServer
+Icon=/usr/share/icons/hicolor/*/apps/LudoGameServerIcon.png
+

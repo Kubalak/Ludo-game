@@ -13,8 +13,12 @@
 * - Tile
 * ##  Funkcje dodatkowe
 * - Pliki EventMsg.hpp i EventMsg.cpp udostêpniaj¹ funkcje pozwalaj¹ce na stworzenie komunikatów dla obslugi sieci oraz pobranie aktualnej daty i godziny w postaci ci¹gu znaków.
-* - Plik [linux_prepare_libs.sh](../../../linux_prepare_libs.sh) w g³ównym katalogu pozwala na zbudowanie zewnêtrznych bibliotek dla Linuxa (wymaga narzêdzia git oraz cmake).
-* - Plik [Makefile](../../Makefile) umo¿liwia zbudowanie serwera w systemie Linux (wymaga narzêdzia make).
+* - Plik [linux_prepare_libs.sh](../../../linux_prepare_libs.sh) w g³ównym katalogu pozwala na zbudowanie zewnêtrznych bibliotek dla Linuxa (wymaga narzêdzia [git](https://git-scm.com/) oraz [cmake](https://cmake.org/)).
+* - Plik [Makefile](../../Makefile) umo¿liwia zbudowanie serwera w systemie Linux (z u¿yciem [make](https://man7.org/linux/man-pages/man1/make.1.html)). <br/>
+Opcje pliku makefile (polecenia terminala):
+*   + `make` - Buduje zwyk³y plik wykonywalny w systemie Linux zlokalizowany w folderze `LudoGameServer_0.9-1/bin`
+*   + `make <nazwa_klasy>` - Buduje obiekt klasy z opcj¹ `-c`.
+*   + `make deb` - Buduje projekt i tworzy plik `LudoGameServer_0.9-1.deb` gotowy do instalacji w systemie (u¿ywaj¹c [dpkg](https://man7.org/linux/man-pages/man1/dpkg.1.html)).
 * ## U¿ytke biblioteki oprócz standardowych bibliotek C++:
 * - [ZeroMQ](https://zeromq.org) s³u¿¹cej do obs³ugi wymiany danych poprzez sieæ.
 * - [JSON](https://github.com/nlohmann/json) s³u¿¹ca do serializacji obiektów i obs³ugi komunikatów.
