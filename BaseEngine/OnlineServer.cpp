@@ -4,9 +4,9 @@
 #include <ctime>
 
 
-OnlineServer::OnlineServer(unsigned int owner) :
+OnlineServer::OnlineServer() :
 	onlineShouldWork(true),
-	owner(owner),
+	owner(0),
 	// Tablica skrótów.
 	eventFuncs({
 		{ "PLAYER_JOINED", [this](nlohmann::json& data) { return handlePlayerJoined(data);  } },
@@ -47,7 +47,9 @@ bool OnlineServer::handleNewPlayer(nlohmann::json& ev) {
 		return false;
 	}
 	unsigned int q = ev["quarter"].get<unsigned int>();
+	
 	auto* p = new Player(ev["player"]);
+	if (players.size() == 0)owner = p->getId();
 	if (Engine::addPlayer(p, q)) {
 		std::stringstream ss;
 		ss << "{\"player\":" << *p << "," << "\"quarter\":" << q << "}"; // JSON z nowym graczem.

@@ -1,8 +1,44 @@
-/**
-
-Plik wykorzystywany do testów silnika gry.
-
+/** \mainpage Strona g³ówna
+* Ta czêœæ projektu odpowiedzialna jest za silnik rozgrywki oraz obs³ugê sieci.
+* G³ówne klasy silnika wykorzystywane w projekcie GUI:
+* - \subpage Engine
+* - \subpage OnlineEngine
+* - \subpage OnlineServer
+* 
+* ## Dodatkowo w ramach projektu utworzono klasy:
+* - Dice
+* - Counter
+* - Player
+* - PlayerContainer
+* - Tile
+* ##  Funkcje dodatkowe
+* - Pliki EventMsg.hpp i EventMsg.cpp udostêpniaj¹ funkcje pozwalaj¹ce na stworzenie komunikatów dla obslugi sieci oraz pobranie aktualnej daty i godziny w postaci ci¹gu znaków.
+* - Plik [linux_prepare_libs.sh](../../../linux_prepare_libs.sh) w g³ównym katalogu pozwala na zbudowanie zewnêtrznych bibliotek dla Linuxa (wymaga narzêdzia git oraz cmake).
+* - Plik [Makefile](../../Makefile) umo¿liwia zbudowanie serwera w systemie Linux (wymaga narzêdzia make).
+* ## U¿ytke biblioteki oprócz standardowych bibliotek C++:
+* - [ZeroMQ](https://zeromq.org) s³u¿¹cej do obs³ugi wymiany danych poprzez sieæ.
+* - [JSON](https://github.com/nlohmann/json) s³u¿¹ca do serializacji obiektów i obs³ugi komunikatów.
 @author Jakub Jach &copy; 2023
+*/
+
+/** \page Engine
+* Ta klasa implementuje funkcjonalnoœæ silnika gry "Chiñczyk".
+* Jest to bazowa klasa na podstawie której tworzone s¹ klasy OnlineEngine oraz OnlineServer.
+* PrzejdŸ do dokumentacji klasy Engine.
+*/
+
+/** \page OnlineEngine
+* Klasa odpowiada za klienta dla gry "Chiñczyk" w wersji online.
+* Do wymiany danych wykorzystywany jest format JSON.
+* Oprócz metod dziedziczonych z Engine posiada swoje w³asne unikalne metody.
+* PrzejdŸ do dokumentacji klasy OnlineEngine.
+*/
+
+/** \page OnlineServer
+* Klasa odpowiedzialna za serwer gry "Chiñczyk".
+* Oprócz metod z klasy Engine implementowane s¹ dodatkowe metody do zarz¹dzania serwerem.
+* Wymiana danych w postaci formatu JSON.
+* PrzejdŸ do dokumentacji klasy OnlineServer.
 */
 
 #include <iostream>
@@ -19,7 +55,7 @@ int main(int argc, char** argv) {
 	bool ownerSet = false;
 	std::string address;
 	if (argc == 2 && std::strcmp(argv[1], "-help") == 0) {
-		std::cout << "Argumenty:\n-help\t\tWyswietla ten tekst.\n-owner [id]\tUstala wlasciciela gry przy uruchamianiu.\n-address [ip]\tAdres pod ktorym ma byc dostepny serwer.\nNacisnij enter aby zakonczyc\n";
+		std::cout << "Argumenty:\n-help\t\tWyswietla ten tekst.\n-address [ip]\tAdres pod ktorym ma byc dostepny serwer.\nNacisnij enter aby zakonczyc\n";
 		std::cin.get();
 		return 0;
 	}
@@ -34,30 +70,10 @@ int main(int argc, char** argv) {
 #endif
 	try {
 		for (int i{ 0 }; i < argc - 1; ++i) {
-			if (std::strcmp(argv[i], "-owner") == 0) {
-				try {
-					owner = std::stoul(argv[i + 1]);
-					ownerSet = true;
-				}
-				catch (std::exception& e) {
-					std::cerr << "Argument parsing error " << e.what() << '\n';
-				}
-			}
-			else if (std::strcmp(argv[i], "-address") == 0)
+			if (std::strcmp(argv[i], "-address") == 0)
 				address = std::string(argv[i + 1]);
 		}
-		if (!ownerSet) {
-			std::cout << "Wprowadz id wlasciciela gry: ";
-			do {
-				if (std::cin.fail()) {
-					std::cout << "Wprowadzono bledny typ danych\n";
-					std::cin.clear();
-					std::cin.ignore();
-				}
-				std::cin >> owner;
-			} while (std::cin.fail());
-		}
-		OnlineServer server(owner);
+		OnlineServer server;
 		if (address == "")
 		{
 			do {

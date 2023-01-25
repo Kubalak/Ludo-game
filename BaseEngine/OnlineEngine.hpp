@@ -6,7 +6,6 @@
 #include <nlohmann/json.hpp>
 
 
-//TODO: Sprawdzenie czy dzia³a zgodnie z oczekiwaniami.
 /**
 Klasa obs³uguj¹ca klienta gry Chiñczyk.
 @author Jakub Jach &copy; 2023
@@ -52,17 +51,23 @@ public:
 	Osobny w¹tek zajmuje siê pobieraniem zmian z serwera.
 	*/
 	bool start();
-	// # DELETED #
-	// Nic nie robi. Zwraca zawsze true. U¿yte by przes³oniæ metodê z Engine i nie pospuæ gry desynchronizacj¹ klientów z serwerem. */
-	// bool step();
-	/**  Wysy³a do serwera ¿¹danie rzutu kostk¹. Zwraca aktualn¹ wartoœæ kostki. */
+	/**  
+	* Wysy³a do serwera ¿¹danie rzutu kostk¹. Zwraca aktualn¹ wartoœæ kostki. 
+	* @return Ostatnia wartoœæ kostki.
+	*/
 	unsigned int rollDice();
 
 	/** Pod³¹cza klienta do serwera gry.
-	* @param addr - Adres serwera gry.
+	* @param addr Adres serwera gry.
 	* @return true przy powodzeniu zestawienia i konfiguracji po³¹czenia lub false w ka¿dym innym przypadku.
 	*/
 	bool connect(std::string);
+
+	/**
+	* Zwraca wskaŸnik na lokalnego gracza.
+	* @return WskaŸnik na lokalnego gracza.
+	*/
+	Player* getLocalPlayer()noexcept { return localP; }
 
 	~OnlineEngine();
 };

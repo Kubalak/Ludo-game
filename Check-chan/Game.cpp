@@ -11,26 +11,27 @@
 /// Konstruktor klasy Game
 /// </summary>
 /// <param name="engine">Referencja do silnika gry (pozwala korzystaæ z mo¿liwoœci silnika)</param>
-Game::Game(Engine& engine):
-    engine(engine) {
-    mWindow.create(sf::VideoMode(1060,750), "Chinczyk");
-    sf::Image img;
-    img.loadFromFile("textures/icon.png");
-    mWindow.setIcon(img.getSize().x, img.getSize().y,img.getPixelsPtr());
-    mWindow.setFramerateLimit(60);
-    mWindow.display();
-    mCurrentState = GameState::MainMenu;
-    selectedItemIndexMenu = 0;
-    selectedItemIndexOptions = 0;
-    Background.setSize(sf::Vector2f(1060,750));
-    Texture.loadFromFile("textures/BackgroundMenu.jpg");
-    counterTexture.loadFromFile("textures/counter.png");
-    Background.setTexture(&Texture);
-    BoardBackground.setSize(sf::Vector2f(750, 750));
-    BoardTexture.loadFromFile("textures/BOARD.jpg");
-    BoardBackground.setTexture(&BoardTexture);
-    BoardBackground.setOrigin(375, 375);
-    BoardBackground.setPosition(520, 375);
+Game::Game() :
+	engine(nullptr),
+	online(nullptr) {
+	mWindow.create(sf::VideoMode(1060, 750), "Chinczyk");
+	sf::Image img;
+	img.loadFromFile("textures/icon.png");
+	mWindow.setIcon(img.getSize().x, img.getSize().y, img.getPixelsPtr());
+	mWindow.setFramerateLimit(60);
+	mWindow.display();
+	mCurrentState = GameState::MainMenu;
+	selectedItemIndexMenu = 0;
+	selectedItemIndexOptions = 0;
+	Background.setSize(sf::Vector2f(1060, 750));
+	Texture.loadFromFile("textures/BackgroundMenu.jpg");
+	counterTexture.loadFromFile("textures/counter.png");
+	Background.setTexture(&Texture);
+	BoardBackground.setSize(sf::Vector2f(750, 750));
+	BoardTexture.loadFromFile("textures/BOARD.jpg");
+	BoardBackground.setTexture(&BoardTexture);
+	BoardBackground.setOrigin(375, 375);
+	BoardBackground.setPosition(520, 375);
 	ButtonAdd.setFillColor(sf::Color(211, 211, 211));
 	ButtonAdd.setSize(sf::Vector2f(100, 50));
 	ButtonAdd.setOrigin(sf::Vector2f(50, 25));
@@ -42,27 +43,29 @@ Game::Game(Engine& engine):
 	ButtonMinus.setFillColor(sf::Color(211, 211, 211));
 	ButtonMinus.setSize(sf::Vector2f(30, 30));
 	ButtonMinus.setOrigin(sf::Vector2f(15, 15));
-	ButtonMinus.setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) + 100, 420));
+	ButtonMinus.setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) + 130, 420));
 	ButtonPlus.setFillColor(sf::Color(211, 211, 211));
 	ButtonPlus.setSize(sf::Vector2f(30, 30));
 	ButtonPlus.setOrigin(sf::Vector2f(15, 15));
-	ButtonPlus.setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) + 200, 420));
-    diceRoll = 0;
-    music.openFromFile("sounds/damage(e).flac");
-    music.play();
+	ButtonPlus.setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) + 230, 420));
+	diceRoll = 0;
+	music.openFromFile("sounds/music.flac");
+	music.setVolume(50.0);
+	music.setLoop(true);
+	music.play();
 
 	playerId = 0;
-  
-    
-    MainMenuText[0].setFont(font);
-    MainMenuText[0].setFillColor(sf::Color::Red);
-    MainMenuText[0].setString("Play Offline");
-    MainMenuText[0].setPosition(sf::Vector2f(mWindow.getSize().x / 2.f, mWindow.getSize().y / (MAIN_NUMBER_OF_ITEMS + 1) * 1.f));
-    
-    MainMenuText[1].setFont(font);
-    MainMenuText[1].setFillColor(sf::Color::Yellow);
-    MainMenuText[1].setString("Play Online");
-    MainMenuText[1].setPosition(sf::Vector2f(mWindow.getSize().x / 2.f, mWindow.getSize().y / (MAIN_NUMBER_OF_ITEMS + 1) * 2.f));
+
+
+	MainMenuText[0].setFont(font);
+	MainMenuText[0].setFillColor(sf::Color::Red);
+	MainMenuText[0].setString("Play Offline");
+	MainMenuText[0].setPosition(sf::Vector2f(mWindow.getSize().x / 2.f, mWindow.getSize().y / (MAIN_NUMBER_OF_ITEMS + 1) * 1.f));
+
+	MainMenuText[1].setFont(font);
+	MainMenuText[1].setFillColor(sf::Color::Yellow);
+	MainMenuText[1].setString("Play Online");
+	MainMenuText[1].setPosition(sf::Vector2f(mWindow.getSize().x / 2.f, mWindow.getSize().y / (MAIN_NUMBER_OF_ITEMS + 1) * 2.f));
 
 	MainMenuText[2].setFont(font);
 	MainMenuText[2].setFillColor(sf::Color::Yellow);
@@ -92,17 +95,22 @@ Game::Game(Engine& engine):
 	OfflineText[0].setFont(font);
 	OfflineText[0].setFillColor(sf::Color::White);
 	OfflineText[0].setString("Players List");
-	OfflineText[0].setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) - 45, 50));
+	OfflineText[0].setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) - 45, 45));
+
+	quarterText = OfflineText[0];
+	quarterText.setString("QUARTER");
+	quarterText.setCharacterSize(18);
+	quarterText.setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) + 145, 460));
 
 	OfflineText[1].setFont(font);
 	OfflineText[1].setFillColor(sf::Color::White);
-	OfflineText[1].setString("NICK ID QUATER");
+	OfflineText[1].setString("NICK\tID\tQUATER");
 	OfflineText[1].setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) - 70, 75));
 
 	Players[0].setFont(font);
 	Players[0].setCharacterSize(20);
 	Players[0].setFillColor(sf::Color::Green);
-	Players[0].setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) -70, 125));
+	Players[0].setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) - 70, 125));
 
 	Players[1] = Players[2] = Players[3] = Players[0];
 	Players[1].setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) - 70, 150));
@@ -117,9 +125,15 @@ Game::Game(Engine& engine):
 
 	CurrentPlayerText.setFont(font);
 	CurrentPlayerText.setCharacterSize(18);
-	CurrentPlayerText.setPosition(sf::Vector2f(915, 50));
+	CurrentPlayerText.setPosition(sf::Vector2f(925, 50));
 	CurrentPlayerText.setString("CURRENT PLAYER");
 	CurrentPlayerText.setFillColor(sf::Color::White);
+	
+	currentPlayerHelp = yourTurnText = CurrentPlayerText;
+	currentPlayerHelp.move(sf::Vector2f(-20, -20));
+	yourTurnText.move(sf::Vector2f(20, 20));
+	yourTurnText.setFillColor(sf::Color::Green);
+	yourTurnText.setString("YOUR TURN");
 
 	diceShape.setSize(sf::Vector2f(90, 90));
 	diceShape.setPosition(sf::Vector2f(740, 55)); //dice.setPosition(sf::Vector2f(860, 55));
@@ -145,21 +159,42 @@ Game::Game(Engine& engine):
 	PlusMinusNumber[0].setString("-");
 	PlusMinusNumber[0].setFont(font);
 	PlusMinusNumber[0].setFillColor(sf::Color::Red);
-	PlusMinusNumber[0].setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) + 95, 400));
+	PlusMinusNumber[0].setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) + 125, 400));
 
 	PlusMinusNumber[1].setString("+");
 	PlusMinusNumber[1].setFont(font);
 	PlusMinusNumber[1].setFillColor(sf::Color::Red);
-	PlusMinusNumber[1].setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) + 195, 400));
+	PlusMinusNumber[1].setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) + 225, 400));
 
 	PlusMinusNumber[2].setString("1");
 	PlusMinusNumber[2].setFont(font);
 	PlusMinusNumber[2].setFillColor(sf::Color::Red);
-	PlusMinusNumber[2].setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) + 145, 400));
+	PlusMinusNumber[2].setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) + 175, 400));
 
+	address.setString("");
+	address.setFont(font);
+	address.setFillColor(sf::Color::Red);
+	address.setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) - 50, 400));
 	
+	connect = address;
+	connect.setString("CONNECT");
+	connect.setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) + 220, 400));
 
+	connectBg.setFillColor(sf::Color::White);
+	connectBg.setSize(sf::Vector2f(150, 30));
+	connectBg.setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) + 205, 405));
 	
+	addressHelp = address;
+	addressHelp.setString("ENTER SERVER ADDRESS:");
+	addressHelp.setFillColor(sf::Color::White);
+	addressHelp.setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) - 430, 400));
+
+	localP.setFont(font);
+	localP.setFillColor(sf::Color::White);
+	localP.setCharacterSize(15);
+	localP.setFillColor(sf::Color(200, 200, 200));
+	localP.setString("");
+	localP.setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) - 265, 475));
 
 	//1
 	r_1.setRadius(10.f);
@@ -235,8 +270,11 @@ Game::Game(Engine& engine):
 	r_6_5.setPosition(795, 88);
 	r_6_6.setFillColor(sf::Color::Black);
 	r_6_6.setPosition(755, 88);
+}
 
-	for (auto& player : engine.getQuarters()) {
+void Game::prepareEngine() {
+	if (engine == nullptr) return;
+	for (auto& player : engine->getQuarters()) {
 		std::cout << "p.first " << player.first << " p.second " << player.second << '\n';
 		switch (player.first) {
 		case 1: playerColors[player.second] = sf::Color::Yellow; break;
@@ -247,7 +285,7 @@ Game::Game(Engine& engine):
 	}
 
 	unsigned int index = 0;
-	for (auto& tile : engine.getTiles())
+	for (auto& tile : engine->getTiles())
 		tiles[index++] = new SfmlTile(tile, index, counterTexture, playerColors);
 	for (int i = 0; i < 4; ++i) {
 		float deg = 90.0f * i * M_PI / 180.0f;
@@ -280,41 +318,45 @@ Game::~Game() {
 		delete p.second;
 	for (auto& c : playerLast)
 		delete c.second;
+	if (online != nullptr)
+		delete online;
+	else if (engine != nullptr)
+		delete engine;	
 }
 
 /// <summary>
 /// Funkcja z g³ówna pêtla gry ( w œrodku obs³uga eventów, aktualizacja stanu gry, aktualizacja pozycji myszki, rysowanie )
 /// </summary>
 /// <returns></returns>
-int Game::run(){
-    if (!font.loadFromFile("fonts/font.ttf"))
-        return-1;
-   
-    while (mWindow.isOpen()) {
-            handleEvents();
-            updateGame();
-            UpdateMousePos();
-            draw();
-        }
-        return 0;
+int Game::run() {
+	if (!font.loadFromFile("fonts/font.ttf"))
+		return-1;
+
+	while (mWindow.isOpen()) {
+		handleEvents();
+		updateGame();
+		UpdateMousePos();
+		draw();
+	}
+	return 0;
 }
 
 /// <summary>
 /// Funkcja odpowiedzialna za obs³ugê wszystkich typów zdarzeñ
 /// </summary>
 /// <returns></returns>
-int Game::handleEvents(){
-        sf::Event Event;
-        while (mWindow.pollEvent(Event)) {
-            switch (Event.type) 
-            {
-            case sf::Event::KeyPressed:
-                switch (Event.key.code)
-                {
-                case sf::Keyboard::Up:
-                    std::cout << "KEY UP PRESSED\n";
-                    Game::MoveUp();
-                    break;
+int Game::handleEvents() {
+	sf::Event Event;
+	while (mWindow.pollEvent(Event)) {
+		switch (Event.type)
+		{
+		case sf::Event::KeyPressed:
+			switch (Event.key.code)
+			{
+			case sf::Keyboard::Up:
+				std::cout << "KEY UP PRESSED\n";
+				Game::MoveUp();
+				break;
 
 			case sf::Keyboard::Down:
 				std::cout << "KEY DOWN PRESSED\n";
@@ -335,14 +377,18 @@ int Game::handleEvents(){
 				case GameState::MainMenu:
 					currentText = MainMenuText[selectedItemIndexMenu].getString();
 					std::cout << currentText << " Was pressed\n";
-					if (currentText == "Play Offline")
+					if (currentText == "Play Offline") {
+						engine = new Engine();
+						prepareEngine();
 						mCurrentState = GameState::Offline;
+					}
 
-					if (currentText == "Play Online")
+					if (currentText == "Play Online") {
+						engine = online = new OnlineEngine();
+						prepareEngine();
 						mCurrentState = GameState::Online;
+					}
 
-					if (currentText == "Play")
-						mCurrentState = GameState::MainGame;
 
 					if (currentText == "Options")
 						mCurrentState = GameState::Options;
@@ -388,54 +434,71 @@ int Game::handleEvents(){
 		case sf::Event::MouseMoved:
 			break;
 
-		
+
 		case sf::Event::MouseButtonPressed:
 			switch (mCurrentState)
 			{
 			case GameState::MainGame:
-				if (diceShape.getGlobalBounds().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)))
-					diceRoll = engine.rollDice();
+				if (diceShape.getGlobalBounds().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)) && engine != nullptr)
+					diceRoll = engine->rollDice();
 				for (auto* tile : tiles)
 				{
-					if (tile->shape().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)))
-						engine.move(tile->id);
+					if (tile->shape().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)) && engine != nullptr)
+						engine->move(tile->id);
 				}
 
 				for (auto& playHold : playerHolders)
 				{
-					if (playHold.second->shape().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)))
-						engine.move(-1);
+					if (playHold.second->shape().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)) && engine != nullptr)
+						engine->move(-1);
 				}
 				for (auto& last : playerLast)
 					for (auto& lTile : last.second->getTiles())
-						if (lTile->shape().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)))
-							engine.move(last.second->num * 100 + lTile->id);
+						if (lTile->shape().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)) && engine != nullptr)
+							engine->move(last.second->num * 100 + lTile->id);
 				break;
 			case GameState::Offline:
-				if (ButtonAdd.getGlobalBounds().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)))
-					std::cout <<engine.addPlayer(new Player(input_text), playerId + 1);
-					//ButtonText[0].setFillColor(sf::Color::Red);
-					//ButtonText[0].setFillColor(sf::Color::Black);
+				if (ButtonAdd.getGlobalBounds().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)) && engine != nullptr)
+					if (!input_text.empty()) {
+						Player* p = new Player(input_text);
+						if (!engine->addPlayer(p, playerId + 1))
+							delete p;
+						else input_text.clear();
+					}
+				//ButtonText[0].setFillColor(sf::Color::Red);
+				//ButtonText[0].setFillColor(sf::Color::Black);
 				if (ButtonPlus.getGlobalBounds().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)))
 					if (playerId < 3)
 						playerId++;
 				if (ButtonMinus.getGlobalBounds().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)))
 					if (playerId > 0)
 						playerId--;
-				if (ButtonStart.getGlobalBounds().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)))
-					engine.start();
-				if (engine.getCurrentState() != EngineStates::CREATED)
+				if (ButtonStart.getGlobalBounds().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)) && engine != nullptr)
+					engine->start();
+				if (engine != nullptr && engine->getCurrentState() != EngineStates::CREATED)
 					mCurrentState = GameState::MainGame;
 				break;
 
 			case GameState::Online:
+				if (connectBg.getGlobalBounds().contains(mWindow.mapPixelToCoords(sf::Mouse::getPosition(mWindow))) && (sf::Mouse::isButtonPressed(sf::Mouse::Left)) && online != nullptr)
+					if (!input_text.empty() && online->connect(input_text)) {
+						input_text.clear();
+						addressHelp.setCharacterSize(15);
+						addressHelp.setFillColor(sf::Color(200, 200, 200));
+						addressHelp.setString("YOUR LOCAL PLAYER ID");
+						addressHelp.setPosition(sf::Vector2f((mWindow.getSize().x / 2.f) - 285, 450));
+						mCurrentState = GameState::Offline;
+					}
 				break;
 			}
 			break;
 
 		case sf::Event::TextEntered:
 			if (std::isprint(Event.text.unicode))
-				input_text += Event.text.unicode;
+				if (mCurrentState == GameState::Offline && input_text.size() < 9)
+					input_text += Event.text.unicode;
+				else if (mCurrentState == GameState::Online && input_text.size() < 16)
+					input_text += Event.text.unicode;
 			break;
 
 		case sf::Event::Resized:
@@ -456,7 +519,17 @@ int Game::handleEvents(){
 /// </summary>
 /// <returns></returns>
 int Game::updateGame() {
-	auto quarters = engine.getQuarters();
+	if (engine == nullptr)return 1;
+
+	if (online != nullptr && online->getLocalPlayer() != nullptr) {
+		std::stringstream ss;
+		ss << online->getLocalPlayer()->getId();
+		localP.setString(ss.str());
+	}
+	if (online != nullptr && mCurrentState == GameState::Offline && engine->getCurrentState() != EngineStates::CREATED)
+		mCurrentState = GameState::MainGame;
+
+	auto quarters = engine->getQuarters();
 	for (auto& q : quarters) {
 		switch (q.first) {
 		case 1: playerColors[q.second] = sf::Color::Yellow; break;
@@ -469,13 +542,13 @@ int Game::updateGame() {
 			float deg = 90.0f * (q.first - 1) * M_PI / 180.0f;
 			playerHolders[q.first]->setPosition(rotate(playerHolders[q.first]->getPosition(), BoardBackground.getPosition(), deg));
 		} //konstruktor dla holdera z id jako q.second //
-		playerHolders[q.first]->counters = engine.getHolderCount(q.first);
+		playerHolders[q.first]->counters = engine->getHolderCount(q.first);
 		if (playerLast.find(q.first) == playerLast.end()) {
-			playerLast[q.first] = new Last(q.first, engine.getPlayerContainer(q.first), counterTexture, playerColors[q.second]);
+			playerLast[q.first] = new Last(q.first, engine->getPlayerContainer(q.first), counterTexture, playerColors[q.second]);
 			playerLast[q.first]->rotate(BoardBackground.getPosition(), q.first - 1);
 		}
 	}
-	diceRoll = engine.getDice();
+	diceRoll = engine->getDice();
 	return 0;
 }
 
@@ -501,7 +574,8 @@ int Game::drawGameContent()
 {
 
 	mWindow.draw(BoardBackground);
-	Player* p = engine.getCurrentPlayer();
+	if (engine == nullptr)return 1;
+	Player* p = engine->getCurrentPlayer();
 
 	if (p != nullptr) {
 		PlayerText = p->getNick();
@@ -510,6 +584,9 @@ int Game::drawGameContent()
 		CurrentPlayerText.setFillColor(playerColors[p->getId()]);
 		mWindow.draw(CurrentPlayerText);
 	}
+	if (online != nullptr && p->getId() == online->getLocalPlayer()->getId())
+		mWindow.draw(yourTurnText);
+	mWindow.draw(currentPlayerHelp);
 	mWindow.draw(diceShape);
 
 	for (auto* tile : tiles)
@@ -563,7 +640,7 @@ int Game::drawGameContent()
 		mWindow.draw(r_6_6);
 	}
 
-    return 0;
+	return 0;
 }
 
 /// <summary>
@@ -580,15 +657,27 @@ int Game::drawOptionsContent()
 
 	return 0;
 }
+void Game::drawOnlineContent() {
+	address.setString(input_text);
+	mWindow.draw(addressHelp);
+	mWindow.draw(address);
+	mWindow.draw(connectBg);
+	mWindow.draw(connect);
+}
 
 int Game::drawOfflineContent()
 {
+	if (engine == nullptr)return 1;
+	if (online != nullptr) {
+		mWindow.draw(addressHelp);
+		mWindow.draw(localP);
+	}
 	
-	auto q = engine.getQuarters();
+	auto q = engine->getQuarters();
 	unsigned int index = 0;
 	for (auto& p : q) {
 		std::stringstream ss;
-		auto& pc = engine.getPlayerContainer(p.first);
+		auto& pc = engine->getPlayerContainer(p.first);
 		auto& player = pc.getPlayer();
 		ss << player.getNick() << '\t' << player.getId() << '\t' << p.first;
 		Players[index].setString(ss.str());//Ustawiæ text na bazie q.first(æwiarta) player.getId() player.getNick()
@@ -603,6 +692,7 @@ int Game::drawOfflineContent()
 	mWindow.draw(ButtonText[1]);
 	mWindow.draw(ButtonPlus);
 	mWindow.draw(ButtonMinus);
+	mWindow.draw(quarterText);
 	for (int i = 0; i < 3; i++)
 	{
 		mWindow.draw(OfflineText[i]);
@@ -614,19 +704,19 @@ int Game::drawOfflineContent()
 /// <summary>
 /// Funkcja wywo³uj¹ca odpowiednie metody rysuj¹ce w zale¿noœci od stanu (Menu g³ówne, Gra, Opcje, Koniec gry)
 /// </summary>
-int Game::draw(){
-    switch (mCurrentState){
-        case GameState::MainMenu:
-            mWindow.clear();
-            Game::drawMenuContent();
-            mWindow.display();
-            break;
+int Game::draw() {
+	switch (mCurrentState) {
+	case GameState::MainMenu:
+		mWindow.clear();
+		Game::drawMenuContent();
+		mWindow.display();
+		break;
 
-		case GameState::MainGame:
-			mWindow.clear();
-			Game::drawGameContent();
-			mWindow.display();
-			break;
+	case GameState::MainGame:
+		mWindow.clear();
+		Game::drawGameContent();
+		mWindow.display();
+		break;
 
 	case GameState::Offline:
 		mWindow.clear();
@@ -637,6 +727,12 @@ int Game::draw(){
 	case GameState::Options:
 		mWindow.clear();
 		Game::drawOptionsContent();
+		mWindow.display();
+		break;
+
+	case GameState::Online:
+		mWindow.clear();
+		drawOnlineContent();
 		mWindow.display();
 		break;
 

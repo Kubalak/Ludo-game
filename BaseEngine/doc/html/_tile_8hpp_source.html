@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Check-chan: Plik źródłowy BaseEngine/Tile.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="icon.ico"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Check-chan
+   &#160;<span id="projectnumber">0.9</span>
+   </div>
+   <div id="projectbrief">Projekt gra chińczyk.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano przez Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Szukaj');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Szukaj');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_72673b5d240d0a0daefdc2e698e3c269.html">BaseEngine</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">Tile.hpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;Counter.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;Player.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="class_tile.html">   10</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_tile.html">Tile</a></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    std::vector&lt;Counter*&gt; counters;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordtype">bool</span> manyCanStand;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="class_tile.html#ab224a5c1f858738c02039da9a6ec4e1c">   18</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_tile.html#ab224a5c1f858738c02039da9a6ec4e1c">allowManyPlayers</a>() { <span class="keywordflow">return</span> manyCanStand; }</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="class_tile.html#a6e1f7a7bca6397794b14cdbacebe79a2">   20</a></span>&#160;    std::vector&lt;Counter*&gt; <a class="code" href="class_tile.html#a6e1f7a7bca6397794b14cdbacebe79a2">lastBeat</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="class_tile.html#a7b9b72963d5fcc74872919e77ee94cd8">Tile</a>(<span class="keywordtype">bool</span> manyCanStand = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_tile.html#a6173f38e809cd41253794be1b090111c">addToTile</a>(<a class="code" href="class_counter.html">Counter</a>* c);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_tile.html#a1fd363c5763600d5936b397182d9fb1f">removePlayerCounters</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> playerId);</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_tile.html#a2bd93a2bf1fa27d095c5d36d45016b6e">   36</a></span>&#160;    std::vector&lt;Counter*&gt;&amp; <a class="code" href="class_tile.html#a2bd93a2bf1fa27d095c5d36d45016b6e">getCounters</a>() { <span class="keywordflow">return</span> counters; }</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_tile.html#a3b4882bb8ed6517ada44b55034168e8d">movePlayerCounter</a>(<a class="code" href="class_tile.html">Tile</a>&amp; to, <a class="code" href="class_player.html">Player</a>&amp; whose);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    std::map&lt;unsigned int, int&gt;<a class="code" href="class_tile.html#ad1b00714f040b9687d4c5ff1fd5590bf">getPlayersCount</a>();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_tile.html#a2594712fcf64a537ef28fd497c26e74e">hasCounter</a>(<a class="code" href="class_player.html">Player</a>&amp; player);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="class_tile.html">Tile</a>&amp; <a class="code" href="class_tile.html#a9afe41756541f0d1c5d21f3189c2485f">operator=</a>(<span class="keyword">const</span> <a class="code" href="class_tile.html">Tile</a>&amp; t);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">friend</span> std::ostream&amp; <a class="code" href="class_tile.html#a0fc995467e26eebd0d99b493c7d96aca">operator&lt;&lt; </a>(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="class_tile.html">Tile</a>&amp; t);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    std::string <a class="code" href="class_tile.html#a8749cd5e13ee4b27c8235fadd231752b">str</a>();</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    std::string <a class="code" href="class_tile.html#a919fdaa3e270ad5379fb11abb45589b7">json</a>();</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;};</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+</div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aclass_counter_html"><div class="ttname"><a href="class_counter.html">Counter</a></div><div class="ttdef"><b>Definition:</b> <a href="_counter_8hpp_source.html#l00010">Counter.hpp:10</a></div></div>
+<div class="ttc" id="aclass_tile_html_a7b9b72963d5fcc74872919e77ee94cd8"><div class="ttname"><a href="class_tile.html#a7b9b72963d5fcc74872919e77ee94cd8">Tile::Tile</a></div><div class="ttdeci">Tile(bool manyCanStand=false)</div><div class="ttdef"><b>Definition:</b> <a href="_tile_8cpp_source.html#l00003">Tile.cpp:3</a></div></div>
+<div class="ttc" id="aclass_tile_html_a1fd363c5763600d5936b397182d9fb1f"><div class="ttname"><a href="class_tile.html#a1fd363c5763600d5936b397182d9fb1f">Tile::removePlayerCounters</a></div><div class="ttdeci">void removePlayerCounters(const unsigned int playerId)</div><div class="ttdef"><b>Definition:</b> <a href="_tile_8cpp_source.html#l00024">Tile.cpp:24</a></div></div>
+<div class="ttc" id="aclass_tile_html_a2594712fcf64a537ef28fd497c26e74e"><div class="ttname"><a href="class_tile.html#a2594712fcf64a537ef28fd497c26e74e">Tile::hasCounter</a></div><div class="ttdeci">bool hasCounter(Player &amp;player)</div><div class="ttdef"><b>Definition:</b> <a href="_tile_8cpp_source.html#l00032">Tile.cpp:32</a></div></div>
+<div class="ttc" id="aclass_tile_html_a6e1f7a7bca6397794b14cdbacebe79a2"><div class="ttname"><a href="class_tile.html#a6e1f7a7bca6397794b14cdbacebe79a2">Tile::lastBeat</a></div><div class="ttdeci">std::vector&lt; Counter * &gt; lastBeat</div><div class="ttdef"><b>Definition:</b> <a href="_tile_8hpp_source.html#l00020">Tile.hpp:20</a></div></div>
+<div class="ttc" id="aclass_tile_html_ab224a5c1f858738c02039da9a6ec4e1c"><div class="ttname"><a href="class_tile.html#ab224a5c1f858738c02039da9a6ec4e1c">Tile::allowManyPlayers</a></div><div class="ttdeci">bool allowManyPlayers()</div><div class="ttdef"><b>Definition:</b> <a href="_tile_8hpp_source.html#l00018">Tile.hpp:18</a></div></div>
+<div class="ttc" id="aclass_tile_html_a6173f38e809cd41253794be1b090111c"><div class="ttname"><a href="class_tile.html#a6173f38e809cd41253794be1b090111c">Tile::addToTile</a></div><div class="ttdeci">bool addToTile(Counter *c)</div><div class="ttdef"><b>Definition:</b> <a href="_tile_8cpp_source.html#l00008">Tile.cpp:8</a></div></div>
+<div class="ttc" id="aclass_tile_html_a0fc995467e26eebd0d99b493c7d96aca"><div class="ttname"><a href="class_tile.html#a0fc995467e26eebd0d99b493c7d96aca">Tile::operator&lt;&lt;</a></div><div class="ttdeci">friend std::ostream &amp; operator&lt;&lt;(std::ostream &amp;os, const Tile &amp;t)</div><div class="ttdef"><b>Definition:</b> <a href="_tile_8cpp_source.html#l00071">Tile.cpp:71</a></div></div>
+<div class="ttc" id="aclass_tile_html_ad1b00714f040b9687d4c5ff1fd5590bf"><div class="ttname"><a href="class_tile.html#ad1b00714f040b9687d4c5ff1fd5590bf">Tile::getPlayersCount</a></div><div class="ttdeci">std::map&lt; unsigned int, int &gt; getPlayersCount()</div><div class="ttdef"><b>Definition:</b> <a href="_tile_8cpp_source.html#l00039">Tile.cpp:39</a></div></div>
+<div class="ttc" id="aclass_tile_html_a919fdaa3e270ad5379fb11abb45589b7"><div class="ttname"><a href="class_tile.html#a919fdaa3e270ad5379fb11abb45589b7">Tile::json</a></div><div class="ttdeci">std::string json()</div><div class="ttdef"><b>Definition:</b> <a href="_tile_8cpp_source.html#l00105">Tile.cpp:105</a></div></div>
+<div class="ttc" id="aclass_tile_html"><div class="ttname"><a href="class_tile.html">Tile</a></div><div class="ttdef"><b>Definition:</b> <a href="_tile_8hpp_source.html#l00010">Tile.hpp:10</a></div></div>
+<div class="ttc" id="aclass_tile_html_a3b4882bb8ed6517ada44b55034168e8d"><div class="ttname"><a href="class_tile.html#a3b4882bb8ed6517ada44b55034168e8d">Tile::movePlayerCounter</a></div><div class="ttdeci">bool movePlayerCounter(Tile &amp;to, Player &amp;whose)</div><div class="ttdef"><b>Definition:</b> <a href="_tile_8cpp_source.html#l00049">Tile.cpp:49</a></div></div>
+<div class="ttc" id="aclass_tile_html_a9afe41756541f0d1c5d21f3189c2485f"><div class="ttname"><a href="class_tile.html#a9afe41756541f0d1c5d21f3189c2485f">Tile::operator=</a></div><div class="ttdeci">Tile &amp; operator=(const Tile &amp;t)</div><div class="ttdef"><b>Definition:</b> <a href="_tile_8cpp_source.html#l00063">Tile.cpp:63</a></div></div>
+<div class="ttc" id="aclass_tile_html_a2bd93a2bf1fa27d095c5d36d45016b6e"><div class="ttname"><a href="class_tile.html#a2bd93a2bf1fa27d095c5d36d45016b6e">Tile::getCounters</a></div><div class="ttdeci">std::vector&lt; Counter * &gt; &amp; getCounters()</div><div class="ttdef"><b>Definition:</b> <a href="_tile_8hpp_source.html#l00036">Tile.hpp:36</a></div></div>
+<div class="ttc" id="aclass_tile_html_a8749cd5e13ee4b27c8235fadd231752b"><div class="ttname"><a href="class_tile.html#a8749cd5e13ee4b27c8235fadd231752b">Tile::str</a></div><div class="ttdeci">std::string str()</div><div class="ttdef"><b>Definition:</b> <a href="_tile_8cpp_source.html#l00093">Tile.cpp:93</a></div></div>
+<div class="ttc" id="aclass_player_html"><div class="ttname"><a href="class_player.html">Player</a></div><div class="ttdef"><b>Definition:</b> <a href="_player_8hpp_source.html#l00010">Player.hpp:10</a></div></div>
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Wygenerowano przez &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>

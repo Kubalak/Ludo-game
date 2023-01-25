@@ -5,7 +5,7 @@
 #include <map>
 
 /** Klasa do obs³ugi pola planszy.
-* @author Jakub Jach &copy; 2022
+* @author Jakub Jach &copy; 2023
 */
 class Tile
 {
@@ -24,20 +24,20 @@ public:
 	Tile(bool manyCanStand = false);
 	/** S³u¿y do dodawania pionka do pola. Jeœli podany wskaŸnik ju¿ znajduje siê na polu to nic siê nie dzieje.
 	* Dodaje zbite pionki do zmiennej lastBeat.
-	* @param c - WskaŸnik do obiektu pionka.
+	* @param c WskaŸnik do obiektu pionka.
 	* @return True jeœli dodanie pionka powiod³o siê lub false jeœli nie.
 	*/
 	bool addToTile(Counter* c);
 	/** Usuwa wszystkie pionki danego gracza z pola. UWAGA: Nie aktualizuje to ostatnio zbitych pionków!.
-	* @param playerId - Identyfikator gracza, którego pionki nale¿y usun¹æ.
+	* @param playerId Identyfikator gracza, którego pionki nale¿y usun¹æ.
 	*/
 	void removePlayerCounters(const unsigned int playerId);
 	/** @return Wektor z pionkami stoj¹cymi na polu. */
 	std::vector<Counter*>& getCounters() { return counters; }
 
 	/** Przenosi pionek gracza na inne pole.
-	* @param to - Docelowe pole, na którym ma siê znaleŸæ pionek.
-	* @param whose - Gracz, którego pionek przenieœæ.
+	* @param to Docelowe pole, na którym ma siê znaleŸæ pionek.
+	* @param whose Gracz, którego pionek przenieœæ.
 	* @return true jeœli uda³o siê przenieœæ pionek lub false w przeciwnym wypadku.
 	*/
 	bool movePlayerCounter(Tile& to, Player& whose);
@@ -52,7 +52,7 @@ public:
 	bool hasCounter(Player& player);
 	/**
 	* Operator przypisania.
-	* @param t - Pole, którego wartoœæ ma byæ przypisana naszemu polu.
+	* @param t Pole, którego wartoœæ ma byæ przypisana naszemu polu.
 	* @return Referencja bo *this.
 	*/
 	Tile& operator=(const Tile& t);
@@ -65,11 +65,13 @@ public:
 	*/
 	friend std::ostream& operator<< (std::ostream& os, const Tile& t);
 	/**
-	* Zwraca reprezentacjê obiektu w bardziej czytelnej postaci
+	* Zwraca reprezentacjê obiektu w bardziej czytelnej postaci.
+	* @return Reprezentacja obiektu jako std::string.
 	*/
 	std::string str();
 	/**
 	* Zwraca obiekt w postaci tekstu JSON.
+	* @return Reprezentacja w postaci JSON.
 	*/
 	std::string json();
 };

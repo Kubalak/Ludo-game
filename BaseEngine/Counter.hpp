@@ -5,7 +5,7 @@
 #include <sstream>
 
 /** Klasa pionka.
-* @author Jakub Jach &copy; 2022
+* @author Jakub Jach &copy; 2023
 */
 class Counter
 {
@@ -39,14 +39,20 @@ public:
 
 	/**
 	* Umo¿liwia przekierowanie do strumienia.
+	* Wyjœcie w postaci takiej jak metoda json()
+	* @param os Strumieñ wyjœciowy
+	* @param e Obiekt Counter, który ma zostaæ przekierowany do strumienia.
+	* @return Strumieñ os.
 	*/
 	friend std::ostream& operator<< (std::ostream& os, const Counter& e);
 	/**
-	* Zwraca reprezentacjê obiektu w bardziej czytelnej postaci
+	* Zwraca reprezentacjê obiektu w bardziej czytelnej postaci.
+	* @return Reprezentacja obiektu jako std::string.
 	*/
 	std::string str();
 	/**
 	* Zwraca obiekt w postaci tekstu JSON.
+	* @return Reprezentacja obiektu w postaci JSON.
 	*/
 	std::string json();
 };
